@@ -184,13 +184,15 @@ export default function Home() {
           opacity: 1,
           width: isNavbarScrolled ? 800 : 1280,
           height: isNavbarScrolled ? 64 : 96,
-          borderRadius: isNavbarScrolled ? 32 : 0,
-          backgroundColor: isNavbarScrolled ? "rgba(255, 255, 255, 0.75)" : "rgba(251, 251, 250, 0)",
+          borderRadius: isNavbarScrolled ? 16 : 0,
+          backgroundColor: isNavbarScrolled ? "rgba(255, 255, 255, 0.7)" : "rgba(251, 251, 250, 0)",
           borderColor: isNavbarScrolled ? "rgba(229, 231, 235, 0.5)" : "rgba(229, 231, 235, 0)",
+          backdropFilter: isNavbarScrolled ? "blur(20px)" : "blur(0px)",
+          WebkitBackdropFilter: isNavbarScrolled ? "blur(20px)" : "blur(0px)",
           boxShadow: isNavbarScrolled ? "0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05)" : "0 0 0 0 rgba(0,0,0,0)",
           paddingLeft: isNavbarScrolled ? 24 : 32,
           paddingRight: isNavbarScrolled ? 24 : 32,
-        }}
+        } as any}
         transition={{
           type: "spring",
           stiffness: 260,
