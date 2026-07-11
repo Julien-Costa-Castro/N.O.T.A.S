@@ -176,33 +176,31 @@ export default function Home() {
         className="fixed left-1/2 z-50 border flex items-center justify-between font-sans overflow-hidden"
         style={{
           x: "-50%",
+          maxWidth: "calc(100% - 2rem)"
         }}
         initial={{ y: -100, opacity: 0 }}
         animate={{
           y: isNavbarScrolled ? 16 : 0,
           opacity: 1,
-          width: isNavbarScrolled ? "min(800px, calc(100% - 2rem))" : "min(1280px, 100%)",
-          height: isNavbarScrolled ? "64px" : "96px",
-          borderRadius: isNavbarScrolled ? "9999px" : "0px",
+          width: isNavbarScrolled ? 800 : 1280,
+          height: isNavbarScrolled ? 64 : 96,
+          borderRadius: isNavbarScrolled ? 32 : 0,
           backgroundColor: isNavbarScrolled ? "rgba(255, 255, 255, 0.75)" : "rgba(251, 251, 250, 0)",
           borderColor: isNavbarScrolled ? "rgba(229, 231, 235, 0.5)" : "rgba(229, 231, 235, 0)",
           boxShadow: isNavbarScrolled ? "0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05)" : "0 0 0 0 rgba(0,0,0,0)",
-          paddingLeft: isNavbarScrolled ? "24px" : "32px",
-          paddingRight: isNavbarScrolled ? "24px" : "32px",
+          paddingLeft: isNavbarScrolled ? 24 : 32,
+          paddingRight: isNavbarScrolled ? 24 : 32,
         }}
         transition={{
           type: "spring",
-          stiffness: 200,
-          damping: 24,
+          stiffness: 260,
+          damping: 26,
           mass: 1
         }}
       >
-        <div className="flex items-center gap-3 md:gap-4 shrink-0">
-          <span className="font-serif text-2xl md:text-3xl font-normal tracking-[0.12em] text-[#111111] transition-all duration-300">
+        <div className="flex items-center shrink-0">
+          <span className="font-serif text-2xl md:text-3xl font-normal tracking-[0.12em] text-[#111111]">
             NOTAS
-          </span>
-          <span className="text-[10px] text-gray-400 font-sans tracking-widest ml-1 hidden sm:inline shrink-0">
-            | SUPERVISION DES VENTES
           </span>
         </div>
 
