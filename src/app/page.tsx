@@ -15,6 +15,8 @@ import {
   Lock, Clock, Send, Database, FileCheck, Layers, Sparkles, Building, UserCheck,
   Activity, Calendar, CreditCard, FileCode
 } from "lucide-react";
+import DashboardContent from "@/components/DashboardContent";
+import MacbookModel from "@/components/MacbookModel";
 
 // Noble Bezier Transition Curve (Apple/Stripe Inspired)
 const EASE_ETHEREAL: [number, number, number, number] = [0.76, 0, 0.24, 1];
@@ -68,6 +70,26 @@ export default function Home() {
   const dashboardRotateX = useTransform(smoothHeroScrollY, [0, 300], [15, 0]);
   const dashboardScale = useTransform(smoothHeroScrollY, [0, 300], [0.95, 1]);
   const dashboardY = useTransform(smoothHeroScrollY, [0, 300], [0, -15]);
+
+  const simulator3dRef = useRef<HTMLDivElement>(null);
+
+  // Follow scroll progress of the 3D MacBook section:
+  const { scrollYProgress: simulatorScrollProgress } = useScroll({
+    target: simulator3dRef,
+    offset: ["start start", "end end"]
+  });
+
+  // Smooth out scroll transition
+  const smoothSimulatorProgress = useSpring(simulatorScrollProgress, {
+    stiffness: 100,
+    damping: 20
+  });
+
+  // Map screen rotation X based on scroll timeline
+  // 0% -> 40% scroll: lid opens (rotation X: 0 to 1.5 rad)
+  // 40% -> 60% scroll: lid stays open (rotation X: 1.5 rad)
+  // 60% -> 100% scroll: lid closes (rotation X: 1.5 rad to 0 rad)
+  const laptopRotateX = useTransform(smoothSimulatorProgress, [0, 0.4, 0.6, 1.0], [0, 1.5, 1.5, 0]);
 
   const [logoSrc, setLogoSrc] = useState("/ChatGPT_Image_12_juil._2026_00_46_38.png");
 
@@ -156,46 +178,7 @@ export default function Home() {
   const [eligibilityCode, setEligibilityCode] = useState("");
   const [eligibilityStatus, setEligibilityStatus] = useState<string | null>(null);
 
-  // States for automated simulator loop
-  const [simPhase, setSimPhase] = useState<"idle" | "moving" | "dragging" | "scanning" | "completed">("idle");
-  const [scanProgress, setScanProgress] = useState(0);
 
-  useEffect(() => {
-    let timeout: NodeJS.Timeout;
-
-    if (simPhase === "idle") {
-      timeout = setTimeout(() => setSimPhase("moving"), 1500);
-    } else if (simPhase === "moving") {
-      timeout = setTimeout(() => setSimPhase("dragging"), 1300);
-    } else if (simPhase === "dragging") {
-      timeout = setTimeout(() => setSimPhase("scanning"), 1300);
-    } else if (simPhase === "completed") {
-      timeout = setTimeout(() => {
-        setSimPhase("idle");
-        setScanProgress(0);
-      }, 6000); // Stays completed for 6 seconds to let user view
-    }
-
-    return () => clearTimeout(timeout);
-  }, [simPhase]);
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (simPhase === "scanning") {
-      setScanProgress(0);
-      interval = setInterval(() => {
-        setScanProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            setSimPhase("completed");
-            return 100;
-          }
-          return prev + 4;
-        });
-      }, 80);
-    }
-    return () => clearInterval(interval);
-  }, [simPhase]);
 
   const checkEligibility = (e: React.FormEvent) => {
     e.preventDefault();
@@ -218,23 +201,7 @@ export default function Home() {
     "COMPROMIS"
   ];
 
-  // Données de démonstration du dashboard (hero)
-  const toneStyles: Record<string, string> = {
-    ok: "text-emerald-700 bg-emerald-50 border-emerald-100",
-    warn: "text-amber-700 bg-amber-50 border-amber-200",
-    danger: "text-red-600 bg-red-50 border-red-200",
-    neutral: "text-neutral-600 bg-neutral-50 border-gray-200",
-  };
 
-  const dossiersDemo = [
-    { dossier: "Vente Martin", lieu: "Appartement — Paris 11ᵉ", etape: "Prêt accordé", etapeTone: "ok", pieces: ["État daté"], relance: "Syndic · il y a 2 h", expiration: "État daté — 21 j", expTone: "ok", client: "À jour", clientTone: "ok", signature: "12 mai" },
-    { dossier: "Vente Bernard", lieu: "Maison — Le Mans", etape: "Compromis signé", etapeTone: "neutral", pieces: ["Diagnostic ERP", "CNI acquéreur"], relance: "Acquéreur · hier", expiration: "ERP — expire dans 12 j", expTone: "warn", client: "À jour", clientTone: "ok", signature: "3 juin" },
-    { dossier: "Vente SCI Rivoli", lieu: "Local — Tours", etape: "Pièces en collecte", etapeTone: "neutral", pieces: ["État hypothécaire"], relance: "Banque · il y a 3 j", expiration: "Offre de prêt — 8 j", expTone: "warn", client: "En attente", clientTone: "warn", signature: "21 mai" },
-    { dossier: "Vente Morel", lieu: "Maison — Nantes", etape: "Signature planifiée", etapeTone: "ok", pieces: [], relance: "—", expiration: "—", expTone: "none", client: "À jour", clientTone: "ok", signature: "29 avr." },
-    { dossier: "Vente Dupont", lieu: "Appartement — Angers", etape: "Compromis signé", etapeTone: "neutral", pieces: ["Attestation d'apport"], relance: "Acquéreur · aujourd'hui", expiration: "CNI — expirée", expTone: "danger", client: "À jour", clientTone: "ok", signature: "17 juin" },
-    { dossier: "Vente Lefèvre", lieu: "Terrain — Alençon", etape: "Pièces en collecte", etapeTone: "neutral", pieces: ["Certificat d'urbanisme"], relance: "Mairie · il y a 1 j", expiration: "—", expTone: "none", client: "À jour", clientTone: "ok", signature: "8 juil." },
-    { dossier: "Vente Garnier", lieu: "Appartement — Rennes", etape: "Financement", etapeTone: "neutral", pieces: ["Offre de prêt signée"], relance: "Acquéreur · il y a 4 h", expiration: "Diagnostics — 30 j", expTone: "ok", client: "À jour", clientTone: "ok", signature: "24 juin" },
-  ];
 
   const documentTypesRow1 = [
     { text: "Compromis", Icon: FileText, className: "font-sans font-bold tracking-tight text-lg uppercase" },
@@ -446,131 +413,7 @@ export default function Home() {
               }}
               className="relative w-full rounded-2xl border border-gray-200 bg-white shadow-[0_30px_100px_-15px_rgba(0,0,0,0.08)] overflow-hidden text-left"
             >
-              <div className="flex">
-
-                {/* Sidebar de l'application */}
-                <aside className="hidden md:flex w-52 shrink-0 flex-col border-r border-gray-100 bg-[#FBFBFA] p-3.5">
-                  <div className="flex items-baseline gap-2 px-2 pb-3 border-b border-gray-100 mb-3">
-                    <span className="font-serif text-base tracking-[0.12em] text-[#111111]">NOTAS</span>
-                    <span className="text-[8px] font-mono text-ash-light uppercase">Étude Dubreuil</span>
-                  </div>
-
-                  <nav className="space-y-0.5 font-sans">
-                    <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
-                      <Layers className="w-3.5 h-3.5" /> Tableau de bord
-                    </div>
-                    <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-[11px] font-medium text-[#111111] bg-black/[0.04]">
-                      <FileText className="w-3.5 h-3.5" /> Dossiers de vente
-                    </div>
-                    <div className="flex items-center justify-between px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
-                      <span className="flex items-center gap-2.5"><Send className="w-3.5 h-3.5" /> Relances</span>
-                      <span className="text-[8px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-100 rounded px-1">12</span>
-                    </div>
-                    <div className="flex items-center justify-between px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
-                      <span className="flex items-center gap-2.5"><Clock className="w-3.5 h-3.5" /> Alertes d&apos;expiration</span>
-                      <span className="text-[8px] font-mono text-amber-700 bg-amber-50 border border-amber-200 rounded px-1">3</span>
-                    </div>
-                    <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
-                      <UserCheck className="w-3.5 h-3.5" /> Clients
-                    </div>
-                    <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
-                      <Database className="w-3.5 h-3.5" /> Rapports
-                    </div>
-                  </nav>
-
-                  <div className="mt-5 pt-3 border-t border-gray-100">
-                    <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider px-2 block mb-1.5">Vues épinglées</span>
-                    <div className="px-2 py-1 text-[11px] text-neutral-500 font-sans">Signatures du mois</div>
-                    <div className="px-2 py-1 text-[11px] text-neutral-500 font-sans">Pièces en retard</div>
-                  </div>
-                </aside>
-
-                {/* Zone principale */}
-                <div className="flex-1 min-w-0">
-
-                  {/* Barre de titre */}
-                  <div className="flex items-center justify-between px-5 h-12 border-b border-gray-100">
-                    <div className="flex items-center gap-2.5 font-sans">
-                      <span className="text-sm font-medium text-neutral-800">Suivi des ventes</span>
-                      <span className="text-[8px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-100 rounded px-1.5 py-0.5 uppercase font-semibold">14 dossiers actifs</span>
-                    </div>
-                    <div className="flex items-center gap-2 font-sans">
-                      <span className="text-[10px] text-neutral-500 border border-gray-200 rounded-md px-2.5 py-1">Exporter</span>
-                      <span className="text-[10px] text-white bg-[#111111] rounded-md px-2.5 py-1">+ Nouveau dossier</span>
-                    </div>
-                  </div>
-
-                  {/* Barre de filtres */}
-                  <div className="flex items-center gap-2 px-5 py-2.5 border-b border-gray-100 font-sans">
-                    <span className="text-[9px] text-neutral-500 border border-gray-200 rounded px-2 py-0.5 bg-white">Trié par date de signature</span>
-                    <span className="text-[9px] text-neutral-500 border border-gray-200 rounded px-2 py-0.5 bg-white">Filtre : pièces manquantes</span>
-                    <span className="text-[9px] text-neutral-400 border border-dashed border-gray-200 rounded px-1.5 py-0.5">+</span>
-                  </div>
-
-                  {/* Tableau des dossiers */}
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left font-sans min-w-[780px]">
-                      <thead>
-                        <tr className="border-b border-gray-100 font-mono text-[8px] text-ash-light uppercase tracking-wider">
-                          <th className="py-2.5 px-5 font-normal">Dossier</th>
-                          <th className="py-2.5 pr-4 font-normal">Étape</th>
-                          <th className="py-2.5 pr-4 font-normal">Pièces manquantes</th>
-                          <th className="py-2.5 pr-4 font-normal">Dernière relance</th>
-                          <th className="py-2.5 pr-4 font-normal">Expiration</th>
-                          <th className="py-2.5 pr-4 font-normal">Client</th>
-                          <th className="py-2.5 pr-5 font-normal text-right">Signature</th>
-                        </tr>
-                      </thead>
-                      <tbody className="text-[11px]">
-                        {dossiersDemo.map((d, idx) => (
-                          <tr key={idx} className="border-b border-gray-50 hover:bg-neutral-50/50 transition-colors">
-                            <td className="py-2.5 px-5">
-                              <span className="font-medium text-neutral-800 block leading-tight">{d.dossier}</span>
-                              <span className="text-[9px] text-ash-light">{d.lieu}</span>
-                            </td>
-                            <td className="py-2.5 pr-4">
-                              <span className={`text-[9px] px-1.5 py-0.5 rounded border ${toneStyles[d.etapeTone]}`}>{d.etape}</span>
-                            </td>
-                            <td className="py-2.5 pr-4">
-                              {d.pieces.length === 0 ? (
-                                <span className="text-[9px] px-1.5 py-0.5 rounded border text-emerald-700 bg-emerald-50 border-emerald-100 inline-flex items-center gap-1">
-                                  <CheckCircle2 className="w-2.5 h-2.5" /> Complet
-                                </span>
-                              ) : (
-                                <span className="flex flex-wrap gap-1">
-                                  {d.pieces.map((p, i) => (
-                                    <span key={i} className="text-[9px] px-1.5 py-0.5 rounded border text-neutral-600 bg-neutral-50 border-gray-200 whitespace-nowrap">{p}</span>
-                                  ))}
-                                </span>
-                              )}
-                            </td>
-                            <td className="py-2.5 pr-4 text-neutral-600 whitespace-nowrap">
-                              {d.relance === "—" ? <span className="text-neutral-300">—</span> : (
-                                <span className="inline-flex items-center gap-1.5">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
-                                  {d.relance}
-                                </span>
-                              )}
-                            </td>
-                            <td className="py-2.5 pr-4 whitespace-nowrap">
-                              {d.expTone === "none" ? <span className="text-neutral-300">—</span> : (
-                                <span className={`text-[9px] px-1.5 py-0.5 rounded border ${toneStyles[d.expTone]}`}>{d.expiration}</span>
-                              )}
-                            </td>
-                            <td className="py-2.5 pr-4">
-                              <span className={`text-[9px] px-1.5 py-0.5 rounded border whitespace-nowrap ${toneStyles[d.clientTone]}`}>{d.client}</span>
-                            </td>
-                            <td className="py-2.5 pr-5 text-right text-neutral-600 whitespace-nowrap">{d.signature}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-
-              {/* Fondu bas de fenêtre */}
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent" />
+              <DashboardContent />
             </motion.div>
           </motion.div>
 
@@ -923,392 +766,34 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. Section Console de Simulation Interactive & n8n Workflow */}
-      <section id="simulator" className="py-32 px-8 border-b border-gray-200/60 bg-transparent max-w-7xl mx-auto">
-        <div className="max-w-6xl mx-auto space-y-16">
-          <div className="text-center max-w-xl mx-auto">
+      {/* 5. Section Démonstration 3D Immersive (MacBook Scroll-Reveal) */}
+      <section 
+        ref={simulator3dRef} 
+        id="simulator" 
+        className="relative w-full min-h-[250vh] bg-transparent"
+      >
+        {/* Sticky viewport container */}
+        <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden py-16 px-8">
+          
+          {/* Fixed Title & Description Area */}
+          <div className="text-center max-w-xl mx-auto mb-10 z-20">
             <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-3">
               DÉMONSTRATION AUTONOME
             </span>
             <h2 className="font-serif text-3xl md:text-5xl font-normal">
-              Votre fiche de suivi, <span className="italic text-emerald-700 font-light">en version vivante.</span>
+              Votre fiche de suivi, <span className="italic text-emerald-700 font-light">en version 3D vivante.</span>
             </h2>
             <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
-              Dès qu&apos;un dossier entre dans le tableau, NOTAS identifie les pièces manquantes, relance les bons interlocuteurs et vous alerte avant chaque expiration — sans rien changer à vos habitudes.
+              Faites défiler la page pour ouvrir le MacBook et explorer l&apos;interface autonome en temps réel.
             </p>
           </div>
 
-          {/* Grid: Console dropzone & Relances status */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            
-            {/* Left: Drag & Drop Zone */}
-            <div className="bg-white/50 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] flex flex-col justify-between h-[380px] relative">
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <Database className="w-4 h-4 text-neutral-600" />
-                  <span className="font-mono text-[9px] tracking-wider text-ash-light uppercase font-bold">
-                    Dépôt du dossier de vente
-                  </span>
-                </div>
-                <p className="text-ash-text text-xs font-light mb-6 font-sans">
-                  Déposez le compromis : NOTAS crée la fiche de suivi, repère les pièces attendues et prépare les relances.
-                </p>
-              </div>
-
-              {/* Ingestion Simulator Dropzone */}
-              <div className="relative w-full h-[220px] bg-white border border-gray-100 rounded-lg p-5 shadow-inner overflow-hidden flex items-center justify-between">
-                
-                {/* Fake Cursor Pointer */}
-                <motion.div
-                  variants={{
-                    idle: { x: 260, y: 150, scale: 1 },
-                    moving: { x: 50, y: 70, scale: 1 },
-                    dragging: { x: 235, y: 70, scale: 0.85 },
-                    scanning: { x: 300, y: 150, scale: 1 },
-                    completed: { x: 300, y: 150, scale: 1 }
-                  }}
-                  animate={simPhase}
-                  transition={{ ease: EASE_ETHEREAL, duration: 1.2 }}
-                  className="absolute left-0 top-0 z-40 pointer-events-none w-6 h-6 text-black"
-                >
-                  <svg viewBox="0 0 24 24" className="w-5 h-5 drop-shadow-md" fill="currentColor">
-                     <path d="M7 2v17.586l3.293-3.293 2.707 6.414 2-1-2.707-6.414H19L7 2z" stroke="white" strokeWidth="1.5" />
-                  </svg>
-                </motion.div>
-
-                {/* Left Area: Local computer reference layout */}
-                <div className="flex flex-col items-center gap-1.5 w-[110px] pl-2 z-10 pointer-events-none">
-                  <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider">Votre Ordinateur</span>
-                  <div className="w-24 h-32 border border-dashed border-gray-200 rounded bg-[#FBFBFA]/50" />
-                </div>
-
-                {/* Draggable/Animated Act PDF Card */}
-                <motion.div
-                  variants={{
-                    idle: { x: 0, y: 0, scale: 1, opacity: 1 },
-                    moving: { x: 0, y: 0, scale: 1, opacity: 1 },
-                    dragging: { x: 195, y: 0, scale: 0.92, opacity: 0.8 },
-                    scanning: { x: 195, y: 0, scale: 0.95, opacity: 0 },
-                    completed: { x: 195, y: 0, scale: 0.95, opacity: 0 }
-                  }}
-                  animate={simPhase}
-                  transition={{ ease: EASE_ETHEREAL, duration: 1.2 }}
-                  className="absolute left-7 top-10 w-24 h-32 bg-white border border-gray-150 shadow-[0_12px_24px_rgba(0,0,0,0.04)] rounded-xl p-2.5 flex flex-col justify-between z-20 pointer-events-none"
-                >
-                  <div className="flex justify-between items-start">
-                    <FileText className="w-7 h-7 text-neutral-500" />
-                    <span className="text-[7px] font-mono text-ash-light">PDF</span>
-                  </div>
-                  <div className="space-y-0.5">
-                    <p className="text-[9px] font-semibold truncate font-sans">Acte_Martin.pdf</p>
-                    <p className="text-[7px] text-ash-light font-mono">4.2 Mo</p>
-                  </div>
-                </motion.div>
-
-                {/* Center arrow / drag cue */}
-                {simPhase === "idle" && (
-                  <div className="flex-1 flex flex-col items-center justify-center text-ash-light gap-1.5 pointer-events-none">
-                    <ArrowRight className="w-4 h-4 animate-pulse text-neutral-400" />
-                    <span className="text-[8px] font-mono tracking-wider uppercase text-center">Transfert en cours</span>
-                  </div>
-                )}
-
-                {/* Right Area: NOTAS OCR Dropzone */}
-                <div className={`w-[180px] h-[160px] rounded border-2 border-dashed flex flex-col items-center justify-center p-3.5 transition-all duration-500 relative ${
-                  simPhase === "scanning" ? "border-emerald-500/50 bg-emerald-50/5" :
-                  simPhase === "completed" ? "border-emerald-500 bg-emerald-50/10" :
-                  "border-gray-200 bg-neutral-50/30"
-                }`}>
-                  {(simPhase === "idle" || simPhase === "moving" || simPhase === "dragging") && (
-                    <div className="text-center space-y-1.5 pointer-events-none">
-                      <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center mx-auto text-gray-400 border border-gray-100">
-                        <Layers className="w-4 h-4" />
-                      </div>
-                      <span className="text-[9px] text-ash-light block">Zone de dépôt NOTAS</span>
-                    </div>
-                  )}
-
-                  {/* Analyzing progress state */}
-                  {simPhase === "scanning" && (
-                    <div className="w-full h-full flex flex-col justify-between relative overflow-hidden pointer-events-none">
-                      <div className="flex items-center justify-between text-[8px] font-mono text-emerald-600">
-                        <span>LECTURE DU DOSSIER</span>
-                        <span>{scanProgress}%</span>
-                      </div>
-
-                      {/* Scan Laser effect */}
-                      <motion.div 
-                        className="absolute left-0 right-0 h-[1.5px] bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.8)] z-10"
-                        animate={{ top: ["10%", "90%", "10%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                      />
-
-                      <div className="my-auto text-center space-y-2">
-                        <span className="text-[10px] font-medium block font-sans">Lecture des pièces...</span>
-                        <div className="w-full bg-gray-100 h-1 rounded-full overflow-hidden">
-                          <div className="bg-emerald-500 h-full transition-all duration-100" style={{ width: `${scanProgress}%` }} />
-                        </div>
-                      </div>
-                      <span className="text-[7px] font-mono text-ash-light text-center">NUMÉRISATION SÉCURISÉE</span>
-                    </div>
-                  )}
-
-                  {/* Analysis completed state */}
-                  {simPhase === "completed" && (
-                    <motion.div 
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="w-full h-full flex flex-col justify-between"
-                    >
-                      <div className="flex items-center justify-between text-[8px] font-mono text-emerald-600">
-                        <span>FICHE DE SUIVI CRÉÉE</span>
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                      </div>
-                      <div className="space-y-1 py-1 font-sans">
-                        <div className="flex justify-between text-[9px] border-b border-gray-100 pb-0.5">
-                          <span className="text-ash-light">Vendeur:</span>
-                          <span className="font-semibold text-neutral-800">Rivoli Immobilier</span>
-                        </div>
-                        <div className="flex justify-between text-[9px] border-b border-gray-100 pb-0.5">
-                          <span className="text-ash-light">Prix d&apos;Acte:</span>
-                          <span className="font-semibold text-neutral-800">840 000 €</span>
-                        </div>
-                        <div className="flex justify-between text-[9px]">
-                          <span className="text-ash-light">Syndic:</span>
-                          <span className="font-semibold text-emerald-600">SDC Rivoli</span>
-                        </div>
-                      </div>
-                      <span className="text-[8px] font-mono text-ash-light text-center uppercase tracking-wider border border-gray-100 py-0.5 rounded bg-gray-50/50">
-                        Dossier sous suivi
-                      </span>
-                    </motion.div>
-                  )}
-                </div>
-
-              </div>
-            </div>
-
-            {/* Right: Relances Status Console */}
-            <div className="bg-white/50 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] flex flex-col justify-between h-[380px]">
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <Send className="w-4 h-4 text-neutral-600" />
-                  <span className="font-mono text-[9px] tracking-wider text-ash-light uppercase font-bold">
-                    Console de relances traitées
-                  </span>
-                </div>
-                <p className="text-ash-text text-xs font-light mb-6 font-sans">
-                  Dès que le dossier est lu, les relances partent automatiquement vers les bons interlocuteurs.
-                </p>
-              </div>
-
-              {/* Status Display Area */}
-              <div className="flex-1 bg-white border border-gray-100 rounded-lg p-5 shadow-inner flex flex-col justify-center gap-3">
-                {simPhase === "idle" || simPhase === "moving" || simPhase === "dragging" ? (
-                  <div className="text-center py-6 text-ash-light space-y-2 font-sans">
-                    <span className="text-xs italic block">Aucun dossier en cours...</span>
-                    <span className="text-[8px] font-mono uppercase block">En attente d&apos;un nouveau dossier</span>
-                  </div>
-                ) : simPhase === "scanning" ? (
-                  <div className="space-y-3 font-sans">
-                    <div className="flex items-center justify-between text-[10px] p-2 rounded bg-neutral-50/50">
-                      <span className="text-ash-text">Rapport syndic</span>
-                      <span className="font-mono text-neutral-400 animate-pulse">Extraction...</span>
-                    </div>
-                    <div className="flex items-center justify-between text-[10px] p-2 rounded bg-neutral-50/50">
-                      <span className="text-ash-text">Validation acompte</span>
-                      <span className="font-mono text-neutral-400">En attente</span>
-                    </div>
-                  </div>
-                ) : (
-                  <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="space-y-2.5 font-sans"
-                  >
-                    <div className="flex items-center justify-between text-xs p-2 rounded-xl bg-white/40 border border-gray-100">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        <span className="text-neutral-800">Relance syndic (Attestation non-recours)</span>
-                      </div>
-                      <span className="text-[8px] font-mono text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100 uppercase font-semibold">
-                        Email
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between text-xs p-2 rounded-xl bg-white/40 border border-gray-100">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        <span className="text-neutral-800 font-normal">Rappel acquéreur (Attestation d&apos;apport)</span>
-                      </div>
-                      <span className="text-[8px] font-mono text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100 uppercase font-semibold">
-                        Email
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between text-xs p-2 rounded-xl bg-white/40 border border-gray-100">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-neutral-400" />
-                        <span className="text-neutral-800">Statut du closing étude</span>
-                      </div>
-                      <span className="text-[8px] font-mono text-neutral-600 bg-gray-50 px-1.5 py-0.5 rounded border border-gray-150 uppercase font-semibold">
-                        Sécurisé
-                      </span>
-                    </div>
-                  </motion.div>
-                )}
-              </div>
-            </div>
-
-          </div>
-
-          {/* Row 2: n8n Workflow Connections */}
-          <div className="bg-white/50 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] space-y-6">
-            <div className="flex items-center justify-between border-b border-gray-100 pb-4 font-sans">
-              <div className="flex items-center gap-2">
-                <Layers className="w-4 h-4 text-neutral-600" />
-                <span className="font-mono text-[9px] tracking-wider text-ash-light uppercase font-bold">
-                  Circuit des relances par courriel
-                </span>
-              </div>
-              <span className="text-[9px] font-mono text-ash-light uppercase">Statut : {simPhase === "completed" ? "Actif (Transmissions en cours)" : "Veille"}</span>
-            </div>
-
-            {/* SVG Connector & Node Layout */}
-            <div className="relative w-full h-[180px] bg-white rounded-lg border border-gray-100 p-2 overflow-hidden shadow-inner flex items-center justify-center">
-              
-              <svg className="w-full h-full max-w-5xl" viewBox="0 0 1000 150" xmlns="http://www.w3.org/2000/svg">
-                {/* SVG Connections with data flow packet animation */}
-                <path d="M 140 75 L 260 75" fill="none" stroke="#EAEAEA" strokeWidth="2" />
-                <motion.path 
-                  d="M 140 75 L 260 75" 
-                  fill="none" 
-                  stroke={simPhase === "completed" ? "#FF6C37" : "#EAEAEA"} 
-                  strokeWidth="2"
-                  strokeDasharray="6,6"
-                  animate={simPhase === "completed" ? { strokeDashoffset: [0, -24] } : {}}
-                  transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                />
-
-                <path d="M 340 75 C 410 75 430 35 500 35" fill="none" stroke="#EAEAEA" strokeWidth="2" />
-                <motion.path 
-                  d="M 340 75 C 410 75 430 35 500 35" 
-                  fill="none" 
-                  stroke={simPhase === "completed" ? "#FF6C37" : "#EAEAEA"} 
-                  strokeWidth="2"
-                  strokeDasharray="6,6"
-                  animate={simPhase === "completed" ? { strokeDashoffset: [0, -24] } : {}}
-                  transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                />
-
-                <path d="M 340 75 C 410 75 430 115 500 115" fill="none" stroke="#EAEAEA" strokeWidth="2" />
-                <motion.path 
-                  d="M 340 75 C 410 75 430 115 500 115" 
-                  fill="none" 
-                  stroke={simPhase === "completed" ? "#FF6C37" : "#EAEAEA"} 
-                  strokeWidth="2"
-                  strokeDasharray="6,6"
-                  animate={simPhase === "completed" ? { strokeDashoffset: [0, -24] } : {}}
-                  transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                />
-
-                <path d="M 660 35 C 730 35 770 75 860 75" fill="none" stroke="#EAEAEA" strokeWidth="2" />
-                <motion.path 
-                  d="M 660 35 C 730 35 770 75 860 75" 
-                  fill="none" 
-                  stroke={simPhase === "completed" ? "#10b981" : "#EAEAEA"} 
-                  strokeWidth="2"
-                  strokeDasharray="6,6"
-                  animate={simPhase === "completed" ? { strokeDashoffset: [0, -24] } : {}}
-                  transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                />
-
-                <path d="M 660 115 C 730 115 770 75 860 75" fill="none" stroke="#EAEAEA" strokeWidth="2" />
-                <motion.path 
-                  d="M 660 115 C 730 115 770 75 860 75" 
-                  fill="none" 
-                  stroke={simPhase === "completed" ? "#10b981" : "#EAEAEA"} 
-                  strokeWidth="2"
-                  strokeDasharray="6,6"
-                  animate={simPhase === "completed" ? { strokeDashoffset: [0, -24] } : {}}
-                  transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                />
-
-                {/* Node 1: Ingestion Vision (NOTAS) */}
-                <foreignObject x="60" y="25" width="80" height="100">
-                  <div className="flex flex-col items-center gap-1.5 justify-center w-full h-full font-sans">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center border transition-all duration-500 ${
-                      simPhase === "completed" ? "bg-black text-white border-black" : "bg-neutral-50 text-neutral-400 border-gray-200"
-                    }`}>
-                      <FileCheck className="w-5 h-5" />
-                    </div>
-                    <span className="text-[8px] font-mono text-ash-light font-bold text-center leading-none uppercase">DOSSIER DÉPOSÉ</span>
-                  </div>
-                </foreignObject>
-
-                {/* Node 2: n8n Webhook Brain Router */}
-                <foreignObject x="260" y="20" width="80" height="110">
-                  <div className="flex flex-col items-center gap-1.5 justify-center w-full h-full font-sans">
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center border transition-all duration-500 ${
-                      simPhase === "completed" ? "bg-white border-[#FF6C37] shadow-[0_0_12px_rgba(255,108,55,0.2)]" : "bg-neutral-50 border-gray-200 text-neutral-400"
-                    }`}>
-                      <svg viewBox="0 0 100 100" className="w-6 h-6">
-                        <circle cx="30" cy="50" r="12" fill={simPhase === "completed" ? "#FF6C37" : "#888888"} />
-                        <circle cx="70" cy="30" r="12" fill={simPhase === "completed" ? "#FF6C37" : "#888888"} />
-                        <circle cx="70" cy="70" r="12" fill={simPhase === "completed" ? "#FF6C37" : "#888888"} />
-                        <path d="M 30 50 L 70 30 M 30 50 L 70 70" stroke={simPhase === "completed" ? "#FF6C37" : "#888888"} strokeWidth="7" />
-                      </svg>
-                    </div>
-                    <span className="text-[8px] font-mono text-[#FF6C37] font-bold text-center leading-none uppercase">MOTEUR NOTAS</span>
-                  </div>
-                </foreignObject>
-
-                {/* Node 3: Gmail Relance */}
-                <foreignObject x="500" y="15" width="160" height="40">
-                  <div className="flex items-center gap-2 bg-[#FBFBFA]/90 border border-gray-150 px-3 py-1.5 rounded-lg shadow-sm w-full h-full justify-between font-sans">
-                    <div className="flex items-center gap-2">
-                      <svg viewBox="0 0 24 24" className={`w-4 h-4 transition-colors ${simPhase === "completed" ? "text-red-500" : "text-neutral-400"}`} fill="currentColor">
-                        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                      </svg>
-                      <span className="text-[9px] font-medium">Relance courriel</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <span className={`w-1.5 h-1.5 rounded-full ${simPhase === "completed" ? "bg-emerald-500 animate-pulse" : "bg-neutral-300"}`} />
-                      <span className="text-[7px] font-mono text-neutral-500">{simPhase === "completed" ? "OK" : "Veille"}</span>
-                    </div>
-                  </div>
-                </foreignObject>
-
-                {/* Node 4: Twilio Relance */}
-                <foreignObject x="500" y="95" width="160" height="40">
-                  <div className="flex items-center gap-2 bg-[#FBFBFA]/90 border border-gray-150 px-3 py-1.5 rounded-lg shadow-sm w-full h-full justify-between font-sans">
-                    <div className="flex items-center gap-2">
-                      <svg viewBox="0 0 24 24" className={`w-4 h-4 transition-colors ${simPhase === "completed" ? "text-red-600" : "text-neutral-400"}`} fill="currentColor">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 16H9v-2h2v2zm0-4H9V8h2v6zm4 4h-2v-2h2v2zm0-4h-2V8h2v6z"/>
-                      </svg>
-                      <span className="text-[9px] font-medium font-sans">Rappel courriel</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <span className={`w-1.5 h-1.5 rounded-full ${simPhase === "completed" ? "bg-emerald-500 animate-pulse" : "bg-neutral-300"}`} />
-                      <span className="text-[7px] font-mono text-neutral-500">{simPhase === "completed" ? "OK" : "Veille"}</span>
-                    </div>
-                  </div>
-                </foreignObject>
-
-                {/* Node 5: Validated Act */}
-                <foreignObject x="860" y="25" width="80" height="100">
-                  <div className="flex flex-col items-center gap-1.5 justify-center w-full h-full font-sans">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center border transition-all duration-500 ${
-                      simPhase === "completed" ? "bg-emerald-500 text-white border-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.3)]" : "bg-neutral-50 text-neutral-400 border-gray-200"
-                    }`}>
-                      <CheckCircle2 className="w-5 h-5" />
-                    </div>
-                    <span className="text-[8px] font-mono text-emerald-600 font-bold text-center leading-none uppercase">ACTE SÉCURISÉ</span>
-                  </div>
-                </foreignObject>
-              </svg>
-
-            </div>
+          {/* 3D Canvas wrapper */}
+          <div className="w-full max-w-5xl z-10">
+            <MacbookModel 
+              rotateX={laptopRotateX} 
+              smoothProgress={smoothSimulatorProgress} 
+            />
           </div>
 
         </div>
