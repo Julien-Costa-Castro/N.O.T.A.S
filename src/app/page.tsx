@@ -311,7 +311,7 @@ export default function Home() {
           mass: 1
         }}
       >
-        <div className="flex items-center gap-0.5 cursor-pointer select-none group shrink-0">
+        <a href="#" className="flex items-center gap-0.5 cursor-pointer select-none group shrink-0">
           <img 
             src={logoSrc} 
             alt="N" 
@@ -320,7 +320,7 @@ export default function Home() {
           <span className="text-2xl font-serif font-medium tracking-widest text-gray-950 antialiased translate-y-[1px]">
             OTAS
           </span>
-        </div>
+        </a>
 
         <nav className="hidden md:flex items-center gap-6 lg:gap-8 font-sans shrink-0">
           <a href="#probleme" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Le coût</a>
