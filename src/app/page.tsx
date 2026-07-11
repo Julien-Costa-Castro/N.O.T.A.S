@@ -12,7 +12,8 @@ import {
 } from "framer-motion";
 import { 
   FileText, Shield, ArrowRight, CheckCircle2,
-  Lock, Clock, Send, Database, FileCheck, Layers, Sparkles, Building, UserCheck
+  Lock, Clock, Send, Database, FileCheck, Layers, Sparkles, Building, UserCheck,
+  Activity, Calendar, CreditCard, FileCode
 } from "lucide-react";
 
 // Noble Bezier Transition Curve (Apple/Stripe Inspired)
@@ -450,36 +451,83 @@ export default function Home() {
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent" />
           </motion.div>
 
-          {/* Section Compatibilité */}
-          <div className="mt-16 text-center max-w-3xl mx-auto z-10 relative">
-            <span className="text-[10px] tracking-[0.2em] text-gray-400 uppercase font-sans font-semibold">
-              COMPATIBLE AVEC LES OUTILS DE VOTRE ÉTUDE
-            </span>
-            <div className="flex items-center justify-center gap-10 md:gap-16 mt-6 text-xl font-serif text-gray-400 font-normal tracking-wider">
-              <span className="hover:text-neutral-700 transition-colors duration-300">iNot</span>
-              <span className="hover:text-neutral-700 transition-colors duration-300">Genapi</span>
-              <span className="hover:text-neutral-700 transition-colors duration-300">Signature</span>
-              <span className="hover:text-neutral-700 transition-colors duration-300">Fichorga</span>
-            </div>
-          </div>
-
         </div>
       </section>
 
-      {/* 3. Bandeau Défilant Infini (Infinite Marquee) */}
-      <section className="relative overflow-hidden w-full py-8 border-y border-stone-gray bg-[#FDFDFD] my-16 flex items-center">
-        <div className="marquee-content animate-marquee flex items-center gap-16 text-xs tracking-[0.25em] text-ash-light font-sans whitespace-nowrap">
-          {marqueeItems.concat(marqueeItems).map((item, idx) => (
-            <div key={idx} className="flex items-center gap-16 flex-shrink-0">
-              <span className="uppercase">{item}</span>
-              <span className="text-[10px]">•</span>
+      {/* 3. Bandeau Défilant Infini (Infinite Marquee) — Style Folio */}
+      <section className="relative overflow-hidden w-full pt-16 pb-8 bg-transparent flex flex-col items-center">
+        <span className="text-[10px] tracking-[0.25em] text-gray-400 uppercase font-sans font-semibold text-center mb-8">
+          FLUX DE DOCUMENTS PRIS EN CHARGE
+        </span>
+        <div 
+          className="relative w-full py-4 overflow-hidden flex items-center"
+          style={{
+            maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+            WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)"
+          }}
+        >
+          <div className="marquee-content animate-marquee-slow flex items-center whitespace-nowrap">
+            {/* Loop 1 */}
+            <div className="flex items-center">
+              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
+                <FileText className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>Compromis de vente</span>
+              </div>
+              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
+                <Activity className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>Diagnostics techniques</span>
+              </div>
+              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
+                <Calendar className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>États datés</span>
+              </div>
+              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
+                <FileCheck className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>Acte authentique</span>
+              </div>
+              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
+                <CreditCard className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>Offres de prêt</span>
+              </div>
+              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
+                <FileCode className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>Compromis</span>
+              </div>
             </div>
-          ))}
+
+            {/* Loop 2 */}
+            <div className="flex items-center">
+              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
+                <FileText className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>Compromis de vente</span>
+              </div>
+              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
+                <Activity className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>Diagnostics techniques</span>
+              </div>
+              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
+                <Calendar className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>États datés</span>
+              </div>
+              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
+                <FileCheck className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>Acte authentique</span>
+              </div>
+              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
+                <CreditCard className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>Offres de prêt</span>
+              </div>
+              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
+                <FileCode className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>Compromis</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* 4. Section "Le Coût de l'Inaction" (Le Problème) */}
-      <section id="probleme" className="py-32 px-8 border-b border-gray-200/60 bg-transparent max-w-7xl mx-auto">
+      <section id="probleme" className="pt-16 pb-32 px-8 border-b border-gray-200/60 bg-transparent max-w-7xl mx-auto">
         <div className="max-w-6xl mx-auto space-y-16">
 
           {/* Header */}
