@@ -490,12 +490,12 @@ export default function Home() {
           <img 
             src="/logo-inot.webp" 
             alt="iNot" 
-            className="h-10 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer"
+            className="h-10 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer mix-blend-multiply"
           />
           <img 
             src="/logo-genapi.png" 
             alt="Genapi" 
-            className="h-12 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer mix-blend-multiply scale-[1.25]"
+            className="h-16 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer mix-blend-multiply scale-[1.3]"
           />
           <img 
             src="/logo-signature.webp" 
