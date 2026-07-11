@@ -490,56 +490,56 @@ export default function Home() {
           <div className="marquee-content animate-marquee flex items-center whitespace-nowrap">
             {/* Loop 1 */}
             <div className="flex items-center">
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <FileText className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileText className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Compromis de vente</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <Activity className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Activity className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Diagnostics techniques</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <Calendar className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Calendar className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>États datés</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <FileCheck className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileCheck className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Acte authentique</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <CreditCard className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <CreditCard className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Offres de prêt</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <FileCode className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileCode className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Compromis</span>
               </div>
             </div>
 
             {/* Loop 2 */}
             <div className="flex items-center">
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <FileText className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileText className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Compromis de vente</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <Activity className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Activity className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Diagnostics techniques</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <Calendar className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Calendar className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>États datés</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <FileCheck className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileCheck className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Acte authentique</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <CreditCard className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <CreditCard className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Offres de prêt</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <FileCode className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileCode className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Compromis</span>
               </div>
             </div>
@@ -549,56 +549,56 @@ export default function Home() {
           <div className="marquee-content animate-marquee-reverse flex items-center whitespace-nowrap">
             {/* Loop 1 (shifted order) */}
             <div className="flex items-center">
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <FileCheck className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileCheck className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Acte authentique</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <CreditCard className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <CreditCard className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Offres de prêt</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <FileCode className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileCode className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Compromis</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <FileText className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileText className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Compromis de vente</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <Activity className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Activity className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Diagnostics techniques</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <Calendar className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Calendar className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>États datés</span>
               </div>
             </div>
 
             {/* Loop 2 */}
             <div className="flex items-center">
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <FileCheck className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileCheck className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Acte authentique</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <CreditCard className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <CreditCard className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Offres de prêt</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <FileCode className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileCode className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Compromis</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <FileText className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileText className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Compromis de vente</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <Activity className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Activity className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>Diagnostics techniques</span>
               </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-full shadow-sm text-sm font-medium text-gray-700 mx-3 whitespace-nowrap shrink-0">
-                <Calendar className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Calendar className="w-6 h-6 text-gray-400 shrink-0" />
                 <span>États datés</span>
               </div>
             </div>
