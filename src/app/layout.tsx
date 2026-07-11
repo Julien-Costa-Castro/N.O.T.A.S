@@ -19,8 +19,8 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "NOTAS // Infrastructure Autonome pour Études Notariales",
-  description: "L'infrastructure d'intelligence artificielle de prestige, dédiée à l'automatisation sécurisée et à la conformité des actes de vente immobilière par vision artificielle.",
+  title: "NOTAS — Le copilote des études notariales",
+  description: "NOTAS relance les pièces manquantes, alerte avant l'expiration des documents et tient vos clients informés — dans le tableau de suivi que vos clercs connaissent déjà.",
 };
 
 export default function RootLayout({

@@ -1,18 +1,18 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { 
-  motion, 
-  useScroll, 
-  useTransform, 
-  useSpring, 
-  useInView, 
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useInView,
   useMotionValue,
   AnimatePresence
 } from "framer-motion";
 import { 
-  FileText, Shield, ArrowRight, CheckCircle2, 
-  Cpu, Lock, Clock, Send, Database, FileCheck, Layers, Sparkles, Building, UserCheck
+  FileText, Shield, ArrowRight, CheckCircle2,
+  Lock, Clock, Send, Database, FileCheck, Layers, Sparkles, Building, UserCheck
 } from "lucide-react";
 
 // Noble Bezier Transition Curve (Apple/Stripe Inspired)
@@ -43,36 +43,16 @@ const SpringCounter = ({ targetValue }: { targetValue: number }) => {
 };
 
 export default function Home() {
-  const heroContainerRef = useRef<HTMLDivElement>(null);
-  const ocrSectionRef = useRef<HTMLDivElement>(null);
   const footerSectionRef = useRef<HTMLDivElement>(null);
 
   // Scroll calculations
-  const { scrollYProgress: heroScroll } = useScroll({
-    target: heroContainerRef,
-    offset: ["start start", "end start"]
-  });
-
-  const { scrollYProgress: ocrScroll } = useScroll({
-    target: ocrSectionRef,
-    offset: ["start end", "end start"]
-  });
-
   const { scrollYProgress: footerScroll } = useScroll({
     target: footerSectionRef,
     offset: ["start end", "end start"]
   });
 
   // Parallax elements
-  const heroTextY = useTransform(heroScroll, [0, 1], [0, -40]);
-  const heroDescY = useTransform(heroScroll, [0, 1], [0, -20]);
-  const heroImageY = useTransform(heroScroll, [0, 1], [0, 80]);
-  const heroCardY = useTransform(heroScroll, [0, 1], [0, -30]);
   const footerTextY = useTransform(footerScroll, [0, 1], [0, 80]);
-  
-  // OCR Schema Line Drawing
-  const pathLength = useTransform(ocrScroll, [0.15, 0.55], [0, 1]);
-  const heroScrollLength = useTransform(heroScroll, [0, 0.65], [0, 1]);
 
   // Bento state triggers
   const timelineRef = useRef(null);
@@ -142,6 +122,25 @@ export default function Home() {
     "OFFRES DE PRÊT",
     "COMPROMIS"
   ];
+
+  // Données de démonstration du dashboard (hero)
+  const toneStyles: Record<string, string> = {
+    ok: "text-emerald-700 bg-emerald-50 border-emerald-100",
+    warn: "text-amber-700 bg-amber-50 border-amber-200",
+    danger: "text-red-600 bg-red-50 border-red-200",
+    neutral: "text-neutral-600 bg-neutral-50 border-gray-200",
+  };
+
+  const dossiersDemo = [
+    { dossier: "Vente Martin", lieu: "Appartement — Paris 11ᵉ", etape: "Prêt accordé", etapeTone: "ok", pieces: ["État daté"], relance: "Syndic · il y a 2 h", expiration: "État daté — 21 j", expTone: "ok", client: "À jour", clientTone: "ok", signature: "12 mai" },
+    { dossier: "Vente Bernard", lieu: "Maison — Le Mans", etape: "Compromis signé", etapeTone: "neutral", pieces: ["Diagnostic ERP", "CNI acquéreur"], relance: "Acquéreur · hier", expiration: "ERP — expire dans 12 j", expTone: "warn", client: "À jour", clientTone: "ok", signature: "3 juin" },
+    { dossier: "Vente SCI Rivoli", lieu: "Local — Tours", etape: "Pièces en collecte", etapeTone: "neutral", pieces: ["État hypothécaire"], relance: "Banque · il y a 3 j", expiration: "Offre de prêt — 8 j", expTone: "warn", client: "En attente", clientTone: "warn", signature: "21 mai" },
+    { dossier: "Vente Morel", lieu: "Maison — Nantes", etape: "Signature planifiée", etapeTone: "ok", pieces: [], relance: "—", expiration: "—", expTone: "none", client: "À jour", clientTone: "ok", signature: "29 avr." },
+    { dossier: "Vente Dupont", lieu: "Appartement — Angers", etape: "Compromis signé", etapeTone: "neutral", pieces: ["Attestation d'apport"], relance: "Acquéreur · aujourd'hui", expiration: "CNI — expirée", expTone: "danger", client: "À jour", clientTone: "ok", signature: "17 juin" },
+    { dossier: "Vente Lefèvre", lieu: "Terrain — Alençon", etape: "Pièces en collecte", etapeTone: "neutral", pieces: ["Certificat d'urbanisme"], relance: "Mairie · il y a 1 j", expiration: "—", expTone: "none", client: "À jour", clientTone: "ok", signature: "8 juil." },
+    { dossier: "Vente Garnier", lieu: "Appartement — Rennes", etape: "Financement", etapeTone: "neutral", pieces: ["Offre de prêt signée"], relance: "Acquéreur · il y a 4 h", expiration: "Diagnostics — 30 j", expTone: "ok", client: "À jour", clientTone: "ok", signature: "24 juin" },
+  ];
+
   return (
     <div className="relative min-h-screen bg-[#FBFBFA] text-[#111111] selection:bg-neutral-900/5 selection:text-[#111111] overflow-hidden">
       
@@ -177,15 +176,15 @@ export default function Home() {
               NOTAS
             </span>
             <span className="text-[10px] text-gray-400 font-sans tracking-widest ml-1 hidden sm:inline">
-              | SUPERVISION DES VENTES
+              | SUIVI DES DOSSIERS DE VENTE
             </span>
           </div>
 
           <nav className="hidden md:flex items-center gap-8 font-sans">
-            <a href="#ocr" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Technologie</a>
-            <a href="#simulator" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Simulation</a>
-            <a href="#bento" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Garanties</a>
-            <a href="#footer" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Éligibilité</a>
+            <a href="#probleme" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Le coût</a>
+            <a href="#simulator" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Démonstration</a>
+            <a href="#bento" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Résultats</a>
+            <a href="#footer" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Disponibilité</a>
           </nav>
 
           <motion.a 
@@ -194,190 +193,188 @@ export default function Home() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            Demander une démo
+            Prendre rendez-vous
           </motion.a>
         </div>
       </motion.header>
 
-      {/* 1b. Translucent Infinite Marquee Banner (Data Ethereal) */}
-      <div className="fixed top-24 w-full z-40 bg-[#FBFBFA]/75 backdrop-blur-md border-b border-gray-100/40 py-3 overflow-hidden flex items-center">
-        <div className="marquee-content animate-marquee-slow flex items-center gap-16 text-[9px] tracking-[0.25em] text-[#888888] font-mono whitespace-nowrap">
-          {marqueeItems.concat(marqueeItems).concat(marqueeItems).map((item, idx) => (
-            <div key={idx} className="flex items-center gap-16 flex-shrink-0">
-              <span>{item}</span>
-              <span className="text-[10px] text-neutral-300">•</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* 2. Hero Section — texte centré + aperçu du dashboard NOTAS */}
+      <section className="relative pt-44 pb-10 px-8 max-w-7xl mx-auto flex flex-col items-center">
 
-      {/* 2. Hero Section ("L'Équilibre Spatial") */}
-      <section 
-        ref={heroContainerRef}
-        className="relative min-h-[95vh] flex flex-col justify-center pt-36 px-8 max-w-7xl mx-auto"
-      >
-        {/* Background SVG OCR Flow (Data Ethereal) */}
-        <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.18] flex items-center justify-center">
-          <svg className="w-full h-full" viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg">
-            <motion.path
-              d="M 100 300 L 400 300"
-              fill="none"
-              stroke="#111111"
-              strokeWidth="2.5"
-              style={{ pathLength: heroScrollLength }}
-            />
-            <motion.path
-              d="M 400 300 C 550 300 550 150 750 150"
-              fill="none"
-              stroke="#111111"
-              strokeWidth="2.5"
-              style={{ pathLength: heroScrollLength }}
-            />
-            <motion.path
-              d="M 400 300 L 750 300"
-              fill="none"
-              stroke="#111111"
-              strokeWidth="2.5"
-              style={{ pathLength: heroScrollLength }}
-            />
-            <motion.path
-              d="M 400 300 C 550 300 550 450 750 450"
-              fill="none"
-              stroke="#111111"
-              strokeWidth="2.5"
-              style={{ pathLength: heroScrollLength }}
-            />
-
-            <circle cx="100" cy="300" r="7" fill="#111111" />
-            <text x="100" y="325" fontSize="9" fontFamily="monospace" textAnchor="middle" fill="#111111" letterSpacing="2">COMPROMIS BRUT</text>
-
-            <circle cx="400" cy="300" r="11" fill="#111111" />
-            <text x="400" y="330" fontSize="9" fontFamily="monospace" textAnchor="middle" fill="#111111" fontWeight="bold" letterSpacing="2">PRISME NOTAS</text>
-
-            <circle cx="750" cy="150" r="6" fill="#111111" />
-            <text x="765" y="154" fontSize="9" fontFamily="monospace" fill="#111111" letterSpacing="1">EXTRACTION DATA</text>
-
-            <circle cx="750" cy="300" r="6" fill="#111111" />
-            <text x="765" y="304" fontSize="9" fontFamily="monospace" fill="#111111" letterSpacing="1">CHECKLIST PIÈCES</text>
-
-            <circle cx="750" cy="450" r="6" fill="#111111" />
-            <text x="765" y="454" fontSize="9" fontFamily="monospace" fill="#111111" letterSpacing="1">RELANCE AUTONOME</text>
-          </svg>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
-          
-          {/* Copywriting Left */}
-          <div className="lg:col-span-6 space-y-8">
-            <motion.div
-              style={{ y: heroTextY }}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={TRANSITION_NOBLE}
-              className="space-y-6"
-            >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#111111]/5 border border-[#111111]/10">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#111111]" />
-                <span className="text-[9px] font-mono tracking-widest text-[#111111] uppercase font-semibold">
-                  Infrastructure de Prestige pour Ventes Immobilières
-                </span>
-              </div>
-
-              <h1 className="font-serif text-5xl md:text-7xl font-normal text-[#111111] tracking-tight leading-[1.08]">
-                La clarté juridique, <br />
-                <span className="italic font-light text-neutral-500">portée par l&apos;intelligence.</span>
-              </h1>
-            </motion.div>
-
-            <motion.div
-              style={{ y: heroDescY }}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ ...TRANSITION_NOBLE, delay: 0.2 }}
-              className="space-y-6"
-            >
-              <p className="text-base md:text-lg text-ash-text max-w-lg leading-relaxed font-sans font-light">
-                NOTAS décharge vos collaborateurs de la charge mentale des relances. Notre infrastructure examine vos pièces justificatives de vente par vision artificielle autonome, éliminant la double saisie et sécurisant vos signatures d&apos;actes sans aucune connexion réseau intrusive à vos serveurs.
-              </p>
-
-              <div className="flex items-center gap-6 pt-4">
-                <div className="flex flex-col">
-                  <span className="text-sm font-semibold tracking-wider font-sans">8 000 € HT</span>
-                  <span className="text-[10px] font-mono text-ash-light uppercase">Setup d&apos;Infrastructure</span>
-                </div>
-                <div className="h-8 w-px bg-gray-200" />
-                <div className="flex flex-col">
-                  <span className="text-sm font-semibold tracking-wider font-sans">100% OCR</span>
-                  <span className="text-[10px] font-mono text-ash-light uppercase">Ingestion Sécurisée</span>
-                </div>
-              </div>
-            </motion.div>
+        {/* Copywriting centré */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={TRANSITION_NOBLE}
+          className="text-center max-w-3xl mx-auto space-y-6 relative z-10"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 border border-gray-200/80 shadow-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+            <span className="text-[10px] font-mono tracking-widest text-[#111111] uppercase font-semibold">
+              Suivi autonome des dossiers de vente
+            </span>
           </div>
 
-          {/* Parallax Image & Frosted Glass Card Right */}
-          <div className="lg:col-span-6 relative flex items-center justify-center h-[520px] w-full">
-            <div className="relative w-[90%] h-[480px]">
-              
-              {/* Parallax Background Study Image */}
-              <motion.div 
-                style={{ y: heroImageY }}
-                transition={TRANSITION_NOBLE}
-                className="w-full h-full rounded-lg overflow-hidden border border-gray-100 shadow-luxe"
-              >
-                <img 
-                  src="/notary_study_hero.png" 
-                  alt="Architecture épurée d'une étude notariale moderne" 
-                  className="w-full h-full object-cover filter saturate-[0.85] contrast-[1.02]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#FDFDFD]/20 to-transparent pointer-events-none" />
-              </motion.div>
+          <h1 className="font-serif text-5xl md:text-7xl font-normal text-[#111111] tracking-tight leading-[1.08]">
+            Le copilote qui relance, <br />
+            <span className="italic font-light text-neutral-500">alerte et informe à votre place.</span>
+          </h1>
 
-              {/* Overlaid Frosted Glass Status Card */}
-              <motion.div 
-                style={{ y: heroCardY }}
-                className="absolute bottom-10 -left-6 glass-card rounded-lg p-6 w-80 shadow-xl z-20 flex flex-col justify-between"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ ...TRANSITION_NOBLE, delay: 0.3 }}
-              >
-                <div className="flex items-center justify-between border-b border-black/[0.05] pb-3 mb-4">
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-ash-light">
-                    NOTAS SECURE ENGINE
-                  </span>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[9px] font-mono text-emerald-600 font-semibold tracking-wider bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100">
-                      CONFORME
-                    </span>
-                  </div>
-                </div>
+          <p className="text-base md:text-lg text-ash-text max-w-xl mx-auto leading-relaxed font-sans font-light">
+            Le tableau de suivi que vos clercs connaissent déjà — mais qui travaille tout seul. Relances automatiques, alertes avant expiration, clients informés. Zéro saisie en double, zéro apprentissage.
+          </p>
 
-                <div className="space-y-3.5">
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="text-ash-text">Dossier</span>
-                    <span className="font-medium text-neutral-800">Vente SCI Martin</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="text-ash-text">Vision Optique</span>
-                    <span className="font-mono text-ash-text text-neutral-700">Lecture OCR validée</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="text-ash-text">Conformité Acte</span>
-                    <span className="font-semibold text-emerald-600 flex items-center gap-1">
-                      <CheckCircle2 className="w-3.5 h-3.5" /> 100% Conforme
-                    </span>
-                  </div>
-                </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <motion.a
+              href="#footer"
+              className="px-7 py-3.5 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 transition-colors duration-300 font-sans"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Prendre rendez-vous
+            </motion.a>
+            <a
+              href="#simulator"
+              className="px-7 py-3.5 rounded-lg bg-white/70 border border-gray-200 text-[#111111] text-sm font-medium hover:border-gray-300 transition-colors duration-300 font-sans"
+            >
+              Voir la démonstration
+            </a>
+          </div>
+        </motion.div>
 
-                <div className="mt-4 pt-3 border-t border-black/[0.05] flex justify-between items-center text-[9px] font-mono text-ash-light">
-                  <span>INGESTION : VALIDÉE</span>
-                  <span>SHA-256 SECURED</span>
+        {/* Aperçu du dashboard */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...TRANSITION_NOBLE, delay: 0.25 }}
+          className="relative w-full max-w-6xl mt-16 rounded-2xl border border-gray-200/80 bg-white shadow-luxe overflow-hidden text-left"
+        >
+          <div className="flex">
+
+            {/* Sidebar de l'application */}
+            <aside className="hidden md:flex w-52 shrink-0 flex-col border-r border-gray-100 bg-[#FBFBFA] p-3.5">
+              <div className="flex items-baseline gap-2 px-2 pb-3 border-b border-gray-100 mb-3">
+                <span className="font-serif text-base tracking-[0.12em] text-[#111111]">NOTAS</span>
+                <span className="text-[8px] font-mono text-ash-light uppercase">Étude Dubreuil</span>
+              </div>
+
+              <nav className="space-y-0.5 font-sans">
+                <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
+                  <Layers className="w-3.5 h-3.5" /> Tableau de bord
                 </div>
-              </motion.div>
+                <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-[11px] font-medium text-[#111111] bg-black/[0.04]">
+                  <FileText className="w-3.5 h-3.5" /> Dossiers de vente
+                </div>
+                <div className="flex items-center justify-between px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
+                  <span className="flex items-center gap-2.5"><Send className="w-3.5 h-3.5" /> Relances</span>
+                  <span className="text-[8px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-100 rounded px-1">12</span>
+                </div>
+                <div className="flex items-center justify-between px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
+                  <span className="flex items-center gap-2.5"><Clock className="w-3.5 h-3.5" /> Alertes d&apos;expiration</span>
+                  <span className="text-[8px] font-mono text-amber-700 bg-amber-50 border border-amber-200 rounded px-1">3</span>
+                </div>
+                <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
+                  <UserCheck className="w-3.5 h-3.5" /> Clients
+                </div>
+                <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
+                  <Database className="w-3.5 h-3.5" /> Rapports
+                </div>
+              </nav>
+
+              <div className="mt-5 pt-3 border-t border-gray-100">
+                <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider px-2 block mb-1.5">Vues épinglées</span>
+                <div className="px-2 py-1 text-[11px] text-neutral-500 font-sans">Signatures du mois</div>
+                <div className="px-2 py-1 text-[11px] text-neutral-500 font-sans">Pièces en retard</div>
+              </div>
+            </aside>
+
+            {/* Zone principale */}
+            <div className="flex-1 min-w-0">
+
+              {/* Barre de titre */}
+              <div className="flex items-center justify-between px-5 h-12 border-b border-gray-100">
+                <div className="flex items-center gap-2.5 font-sans">
+                  <span className="text-sm font-medium text-neutral-800">Suivi des ventes</span>
+                  <span className="text-[8px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-100 rounded px-1.5 py-0.5 uppercase font-semibold">14 dossiers actifs</span>
+                </div>
+                <div className="flex items-center gap-2 font-sans">
+                  <span className="text-[10px] text-neutral-500 border border-gray-200 rounded-md px-2.5 py-1">Exporter</span>
+                  <span className="text-[10px] text-white bg-[#111111] rounded-md px-2.5 py-1">+ Nouveau dossier</span>
+                </div>
+              </div>
+
+              {/* Barre de filtres */}
+              <div className="flex items-center gap-2 px-5 py-2.5 border-b border-gray-100 font-sans">
+                <span className="text-[9px] text-neutral-500 border border-gray-200 rounded px-2 py-0.5 bg-white">Trié par date de signature</span>
+                <span className="text-[9px] text-neutral-500 border border-gray-200 rounded px-2 py-0.5 bg-white">Filtre : pièces manquantes</span>
+                <span className="text-[9px] text-neutral-400 border border-dashed border-gray-200 rounded px-1.5 py-0.5">+</span>
+              </div>
+
+              {/* Tableau des dossiers */}
+              <div className="overflow-x-auto">
+                <table className="w-full text-left font-sans min-w-[780px]">
+                  <thead>
+                    <tr className="border-b border-gray-100 font-mono text-[8px] text-ash-light uppercase tracking-wider">
+                      <th className="py-2.5 px-5 font-normal">Dossier</th>
+                      <th className="py-2.5 pr-4 font-normal">Étape</th>
+                      <th className="py-2.5 pr-4 font-normal">Pièces manquantes</th>
+                      <th className="py-2.5 pr-4 font-normal">Dernière relance</th>
+                      <th className="py-2.5 pr-4 font-normal">Expiration</th>
+                      <th className="py-2.5 pr-4 font-normal">Client</th>
+                      <th className="py-2.5 pr-5 font-normal text-right">Signature</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-[11px]">
+                    {dossiersDemo.map((d, idx) => (
+                      <tr key={idx} className="border-b border-gray-50 hover:bg-neutral-50/50 transition-colors">
+                        <td className="py-2.5 px-5">
+                          <span className="font-medium text-neutral-800 block leading-tight">{d.dossier}</span>
+                          <span className="text-[9px] text-ash-light">{d.lieu}</span>
+                        </td>
+                        <td className="py-2.5 pr-4">
+                          <span className={`text-[9px] px-1.5 py-0.5 rounded border ${toneStyles[d.etapeTone]}`}>{d.etape}</span>
+                        </td>
+                        <td className="py-2.5 pr-4">
+                          {d.pieces.length === 0 ? (
+                            <span className="text-[9px] px-1.5 py-0.5 rounded border text-emerald-700 bg-emerald-50 border-emerald-100 inline-flex items-center gap-1">
+                              <CheckCircle2 className="w-2.5 h-2.5" /> Complet
+                            </span>
+                          ) : (
+                            <span className="flex flex-wrap gap-1">
+                              {d.pieces.map((p, i) => (
+                                <span key={i} className="text-[9px] px-1.5 py-0.5 rounded border text-neutral-600 bg-neutral-50 border-gray-200 whitespace-nowrap">{p}</span>
+                              ))}
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-2.5 pr-4 text-neutral-600 whitespace-nowrap">
+                          {d.relance === "—" ? <span className="text-neutral-300">—</span> : (
+                            <span className="inline-flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                              {d.relance}
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-2.5 pr-4 whitespace-nowrap">
+                          {d.expTone === "none" ? <span className="text-neutral-300">—</span> : (
+                            <span className={`text-[9px] px-1.5 py-0.5 rounded border ${toneStyles[d.expTone]}`}>{d.expiration}</span>
+                          )}
+                        </td>
+                        <td className="py-2.5 pr-4">
+                          <span className={`text-[9px] px-1.5 py-0.5 rounded border whitespace-nowrap ${toneStyles[d.clientTone]}`}>{d.client}</span>
+                        </td>
+                        <td className="py-2.5 pr-5 text-right text-neutral-600 whitespace-nowrap">{d.signature}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
-        </div>
+          {/* Fondu bas de fenêtre */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent" />
+        </motion.div>
       </section>
 
       {/* 3. Bandeau Défilant Infini (Infinite Marquee) */}
@@ -392,189 +389,254 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. Section "Le Schéma Dynamique de l'OCR" */}
-      <section 
-        id="ocr"
-        ref={ocrSectionRef}
-        className="py-32 px-8 max-w-7xl mx-auto border-b border-gray-200/60"
-      >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-          
-          {/* Dynamic SVG Schema Left */}
-          <div className="lg:col-span-7 bg-white/50 backdrop-blur-md rounded-2xl p-4 h-[480px] flex items-center justify-center shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100/60 relative">
-            <svg className="w-full h-full max-w-4xl" viewBox="0 0 1000 480" xmlns="http://www.w3.org/2000/svg">
-              {/* Path 1: Source to Prisme */}
-              <motion.path
-                d="M 270 240 L 410 240"
-                fill="none"
-                stroke="rgba(17, 17, 17, 0.4)"
-                strokeWidth="1.5"
-                strokeDasharray="4,4"
-                style={{ pathLength }}
-              />
+      {/* 4. Section "Le Coût de l'Inaction" (Le Problème) */}
+      <section id="probleme" className="py-32 px-8 border-b border-gray-200/60 bg-transparent max-w-7xl mx-auto">
+        <div className="max-w-6xl mx-auto space-y-16">
 
-              {/* Path 2: Prisme to Output 1 (Top) */}
-              <motion.path
-                d="M 590 240 C 660 240 660 90 730 90"
-                fill="none"
-                stroke="#111111"
-                strokeWidth="1.5"
-                style={{ pathLength }}
-              />
-
-              {/* Path 3: Prisme to Output 2 (Middle) */}
-              <motion.path
-                d="M 590 240 L 730 240"
-                fill="none"
-                stroke="#111111"
-                strokeWidth="1.5"
-                style={{ pathLength }}
-              />
-
-              {/* Path 4: Prisme to Output 3 (Bottom) */}
-              <motion.path
-                d="M 590 240 C 660 240 660 390 730 390"
-                fill="none"
-                stroke="#111111"
-                strokeWidth="1.5"
-                style={{ pathLength }}
-              />
-
-              {/* Node Left 1: Compromis scanné */}
-              <foreignObject x="50" y="60" width="220" height="60">
-                <div className="flex items-center gap-3 bg-white/70 border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.02)] px-4 py-2.5 rounded-xl w-full h-full font-sans">
-                  <FileText className="w-5 h-5 text-neutral-500" />
-                  <span className="text-sm md:text-base font-semibold text-neutral-800">Compromis scanné</span>
-                </div>
-              </foreignObject>
-
-              {/* Node Left 2: Diagnostics */}
-              <foreignObject x="50" y="210" width="220" height="60">
-                <div className="flex items-center gap-3 bg-white/70 border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.02)] px-4 py-2.5 rounded-xl w-full h-full font-sans">
-                  <FileText className="w-5 h-5 text-neutral-500" />
-                  <span className="text-sm md:text-base font-semibold text-neutral-800">Diagnostics techniques</span>
-                </div>
-              </foreignObject>
-
-              {/* Node Left 3: Etats Datés */}
-              <foreignObject x="50" y="360" width="220" height="60">
-                <div className="flex items-center gap-3 bg-white/70 border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.02)] px-4 py-2.5 rounded-xl w-full h-full font-sans">
-                  <FileText className="w-5 h-5 text-neutral-500" />
-                  <span className="text-sm md:text-base font-semibold text-neutral-800">États datés</span>
-                </div>
-              </foreignObject>
-
-              {/* Central Node (NOTAS Intelligent Parser Engine) */}
-              <foreignObject x="410" y="125" width="180" height="230">
-                <div className="flex flex-col items-center justify-center w-full h-full relative">
-                  
-                  {/* Subtle soft glowing back blur */}
-                  <div className="absolute w-36 h-36 bg-emerald-500/[0.04] rounded-full blur-lg top-[10px]" />
-
-                  {/* Outer Ring: solid perle-gray, rotating counter-clockwise */}
-                  <motion.div 
-                    className="absolute w-44 h-44 border border-black/[0.04] rounded-full top-[2px] left-[2px]"
-                    animate={{ rotate: -360 }}
-                    transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-                  />
-
-                  {/* Middle Ring: dashed perle-gray, rotating clockwise */}
-                  <motion.div 
-                    className="absolute w-36 h-36 border border-dashed border-neutral-300 rounded-full top-[18px] left-[18px]"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                  />
-
-                  {/* Center Core: glassmorphic white circle with CPU icon */}
-                  <div className="w-24 h-24 bg-white border border-gray-150 rounded-full flex items-center justify-center shadow-md z-10 absolute top-[42px] left-[42px]">
-                    <Cpu className="w-8 h-8 text-emerald-700 animate-pulse" />
-                  </div>
-
-                  <span className="text-xs md:text-sm font-mono tracking-widest text-[#111111] uppercase font-bold absolute bottom-0 text-center w-full">
-                    PRISME OPTIQUE
-                  </span>
-                </div>
-              </foreignObject>
-
-              {/* Node Right 1: Output 1 */}
-              <foreignObject x="730" y="55" width="220" height="70">
-                <div className="bg-white/70 border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.02)] px-5 py-3 rounded-xl w-full h-full flex flex-col justify-center font-sans">
-                  <span className="text-[11px] md:text-xs font-mono text-ash-light uppercase block mb-1 font-bold">FLUX_01</span>
-                  <span className="text-sm md:text-base font-semibold text-neutral-800">Extraction des clauses</span>
-                </div>
-              </foreignObject>
-
-              {/* Node Right 2: Output 2 */}
-              <foreignObject x="730" y="205" width="220" height="70">
-                <div className="bg-white/70 border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.02)] px-5 py-3 rounded-xl w-full h-full flex flex-col justify-center font-sans">
-                  <span className="text-[11px] md:text-xs font-mono text-ash-light uppercase block mb-1 font-bold">FLUX_02</span>
-                  <span className="text-sm md:text-base font-semibold text-neutral-800">Détection des pièces</span>
-                </div>
-              </foreignObject>
-
-              {/* Node Right 3: Output 3 */}
-              <foreignObject x="730" y="355" width="220" height="70">
-                <div className="bg-white/70 border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.02)] px-5 py-3 rounded-xl w-full h-full flex flex-col justify-center font-sans">
-                  <span className="text-[11px] md:text-xs font-mono text-ash-light uppercase block mb-1 font-bold">FLUX_03</span>
-                  <span className="text-sm md:text-base font-semibold text-neutral-800">Relances autonomes</span>
-                </div>
-              </foreignObject>
-
-            </svg>
+          {/* Header */}
+          <div className="text-center max-w-2xl mx-auto">
+            <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-3">
+              LE COÛT DE L&apos;INACTION
+            </span>
+            <h2 className="font-serif text-3xl md:text-5xl font-normal">
+              Chaque dossier qui traîne, <span className="italic text-emerald-700 font-light">c&apos;est votre marge qui attend.</span>
+            </h2>
+            <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
+              Les délais s&apos;allongent, les pièces manquantes bloquent les signatures et vos clercs relancent à la main. Pendant ce temps, les émoluments attendent — et les clients s&apos;impatientent.
+            </p>
           </div>
 
-          {/* Copywriting Right (La Preuve) */}
-          <div className="lg:col-span-5 space-y-8">
-            <div>
-              <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-3">
-                L&apos;EFFICACITÉ JURIDIQUE
+          {/* Row 1 : 3 compteurs d'urgence */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            {/* Stat 1 : 92 jours */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ ease: EASE_ETHEREAL, duration: 0.9 }}
+              className="bg-white/50 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-8 flex flex-col justify-between min-h-[300px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)]"
+            >
+              <span className="font-mono text-[10px] tracking-wider text-ash-light uppercase">
+                DÉLAI DE VENTE MOYEN
               </span>
-              <h2 className="font-serif text-3xl md:text-5xl font-normal leading-tight">
-                L&apos;excellence par la <span className="italic text-emerald-700 font-light">mesure du temps.</span>
-              </h2>
-              <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
-                Les clercs de notaire consacrent en moyenne <strong>60% de leur temps de closing</strong> aux relances manuelles des pièces justificatives. NOTAS automatise cette veille pour éviter la péremption des offres de prêt, en lisant directement les actes bruts scannés.
+              <div className="my-auto py-4">
+                <div className="text-7xl font-light font-serif tracking-tighter text-[#111111] flex items-baseline">
+                  <SpringCounter targetValue={92} />
+                  <span className="text-2xl font-sans font-light tracking-tight ml-2 text-neutral-500">jours</span>
+                </div>
+                <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
+                  entre le compromis et l&apos;acte authentique. Première cause de retard évitable : <strong>une pièce manquante</strong>.
+                </p>
+              </div>
+              <div className="border-t border-gray-100 pt-4 font-sans">
+                <span className="text-[9px] font-mono text-ash-light uppercase tracking-wider">Source : Notariat Services</span>
+              </div>
+            </motion.div>
+
+            {/* Stat 2 : +30 % avec jauge 70 → 90+ jours */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ ease: EASE_ETHEREAL, duration: 0.9, delay: 0.15 }}
+              className="bg-white/50 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-8 flex flex-col justify-between min-h-[300px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)]"
+            >
+              <span className="font-mono text-[10px] tracking-wider text-ash-light uppercase">
+                DES DÉLAIS QUI S&apos;AGGRAVENT
+              </span>
+              <div className="my-auto py-4">
+                <div className="text-7xl font-light font-serif tracking-tighter text-[#111111] flex items-baseline">
+                  +<SpringCounter targetValue={30} />
+                  <span className="text-2xl font-sans font-light tracking-tight ml-2 text-neutral-500">%</span>
+                </div>
+                <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
+                  de délai en deux ans. Attendre n&apos;arrange rien : chaque année, les dossiers traînent davantage.
+                </p>
+                <div className="mt-5 space-y-2.5">
+                  <div className="flex items-center gap-3">
+                    <span className="text-[8px] font-mono text-ash-light uppercase w-20 shrink-0">Il y a 2 ans</span>
+                    <div className="flex-1 h-1 bg-gray-100 rounded-full overflow-hidden">
+                      <motion.div
+                        className="h-full bg-neutral-300 origin-left"
+                        initial={{ scaleX: 0 }}
+                        whileInView={{ scaleX: 0.74 }}
+                        viewport={{ once: true }}
+                        transition={{ ease: EASE_ETHEREAL, duration: 1.2, delay: 0.3 }}
+                      />
+                    </div>
+                    <span className="text-[9px] font-mono text-ash-light w-10 text-right shrink-0">70 j</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[8px] font-mono text-[#111111] font-semibold uppercase w-20 shrink-0">Aujourd&apos;hui</span>
+                    <div className="flex-1 h-1 bg-gray-100 rounded-full overflow-hidden">
+                      <motion.div
+                        className="h-full bg-emerald-600 origin-left"
+                        initial={{ scaleX: 0 }}
+                        whileInView={{ scaleX: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ ease: EASE_ETHEREAL, duration: 1.2, delay: 0.5 }}
+                      />
+                    </div>
+                    <span className="text-[9px] font-mono text-emerald-700 font-semibold w-10 text-right shrink-0">90+ j</span>
+                  </div>
+                </div>
+              </div>
+              <div className="border-t border-gray-100 pt-4 font-sans">
+                <span className="text-[9px] font-mono text-ash-light uppercase tracking-wider">Source : Notariat Services</span>
+              </div>
+            </motion.div>
+
+            {/* Stat 3 : 1 jour par semaine perdu */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ ease: EASE_ETHEREAL, duration: 0.9, delay: 0.3 }}
+              className="bg-white/50 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-8 flex flex-col justify-between min-h-[300px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)]"
+            >
+              <span className="font-mono text-[10px] tracking-wider text-ash-light uppercase">
+                DU TEMPS QUI PART EN FUMÉE
+              </span>
+              <div className="my-auto py-4">
+                <div className="text-7xl font-light font-serif tracking-tighter text-[#111111] flex items-baseline">
+                  <SpringCounter targetValue={1} />
+                  <span className="text-2xl font-sans font-light tracking-tight ml-2 text-neutral-500">j / semaine</span>
+                </div>
+                <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
+                  perdu par clerc à chercher l&apos;information et relancer — comme dans tous les métiers administratifs. Soit <strong>20 % du temps de travail</strong>.
+                </p>
+              </div>
+              <div className="border-t border-gray-100 pt-4 font-sans">
+                <span className="text-[9px] font-mono text-ash-light uppercase tracking-wider">Source : McKinsey Global Institute</span>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Row 2 : Le grand livre — ce que ça coûte vs ce que ça rapporte */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ ease: EASE_ETHEREAL, duration: 0.9 }}
+            className="bg-white/50 backdrop-blur-sm border border-gray-200/60 rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2">
+
+              {/* Colonne gauche : ce que l'attente coûte */}
+              <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-gray-200/60 space-y-7">
+                <span className="font-mono text-[10px] tracking-wider text-ash-light uppercase font-bold">
+                  CE QUE L&apos;ATTENTE VOUS COÛTE
+                </span>
+
+                <div className="flex gap-5 items-start">
+                  <span className="font-serif text-2xl font-light text-[#111111] w-32 shrink-0 leading-tight">25–30 €</span>
+                  <div className="font-sans">
+                    <p className="text-ash-text text-sm font-light leading-relaxed">
+                      le coût réel d&apos;une heure de clerc — consommée par des relances manuelles sans valeur juridique.
+                    </p>
+                    <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider block mt-1.5">Sources : IMEB · Indeed</span>
+                  </div>
+                </div>
+
+                <div className="flex gap-5 items-start">
+                  <span className="font-serif text-2xl font-light text-[#111111] w-32 shrink-0 leading-tight">45 000 €<span className="text-sm text-neutral-500 font-sans"> /an</span></span>
+                  <div className="font-sans">
+                    <p className="text-ash-text text-sm font-light leading-relaxed">
+                      le coût chargé d&apos;un clerc supplémentaire embauché pour absorber le volume.
+                    </p>
+                    <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider block mt-1.5">Source : IMEB</span>
+                  </div>
+                </div>
+
+                <div className="flex gap-5 items-start">
+                  <span className="font-serif text-2xl font-light text-[#111111] w-32 shrink-0 leading-tight">N°1</span>
+                  <div className="font-sans">
+                    <p className="text-ash-text text-sm font-light leading-relaxed">
+                      motif d&apos;insatisfaction des clients : le manque de suivi. Ils attendent une réponse sous 24 h — et le font savoir autour d&apos;eux.
+                    </p>
+                    <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider block mt-1.5">Source : Orphée</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Colonne droite : ce que le même temps rapporte */}
+              <div className="p-8 md:p-10 space-y-7">
+                <span className="font-mono text-[10px] tracking-wider text-emerald-700 uppercase font-bold">
+                  CE QUE LE MÊME TEMPS RAPPORTE
+                </span>
+
+                <div className="flex gap-5 items-start">
+                  <span className="font-serif text-2xl font-light text-emerald-700 w-32 shrink-0 leading-tight">2 500–3 500 €</span>
+                  <div className="font-sans">
+                    <p className="text-ash-text text-sm font-light leading-relaxed">
+                      d&apos;émoluments sur une seule vente à 250 000 €. Chaque dossier accéléré, c&apos;est cette somme qui rentre plus tôt.
+                    </p>
+                    <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider block mt-1.5">Source : Empruntis</span>
+                  </div>
+                </div>
+
+                <div className="flex gap-5 items-start">
+                  <span className="font-serif text-2xl font-light text-emerald-700 w-32 shrink-0 leading-tight">×2,5 à ×4</span>
+                  <div className="font-sans">
+                    <p className="text-ash-text text-sm font-light leading-relaxed">
+                      dossiers gérés par personne lorsque les relances sont automatisées — sans effectif supplémentaire.
+                    </p>
+                    <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider block mt-1.5">Source : initiative-CRM</span>
+                  </div>
+                </div>
+
+                <div className="flex gap-5 items-start">
+                  <span className="font-serif text-2xl font-light text-emerald-700 w-32 shrink-0 leading-tight">+27 %</span>
+                  <div className="font-sans">
+                    <p className="text-ash-text text-sm font-light leading-relaxed">
+                      de productivité dans les structures qui automatisent leurs relances — et 15 à 30 % du temps administratif est récupérable.
+                    </p>
+                    <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider block mt-1.5">Sources : Gartner · France Num</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* L'équation : le poids des chiffres en euros */}
+            <div className="border-t border-gray-200/60 px-8 py-10 text-center bg-white/40">
+              <span className="font-mono text-[10px] tracking-widest text-ash-light uppercase block mb-6">
+                FAITES LE CALCUL — POUR UN SEUL CLERC
+              </span>
+
+              <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6">
+                <div className="flex flex-col items-center">
+                  <span className="font-serif text-3xl font-light text-[#111111]">1 j</span>
+                  <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider mt-1">perdu / semaine</span>
+                </div>
+                <span className="font-serif text-2xl text-neutral-300">×</span>
+                <div className="flex flex-col items-center">
+                  <span className="font-serif text-3xl font-light text-[#111111]">27 €</span>
+                  <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider mt-1">l&apos;heure de clerc</span>
+                </div>
+                <span className="font-serif text-2xl text-neutral-300">×</span>
+                <div className="flex flex-col items-center">
+                  <span className="font-serif text-3xl font-light text-[#111111]">47</span>
+                  <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider mt-1">semaines / an</span>
+                </div>
+                <span className="font-serif text-2xl text-neutral-300">=</span>
+                <div className="flex flex-col items-center">
+                  <span className="font-serif text-5xl md:text-6xl font-light tracking-tighter text-emerald-700">
+                    ≈ <SpringCounter targetValue={8900} /> €
+                  </span>
+                  <span className="text-[8px] font-mono text-emerald-700 uppercase tracking-wider mt-1 font-semibold">par an, partis en relances manuelles</span>
+                </div>
+              </div>
+
+              <p className="text-ash-text text-sm font-light mt-7 font-sans">
+                Et c&apos;est pour <em>un seul</em> clerc. Multipliez par la taille de votre équipe.
               </p>
             </div>
-
-            {/* Premium Table */}
-            <div className="border-t border-gray-200">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-gray-100 font-mono text-[9px] text-ash-light uppercase">
-                    <th className="py-3 font-normal">Contrôle de conformité</th>
-                    <th className="py-3 font-normal text-right">Temps Humain</th>
-                    <th className="py-3 font-normal text-right text-[#111111] font-semibold">Avec NOTAS</th>
-                  </tr>
-                </thead>
-                <tbody className="text-xs font-sans">
-                  <tr className="border-b border-gray-100">
-                    <td className="py-3 text-ash-text">Extraction des clauses d&apos;actes</td>
-                    <td className="py-3 text-right text-ash-light">45 min</td>
-                    <td className="py-3 text-right font-medium text-[#111111]">12 sec</td>
-                  </tr>
-                  <tr className="border-b border-gray-100">
-                    <td className="py-3 text-ash-text">Vérification des justificatifs</td>
-                    <td className="py-3 text-right text-ash-light">30 min</td>
-                    <td className="py-3 text-right font-medium text-[#111111]">8 sec</td>
-                  </tr>
-                  <tr className="border-b border-gray-100">
-                    <td className="py-3 text-ash-text">Relance des syndics et tiers</td>
-                    <td className="py-3 text-right text-ash-light">2 heures</td>
-                    <td className="py-3 text-right font-medium text-[#111111]">1 min</td>
-                  </tr>
-                  <tr className="border-b border-gray-100">
-                    <td className="py-3 text-ash-text">Contrôle RGPD des pièces</td>
-                    <td className="py-3 text-right text-ash-light">1 heure</td>
-                    <td className="py-3 text-right font-medium text-[#111111]">15 sec</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+          </motion.div>
 
         </div>
       </section>
+
       {/* 5. Section Console de Simulation Interactive & n8n Workflow */}
       <section id="simulator" className="py-32 px-8 border-b border-gray-200/60 bg-transparent max-w-7xl mx-auto">
         <div className="max-w-6xl mx-auto space-y-16">
@@ -583,10 +645,10 @@ export default function Home() {
               DÉMONSTRATION AUTONOME
             </span>
             <h2 className="font-serif text-3xl md:text-5xl font-normal">
-              De l&apos;ingestion <span className="italic text-emerald-700 font-light">aux relances.</span>
+              Votre fiche de suivi, <span className="italic text-emerald-700 font-light">en version vivante.</span>
             </h2>
             <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
-              Visualisez le fonctionnement en continu de l&apos;infrastructure NOTAS : du dépôt de l&apos;acte par le clerc de notaire à la transmission automatisée des relances n8n.
+              Dès qu&apos;un dossier entre dans le tableau, NOTAS identifie les pièces manquantes, relance les bons interlocuteurs et vous alerte avant chaque expiration — sans rien changer à vos habitudes.
             </p>
           </div>
 
@@ -599,11 +661,11 @@ export default function Home() {
                 <div className="flex items-center gap-2 mb-3">
                   <Database className="w-4 h-4 text-neutral-600" />
                   <span className="font-mono text-[9px] tracking-wider text-ash-light uppercase font-bold">
-                    Console d&apos;ingestion OCR
+                    Dépôt du dossier de vente
                   </span>
                 </div>
                 <p className="text-ash-text text-xs font-light mb-6 font-sans">
-                  Le dépôt sécurisé lit instantanément les PDF d&apos;actes, extrait les métadonnées et prépare les variables pour les relances.
+                  Déposez le compromis : NOTAS crée la fiche de suivi, repère les pièces attendues et prépare les relances.
                 </p>
               </div>
 
@@ -684,7 +746,7 @@ export default function Home() {
                   {simPhase === "scanning" && (
                     <div className="w-full h-full flex flex-col justify-between relative overflow-hidden pointer-events-none">
                       <div className="flex items-center justify-between text-[8px] font-mono text-emerald-600">
-                        <span>PRISME OPTIQUE</span>
+                        <span>LECTURE DU DOSSIER</span>
                         <span>{scanProgress}%</span>
                       </div>
 
@@ -713,7 +775,7 @@ export default function Home() {
                       className="w-full h-full flex flex-col justify-between"
                     >
                       <div className="flex items-center justify-between text-[8px] font-mono text-emerald-600">
-                        <span>INGESTION COMPLÈTE</span>
+                        <span>FICHE DE SUIVI CRÉÉE</span>
                         <CheckCircle2 className="w-3.5 h-3.5" />
                       </div>
                       <div className="space-y-1 py-1 font-sans">
@@ -731,7 +793,7 @@ export default function Home() {
                         </div>
                       </div>
                       <span className="text-[8px] font-mono text-ash-light text-center uppercase tracking-wider border border-gray-100 py-0.5 rounded bg-gray-50/50">
-                        Dossier Ingesté
+                        Dossier sous suivi
                       </span>
                     </motion.div>
                   )}
@@ -750,7 +812,7 @@ export default function Home() {
                   </span>
                 </div>
                 <p className="text-ash-text text-xs font-light mb-6 font-sans">
-                  Une fois les variables extraites, les flux de notification s&apos;exécutent de manière autonome pour relancer les tiers.
+                  Dès que le dossier est lu, les relances partent automatiquement vers les bons interlocuteurs.
                 </p>
               </div>
 
@@ -758,8 +820,8 @@ export default function Home() {
               <div className="flex-1 bg-white border border-gray-100 rounded-lg p-5 shadow-inner flex flex-col justify-center gap-3">
                 {simPhase === "idle" || simPhase === "moving" || simPhase === "dragging" ? (
                   <div className="text-center py-6 text-ash-light space-y-2 font-sans">
-                    <span className="text-xs italic block">En attente d&apos;ingestion du dossier...</span>
-                    <span className="text-[8px] font-mono uppercase block">Attente webhook NOTAS</span>
+                    <span className="text-xs italic block">Aucun dossier en cours...</span>
+                    <span className="text-[8px] font-mono uppercase block">En attente d&apos;un nouveau dossier</span>
                   </div>
                 ) : simPhase === "scanning" ? (
                   <div className="space-y-3 font-sans">
@@ -784,7 +846,7 @@ export default function Home() {
                         <span className="text-neutral-800">Relance syndic (Attestation non-recours)</span>
                       </div>
                       <span className="text-[8px] font-mono text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100 uppercase font-semibold">
-                        Gmail
+                        Email
                       </span>
                     </div>
 
@@ -794,7 +856,7 @@ export default function Home() {
                         <span className="text-neutral-800 font-normal">Rappel acquéreur (Attestation d&apos;apport)</span>
                       </div>
                       <span className="text-[8px] font-mono text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100 uppercase font-semibold">
-                        SMS
+                        Email
                       </span>
                     </div>
 
@@ -820,7 +882,7 @@ export default function Home() {
               <div className="flex items-center gap-2">
                 <Layers className="w-4 h-4 text-neutral-600" />
                 <span className="font-mono text-[9px] tracking-wider text-ash-light uppercase font-bold">
-                  Workflow d&apos;intégration des relances (n8n & Canaux)
+                  Circuit des relances par courriel
                 </span>
               </div>
               <span className="text-[9px] font-mono text-ash-light uppercase">Statut : {simPhase === "completed" ? "Actif (Transmissions en cours)" : "Veille"}</span>
@@ -894,7 +956,7 @@ export default function Home() {
                     }`}>
                       <FileCheck className="w-5 h-5" />
                     </div>
-                    <span className="text-[8px] font-mono text-ash-light font-bold text-center leading-none uppercase">NOTAS VISION</span>
+                    <span className="text-[8px] font-mono text-ash-light font-bold text-center leading-none uppercase">DOSSIER DÉPOSÉ</span>
                   </div>
                 </foreignObject>
 
@@ -911,7 +973,7 @@ export default function Home() {
                         <path d="M 30 50 L 70 30 M 30 50 L 70 70" stroke={simPhase === "completed" ? "#FF6C37" : "#888888"} strokeWidth="7" />
                       </svg>
                     </div>
-                    <span className="text-[8px] font-mono text-[#FF6C37] font-bold text-center leading-none uppercase">n8n ROUTER</span>
+                    <span className="text-[8px] font-mono text-[#FF6C37] font-bold text-center leading-none uppercase">MOTEUR NOTAS</span>
                   </div>
                 </foreignObject>
 
@@ -922,7 +984,7 @@ export default function Home() {
                       <svg viewBox="0 0 24 24" className={`w-4 h-4 transition-colors ${simPhase === "completed" ? "text-red-500" : "text-neutral-400"}`} fill="currentColor">
                         <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                       </svg>
-                      <span className="text-[9px] font-medium">Relance Gmail</span>
+                      <span className="text-[9px] font-medium">Relance courriel</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <span className={`w-1.5 h-1.5 rounded-full ${simPhase === "completed" ? "bg-emerald-500 animate-pulse" : "bg-neutral-300"}`} />
@@ -938,7 +1000,7 @@ export default function Home() {
                       <svg viewBox="0 0 24 24" className={`w-4 h-4 transition-colors ${simPhase === "completed" ? "text-red-600" : "text-neutral-400"}`} fill="currentColor">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 16H9v-2h2v2zm0-4H9V8h2v6zm4 4h-2v-2h2v2zm0-4h-2V8h2v6z"/>
                       </svg>
-                      <span className="text-[9px] font-medium font-sans">Relance Twilio</span>
+                      <span className="text-[9px] font-medium font-sans">Rappel courriel</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <span className={`w-1.5 h-1.5 rounded-full ${simPhase === "completed" ? "bg-emerald-500 animate-pulse" : "bg-neutral-300"}`} />
@@ -974,22 +1036,74 @@ export default function Home() {
         <div className="max-w-6xl mx-auto space-y-16">
           <div className="text-center max-w-xl mx-auto">
             <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-3">
-              LES GARANTIES DE L&apos;ÉTUDE
+              LES RÉSULTATS POUR L&apos;ÉTUDE
             </span>
             <h2 className="font-serif text-3xl md:text-5xl font-normal">
-              Rigueur <span className="italic text-emerald-700 font-light">institutionnelle.</span>
+              Des dossiers qui <span className="italic text-emerald-700 font-light">avancent tout seuls.</span>
             </h2>
             <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
-              L&apos;alliance d&apos;un audit autonome permanent et d&apos;une productivité inégalée pour la signature de vos actes de vente.
+              Plus aucune pièce oubliée ni document expiré, des heures de relances économisées chaque semaine — et des clients qui n&apos;appellent plus pour demander où en est leur dossier.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            {/* Box 1 (col-span-2) : "Flux de relances autonomes" */}
-            <div 
+
+            {/* Box 0 (col-span-3) : "Le quotidien des études" (texte + tableau comparatif) */}
+            <div className="md:col-span-3 bg-white/50 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)]">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                  <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-3">
+                    LE QUOTIDIEN DES ÉTUDES
+                  </span>
+                  <h3 className="font-serif text-2xl md:text-3xl font-normal leading-tight">
+                    Des heures perdues à <span className="italic text-emerald-700 font-light">courir après les pièces.</span>
+                  </h3>
+                  <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
+                    Chaque dossier de vente, ce sont <strong>des dizaines de pièces</strong>{" "}à réclamer aux clients, aux banques et aux mairies. Vos clercs passent des heures à relancer, des documents expirent sans que personne ne s&apos;en aperçoive, et les dossiers prennent du retard pendant que les clients s&apos;impatientent.
+                  </p>
+                </div>
+
+                {/* Premium Table */}
+                <div className="border-t border-gray-200">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-gray-100 font-mono text-[9px] text-ash-light uppercase">
+                        <th className="py-3 font-normal">Tâche de suivi</th>
+                        <th className="py-3 font-normal text-right">Aujourd&apos;hui</th>
+                        <th className="py-3 font-normal text-right text-[#111111] font-semibold">Avec NOTAS</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-xs font-sans">
+                      <tr className="border-b border-gray-100">
+                        <td className="py-3 text-ash-text">Relance des pièces manquantes</td>
+                        <td className="py-3 text-right text-ash-light">2 h par dossier</td>
+                        <td className="py-3 text-right font-medium text-[#111111]">Automatique</td>
+                      </tr>
+                      <tr className="border-b border-gray-100">
+                        <td className="py-3 text-ash-text">Surveillance des expirations</td>
+                        <td className="py-3 text-right text-ash-light">Au cas par cas</td>
+                        <td className="py-3 text-right font-medium text-[#111111]">Alerte anticipée</td>
+                      </tr>
+                      <tr className="border-b border-gray-100">
+                        <td className="py-3 text-ash-text">Information des clients</td>
+                        <td className="py-3 text-right text-ash-light">15 appels / semaine</td>
+                        <td className="py-3 text-right font-medium text-[#111111]">Proactive</td>
+                      </tr>
+                      <tr className="border-b border-gray-100">
+                        <td className="py-3 text-ash-text">Mise à jour de la fiche de suivi</td>
+                        <td className="py-3 text-right text-ash-light">Double saisie</td>
+                        <td className="py-3 text-right font-medium text-[#111111]">Zéro saisie</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* Box 1 (col-span-3) : "Flux de relances autonomes" */}
+            <div
               ref={timelineRef}
-              className="md:col-span-2 bg-white/50 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-8 flex flex-col justify-between min-h-[380px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)]"
+              className="md:col-span-3 bg-white/50 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-8 flex flex-col justify-between shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)]"
             >
               <div>
                 <div className="flex items-center gap-2 mb-3">
@@ -999,10 +1113,10 @@ export default function Home() {
                   </span>
                 </div>
                 <h3 className="font-serif text-2xl font-normal text-[#111111] mb-2">
-                  Flux de relances autonomes
+                  Les bons interlocuteurs, au bon moment
                 </h3>
                 <p className="text-ash-text text-sm font-light mb-8 max-w-md font-sans">
-                  Le système identifie de manière autonome les pièces manquantes (diagnostics, états datés) et planifie des requêtes par courriels ou SMS auprès des tiers.
+                  NOTAS repère les pièces manquantes (diagnostics, états datés) et relance chaque interlocuteur par courriel, au moment où c&apos;est utile.
                 </p>
               </div>
 
@@ -1025,7 +1139,7 @@ export default function Home() {
                     transition={{ ease: EASE_ETHEREAL, duration: 0.8, delay: 0.2 }}
                   >
                     <span className="text-[9px] font-mono text-[#111111] font-semibold tracking-wider bg-black/5 px-2 py-0.5 rounded">ACHETEUR</span>
-                    <p className="text-xs font-medium mt-1 font-sans">Vérification d&apos;état civil et attestation d&apos;apport de l&apos;acompte</p>
+                    <p className="text-xs font-medium mt-1 font-sans">L&apos;acquéreur reçoit sa relance pour l&apos;attestation d&apos;apport — sans qu&apos;un clerc y pense</p>
                   </motion.div>
                 </div>
 
@@ -1045,45 +1159,10 @@ export default function Home() {
                     transition={{ ease: EASE_ETHEREAL, duration: 0.8, delay: 0.6 }}
                   >
                     <span className="text-[9px] font-mono text-[#111111] font-semibold tracking-wider bg-black/5 px-2 py-0.5 rounded">SYNDIC</span>
-                    <p className="text-xs font-medium mt-1 font-sans">Relance pour l&apos;obtention de l&apos;état daté avant la signature</p>
+                    <p className="text-xs font-medium mt-1 font-sans">Le syndic est relancé pour l&apos;état daté, bien avant la date de signature</p>
                   </motion.div>
                 </div>
 
-              </div>
-            </div>
-
-            {/* Box 2 (col-span-1) : "Gain de temps moyen" */}
-            <div className="bg-white/50 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-8 flex flex-col justify-between min-h-[380px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)]">
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <Layers className="w-4 h-4 text-neutral-600" />
-                  <span className="font-mono text-[10px] tracking-wider text-ash-light uppercase">
-                    INDICATEUR DE RENDEMENT
-                  </span>
-                </div>
-                <h3 className="font-serif text-2xl font-normal text-[#111111] mb-2">
-                  Gain sur le closing
-                </h3>
-                <p className="text-ash-text text-sm font-light leading-relaxed font-sans">
-                  Accélération moyenne observée sur la constitution des dossiers.
-                </p>
-              </div>
-
-              {/* Day Counter */}
-              <div className="my-auto py-6">
-                <div className="text-7xl font-light font-serif tracking-tighter text-[#111111] flex items-baseline">
-                  -<SpringCounter targetValue={18} />
-                  <span className="text-2xl font-sans font-light tracking-tight ml-2 text-neutral-500">jours</span>
-                </div>
-                <span className="text-[9px] font-mono text-emerald-600 font-semibold tracking-wider bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 inline-block mt-3 uppercase">
-                  Délai moyen économisé
-                </span>
-              </div>
-
-              <div className="border-t border-gray-100 pt-4 mt-2 font-sans">
-                <span className="text-[10px] font-mono text-ash-light">
-                  Statistiques audits partenaires 2026
-                </span>
               </div>
             </div>
 
@@ -1098,10 +1177,10 @@ export default function Home() {
                     </span>
                   </div>
                   <h3 className="font-serif text-2xl font-normal text-[#111111]">
-                    Hébergement souverain et purge RGPD
+                    Notre garantie
                   </h3>
                   <p className="text-ash-text text-sm font-light leading-relaxed">
-                    Conforme à la stricte réglementation du Conseil Supérieur du Notariat (CSN). Les documents importés pour la lecture OCR sont purgés de manière définitive 30 jours après la validation de l&apos;acte, éliminant tout risque de fuite de données personnelles ou de conservation abusive de pièces d&apos;identité.
+                    [GARANTIE_À_DÉFINIR — insérer ici la garantie exacte : conditions, durée, remboursement]
                   </p>
                 </div>
                 
@@ -1132,7 +1211,7 @@ export default function Home() {
         className="relative min-h-[90vh] flex flex-col justify-between items-center py-20 px-8 bg-transparent border-t border-gray-200/60 overflow-hidden"
       >
         <div className="w-full flex justify-between items-center max-w-7xl mx-auto border-b border-gray-100 pb-6 z-20">
-          <span className="text-xs font-mono tracking-widest text-ash-light">INFRASTRUCTURE NOTAS // ÉDITION LIMITÉE</span>
+          <span className="text-xs font-mono tracking-widest text-ash-light">NOTAS // LE COPILOTE DES ÉTUDES NOTARIALES</span>
           <span className="text-xs font-mono text-ash-light font-sans">© 2026 NOTAS. Tous droits réservés.</span>
         </div>
 
@@ -1157,10 +1236,10 @@ export default function Home() {
           </div>
 
           <h3 className="font-serif text-3xl font-normal tracking-tight mb-3">
-            Vérifier la <span className="italic text-emerald-700 font-light">disponibilité.</span>
+            Et si vos dossiers <span className="italic text-emerald-700 font-light">avançaient tout seuls ?</span>
           </h3>
           <p className="text-ash-text text-sm font-light mb-8 max-w-sm mx-auto leading-relaxed font-sans">
-            Pour maintenir une qualité d&apos;ingestion supérieure, le déploiement de NOTAS est limité à 5 nouvelles études par département.
+            En 30 minutes, découvrez ce que NOTAS ferait dans votre étude : quelles relances partiraient à votre place, quelles expirations seraient surveillées, et ce que vos clercs cesseraient de faire à la main. Un premier échange simple, sans engagement.
           </p>
 
           <form onSubmit={checkEligibility} className="space-y-4">
@@ -1189,7 +1268,7 @@ export default function Home() {
                   className="p-3.5 bg-emerald-50 border border-emerald-100 text-emerald-800 text-xs rounded font-sans flex items-center gap-2 justify-center"
                 >
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  L&apos;étude de votre département est éligible au programme NOTAS.
+                  Votre département est ouvert — planifions votre rendez-vous de découverte.
                 </motion.div>
               )}
               {eligibilityStatus === "invalid" && (
