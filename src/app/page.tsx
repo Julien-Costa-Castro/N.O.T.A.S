@@ -485,20 +485,28 @@ export default function Home() {
           COMPATIBLE AVEC LES OUTILS DE VOTRE ÉTUDE
         </span>
         <div 
-          className="w-full flex justify-center items-center gap-10 md:gap-16 flex-wrap"
+          className="flex justify-center items-center gap-12 md:gap-20 flex-wrap"
         >
-          <span className="text-2xl font-bold font-sans text-gray-400 opacity-50 hover:opacity-100 transition-opacity duration-300 tracking-tight select-none cursor-default">
-            iNot
-          </span>
-          <span className="text-2xl font-black font-sans text-gray-400 opacity-50 hover:opacity-100 transition-opacity duration-300 tracking-tighter uppercase select-none cursor-default">
-            Genapi
-          </span>
-          <span className="text-2xl font-serif font-light italic text-gray-400 opacity-50 hover:opacity-100 transition-opacity duration-300 tracking-wide select-none cursor-default">
-            Signature
-          </span>
-          <span className="text-2xl font-bold font-mono text-gray-400 opacity-50 hover:opacity-100 transition-opacity duration-300 tracking-widest uppercase select-none cursor-default">
-            Fichorga
-          </span>
+          <img 
+            src="/logo-inot.webp" 
+            alt="iNot" 
+            className="h-10 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer"
+          />
+          <img 
+            src="/logo-genapi.png" 
+            alt="Genapi" 
+            className="h-10 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer"
+          />
+          <img 
+            src="/logo-signature.webp" 
+            alt="Signature" 
+            className="h-10 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer"
+          />
+          <img 
+            src="/logo-fichorga-regorus.webp" 
+            alt="Fichorga Regorus" 
+            className="h-10 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer"
+          />
         </div>
       </section>
 
