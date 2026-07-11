@@ -480,7 +480,7 @@ export default function Home() {
       </section>
 
       {/* 3a. Section 1 : La Compatibilité (Logo Cloud de logiciels - Statique & Centré) */}
-      <section className="relative w-full pt-12 pb-6 bg-transparent flex flex-col items-center">
+      <section className="relative w-full pt-12 pb-32 bg-transparent flex flex-col items-center">
         <span className="text-[10px] tracking-[0.25em] text-gray-400 uppercase font-sans font-semibold text-center mb-8">
           COMPATIBLE AVEC LES OUTILS DE VOTRE ÉTUDE
         </span>
@@ -502,75 +502,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3b. Section 2 : Le Double Bandeau Défilant (Types d'actes en "Pilules" - Animé) */}
-      <section className="relative overflow-hidden w-full mt-20 pb-16 bg-transparent flex flex-col items-center">
-        <div 
-          className="relative w-full overflow-hidden flex flex-col gap-6"
-          style={{
-            maskImage: "linear-gradient(to right, transparent, black 25%, black 75%, transparent)",
-            WebkitMaskImage: "linear-gradient(to right, transparent, black 25%, black 75%, transparent)"
-          }}
-        >
-          {/* Ligne 1 (Défilement vers la gauche) */}
-          <div className="marquee-content animate-marquee flex items-center whitespace-nowrap">
-            {/* Loop 1 */}
-            <div className="flex items-center">
-              {documentTypesRow1.map((item, idx) => {
-                const Icon = item.Icon;
-                return (
-                  <div key={idx} className={`flex items-center gap-3 text-neutral-600/70 hover:text-black hover:scale-105 transition-all duration-300 ease-out select-none cursor-default shrink-0 px-10 ${item.className}`}>
-                    <Icon className="w-5 h-5 shrink-0" />
-                    <span>{item.text}</span>
-                  </div>
-                );
-              })}
-            </div>
-            {/* Loop 2 */}
-            <div className="flex items-center">
-              {documentTypesRow1.map((item, idx) => {
-                const Icon = item.Icon;
-                return (
-                  <div key={`loop2-${idx}`} className={`flex items-center gap-3 text-neutral-600/70 hover:text-black hover:scale-105 transition-all duration-300 ease-out select-none cursor-default shrink-0 px-10 ${item.className}`}>
-                    <Icon className="w-5 h-5 shrink-0" />
-                    <span>{item.text}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Ligne 2 (Défilement vers la droite) */}
-          <div className="marquee-content animate-marquee-reverse flex items-center whitespace-nowrap">
-            {/* Loop 1 */}
-            <div className="flex items-center">
-              {documentTypesRow2.map((item, idx) => {
-                const Icon = item.Icon;
-                return (
-                  <div key={idx} className={`flex items-center gap-3 text-neutral-600/70 hover:text-black hover:scale-105 transition-all duration-300 ease-out select-none cursor-default shrink-0 px-10 ${item.className}`}>
-                    <Icon className="w-5 h-5 shrink-0" />
-                    <span>{item.text}</span>
-                  </div>
-                );
-              })}
-            </div>
-            {/* Loop 2 */}
-            <div className="flex items-center">
-              {documentTypesRow2.map((item, idx) => {
-                const Icon = item.Icon;
-                return (
-                  <div key={`loop2-${idx}`} className={`flex items-center gap-3 text-neutral-600/70 hover:text-black hover:scale-105 transition-all duration-300 ease-out select-none cursor-default shrink-0 px-10 ${item.className}`}>
-                    <Icon className="w-5 h-5 shrink-0" />
-                    <span>{item.text}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* 4. Section "Le Coût de l'Inaction" (Le Problème) */}
-      <section id="probleme" className="pt-16 pb-32 px-8 border-b border-gray-200/60 bg-transparent max-w-7xl mx-auto">
+      <section id="probleme" className="py-32 px-8 border-b border-gray-200/60 bg-transparent max-w-7xl mx-auto flex flex-col items-center justify-center">
         <div className="max-w-6xl mx-auto space-y-16">
 
           {/* Header */}
@@ -814,6 +747,73 @@ export default function Home() {
             </div>
           </motion.div>
 
+        </div>
+      </section>
+
+      {/* 3b. Section 2 : Le Double Bandeau Défilant (Flux de Documents - Animé) */}
+      <section className="relative overflow-hidden w-full py-20 border-b border-gray-200/60 bg-transparent flex flex-col items-center">
+        <div 
+          className="relative w-full overflow-hidden flex flex-col gap-6"
+          style={{
+            maskImage: "linear-gradient(to right, transparent, black 25%, black 75%, transparent)",
+            WebkitMaskImage: "linear-gradient(to right, transparent, black 25%, black 75%, transparent)"
+          }}
+        >
+          {/* Ligne 1 (Défilement vers la gauche) */}
+          <div className="marquee-content animate-marquee flex items-center whitespace-nowrap">
+            {/* Loop 1 */}
+            <div className="flex items-center">
+              {documentTypesRow1.map((item, idx) => {
+                const Icon = item.Icon;
+                return (
+                  <div key={idx} className={`flex items-center gap-3 text-neutral-600/70 hover:text-black hover:scale-105 transition-all duration-300 ease-out select-none cursor-default shrink-0 px-10 ${item.className}`}>
+                    <Icon className="w-5 h-5 shrink-0" />
+                    <span>{item.text}</span>
+                  </div>
+                );
+              })}
+            </div>
+            {/* Loop 2 */}
+            <div className="flex items-center">
+              {documentTypesRow1.map((item, idx) => {
+                const Icon = item.Icon;
+                return (
+                  <div key={`loop2-${idx}`} className={`flex items-center gap-3 text-neutral-600/70 hover:text-black hover:scale-105 transition-all duration-300 ease-out select-none cursor-default shrink-0 px-10 ${item.className}`}>
+                    <Icon className="w-5 h-5 shrink-0" />
+                    <span>{item.text}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Ligne 2 (Défilement vers la droite) */}
+          <div className="marquee-content animate-marquee-reverse flex items-center whitespace-nowrap">
+            {/* Loop 1 */}
+            <div className="flex items-center">
+              {documentTypesRow2.map((item, idx) => {
+                const Icon = item.Icon;
+                return (
+                  <div key={idx} className={`flex items-center gap-3 text-neutral-600/70 hover:text-black hover:scale-105 transition-all duration-300 ease-out select-none cursor-default shrink-0 px-10 ${item.className}`}>
+                    <Icon className="w-5 h-5 shrink-0" />
+                    <span>{item.text}</span>
+                  </div>
+                );
+              })}
+            </div>
+            {/* Loop 2 */}
+            <div className="flex items-center">
+              {documentTypesRow2.map((item, idx) => {
+                const Icon = item.Icon;
+                return (
+                  <div key={`loop2-${idx}`} className={`flex items-center gap-3 text-neutral-600/70 hover:text-black hover:scale-105 transition-all duration-300 ease-out select-none cursor-default shrink-0 px-10 ${item.className}`}>
+                    <Icon className="w-5 h-5 shrink-0" />
+                    <span>{item.text}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </section>
 
