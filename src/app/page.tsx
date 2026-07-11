@@ -69,6 +69,72 @@ export default function Home() {
   const dashboardScale = useTransform(smoothHeroScrollY, [0, 300], [0.95, 1]);
   const dashboardY = useTransform(smoothHeroScrollY, [0, 300], [0, -15]);
 
+  const [logoSrc, setLogoSrc] = useState("/ChatGPT_Image_12_juil._2026_00_46_38.png");
+
+  useEffect(() => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = "/ChatGPT_Image_12_juil._2026_00_46_38.png";
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      
+      ctx.drawImage(img, 0, 0);
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imgData.data;
+      
+      let minX = canvas.width;
+      let maxX = 0;
+      let minY = canvas.height;
+      let maxY = 0;
+      let hasPixels = false;
+
+      for (let y = 0; y < canvas.height; y++) {
+        for (let x = 0; x < canvas.width; x++) {
+          const index = (y * canvas.width + x) * 4;
+          const r = data[index];
+          const g = data[index + 1];
+          const b = data[index + 2];
+          
+          if (r > 240 && g > 240 && b > 240) {
+            data[index + 3] = 0; // Make transparent
+          } else {
+            hasPixels = true;
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+          }
+        }
+      }
+
+      if (hasPixels) {
+        const cropWidth = maxX - minX + 1;
+        const cropHeight = maxY - minY + 1;
+        
+        const cropCanvas = document.createElement("canvas");
+        cropCanvas.width = cropWidth;
+        cropCanvas.height = cropHeight;
+        const cropCtx = cropCanvas.getContext("2d");
+        
+        if (cropCtx) {
+          ctx.putImageData(imgData, 0, 0);
+          cropCtx.drawImage(canvas, minX, minY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+          setLogoSrc(cropCanvas.toDataURL("image/png"));
+        } else {
+          ctx.putImageData(imgData, 0, 0);
+          setLogoSrc(canvas.toDataURL("image/png"));
+        }
+      } else {
+        ctx.putImageData(imgData, 0, 0);
+        setLogoSrc(canvas.toDataURL("image/png"));
+      }
+    };
+  }, []);
+
   useEffect(() => {
     return scrollY.on("change", (latest) => {
       setIsNavbarScrolled(latest > 50);
@@ -247,9 +313,9 @@ export default function Home() {
       >
         <div className="flex items-center gap-0.5 cursor-pointer select-none group shrink-0">
           <img 
-            src="/ChatGPT_Image_12_juil._2026_00_46_38.png" 
+            src={logoSrc} 
             alt="N" 
-            className="h-9 w-auto object-contain mix-blend-multiply contrast-125 transition-transform duration-300 group-hover:scale-105" 
+            className="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
           />
           <span className="text-2xl font-serif font-medium tracking-widest text-gray-950 antialiased translate-y-[1px]">
             OTAS
