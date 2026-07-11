@@ -454,73 +454,81 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. Bandeau Défilant Infini (Infinite Marquee) — Style Folio */}
+      {/* 3. Bandeau Défilant Infini (Infinite Marquee) — Style Folio Logo Cloud */}
       <section className="relative overflow-hidden w-full pt-16 pb-8 bg-transparent flex flex-col items-center">
         <span className="text-[10px] tracking-[0.25em] text-gray-400 uppercase font-sans font-semibold text-center mb-8">
-          FLUX DE DOCUMENTS PRIS EN CHARGE
+          COMPATIBLE AVEC LES OUTILS DE VOTRE ÉTUDE
         </span>
         <div 
-          className="relative w-full py-4 overflow-hidden flex items-center"
+          className="relative w-full py-6 overflow-hidden flex items-center"
           style={{
             maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
             WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)"
           }}
         >
-          <div className="marquee-content animate-marquee-slow flex items-center whitespace-nowrap">
+          <div className="marquee-content animate-marquee flex items-center whitespace-nowrap">
             {/* Loop 1 */}
             <div className="flex items-center">
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
-                <FileText className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>Compromis de vente</span>
-              </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
-                <Activity className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>Diagnostics techniques</span>
-              </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
-                <Calendar className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>États datés</span>
-              </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
-                <FileCheck className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>Acte authentique</span>
-              </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
-                <CreditCard className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>Offres de prêt</span>
-              </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
-                <FileCode className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>Compromis</span>
-              </div>
+              <span className="text-2xl font-bold font-sans text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-tight select-none cursor-default">
+                iNot
+              </span>
+              <span className="text-2xl font-black font-sans text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-tighter uppercase select-none cursor-default">
+                Genapi
+              </span>
+              <span className="text-2xl font-serif font-light italic text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-wide select-none cursor-default">
+                Signature
+              </span>
+              <span className="text-2xl font-bold font-mono text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-widest uppercase select-none cursor-default">
+                Fichorga
+              </span>
             </div>
 
             {/* Loop 2 */}
             <div className="flex items-center">
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
-                <FileText className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>Compromis de vente</span>
-              </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
-                <Activity className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>Diagnostics techniques</span>
-              </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
-                <Calendar className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>États datés</span>
-              </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
-                <FileCheck className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>Acte authentique</span>
-              </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
-                <CreditCard className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>Offres de prêt</span>
-              </div>
-              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-100 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-sm font-medium text-gray-700 mx-3 shrink-0">
-                <FileCode className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>Compromis</span>
-              </div>
+              <span className="text-2xl font-bold font-sans text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-tight select-none cursor-default">
+                iNot
+              </span>
+              <span className="text-2xl font-black font-sans text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-tighter uppercase select-none cursor-default">
+                Genapi
+              </span>
+              <span className="text-2xl font-serif font-light italic text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-wide select-none cursor-default">
+                Signature
+              </span>
+              <span className="text-2xl font-bold font-mono text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-widest uppercase select-none cursor-default">
+                Fichorga
+              </span>
+            </div>
+
+            {/* Loop 3 */}
+            <div className="flex items-center">
+              <span className="text-2xl font-bold font-sans text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-tight select-none cursor-default">
+                iNot
+              </span>
+              <span className="text-2xl font-black font-sans text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-tighter uppercase select-none cursor-default">
+                Genapi
+              </span>
+              <span className="text-2xl font-serif font-light italic text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-wide select-none cursor-default">
+                Signature
+              </span>
+              <span className="text-2xl font-bold font-mono text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-widest uppercase select-none cursor-default">
+                Fichorga
+              </span>
+            </div>
+
+            {/* Loop 4 */}
+            <div className="flex items-center">
+              <span className="text-2xl font-bold font-sans text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-tight select-none cursor-default">
+                iNot
+              </span>
+              <span className="text-2xl font-black font-sans text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-tighter uppercase select-none cursor-default">
+                Genapi
+              </span>
+              <span className="text-2xl font-serif font-light italic text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-wide select-none cursor-default">
+                Signature
+              </span>
+              <span className="text-2xl font-bold font-mono text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-widest uppercase select-none cursor-default">
+                Fichorga
+              </span>
             </div>
           </div>
         </div>
