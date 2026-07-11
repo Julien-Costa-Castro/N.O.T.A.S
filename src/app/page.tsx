@@ -247,11 +247,11 @@ export default function Home() {
       >
         <div className="flex items-center gap-0.5 cursor-pointer select-none group shrink-0">
           <img 
-            src="/monogram-n.png" 
+            src="/ChatGPT_Image_12_juil._2026_00_46_38.png" 
             alt="N" 
-            className="h-7 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+            className="h-9 w-auto object-contain mix-blend-multiply contrast-125 transition-transform duration-300 group-hover:scale-105" 
           />
-          <span className="text-2xl font-serif font-medium tracking-[0.15em] text-gray-950 antialiased translate-y-[1px]">
+          <span className="text-2xl font-serif font-medium tracking-widest text-gray-950 antialiased translate-y-[1px]">
             OTAS
           </span>
         </div>
