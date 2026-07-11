@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #FBFBFA;
+  --color-foreground: #111111;
+  --color-stone-gray: #EAEAEA;
+  --color-ash-text: #555555;
+  --color-ash-light: #888888;
+  
+  --font-sans: var(--font-geist-sans), "Inter", -apple-system, sans-serif;
+  --font-serif: var(--font-playfair), "Playfair Display", Georgia, serif;
+  --font-mono: var(--font-geist-mono), monospace;
+
+  --shadow-luxe: 0 10px 40px rgba(0, 0, 0, 0.02);
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.03);
+  
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-marquee-slow: marquee 60s linear infinite;
+  
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  
+  --ease-ethereal: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+:root {
+  --background: #FBFBFA;
+  --foreground: #111111;
+  color-scheme: light;
+}
+
+html,
+body {
+  background-color: #FBFBFA;
+  color: #111111;
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Premium Light Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FDFDFD;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 9999px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* Selection Highlight */
+::selection {
+  background: rgba(17, 17, 17, 0.08);
+  color: #111111;
+}
+
+/* Premium Light Glassmorphism */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+}
+
+.glass-card-interactive {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+  transition: all 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* Premium Matte Paper Noise */
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.glass-card-interactive:hover {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.04);
+  transform: translateY(-2px);
+}
+
+/* Marquee container */
+.marquee-content {
+  display: flex;
+  width: max-content;
+}
