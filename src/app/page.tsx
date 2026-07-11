@@ -480,7 +480,7 @@ export default function Home() {
       </section>
 
       {/* 3a. Section 1 : La Compatibilité (Logo Cloud de logiciels - Statique & Centré) */}
-      <section className="relative w-full pt-12 pb-32 bg-transparent flex flex-col items-center">
+      <section className="relative w-full pt-12 pb-16 bg-transparent flex flex-col items-center">
         <span className="text-[10px] tracking-[0.25em] text-gray-400 uppercase font-sans font-semibold text-center mb-8">
           COMPATIBLE AVEC LES OUTILS DE VOTRE ÉTUDE
         </span>
@@ -503,7 +503,7 @@ export default function Home() {
       </section>
 
       {/* 4. Section "Le Coût de l'Inaction" (Le Problème) */}
-      <section id="probleme" className="py-32 px-8 border-b border-gray-200/60 bg-transparent max-w-7xl mx-auto flex flex-col items-center justify-center">
+      <section id="probleme" className="pt-16 pb-32 px-8 border-b border-gray-200/60 bg-transparent max-w-7xl mx-auto flex flex-col items-center justify-center">
         <div className="max-w-6xl mx-auto space-y-16">
 
           {/* Header */}
