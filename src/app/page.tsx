@@ -67,7 +67,7 @@ export default function Home() {
   // Transform values for 3D perspective scroll reveal:
   const dashboardRotateX = useTransform(smoothHeroScrollY, [0, 300], [15, 0]);
   const dashboardScale = useTransform(smoothHeroScrollY, [0, 300], [0.95, 1]);
-  const dashboardY = useTransform(smoothHeroScrollY, [0, 300], [10, -60]);
+  const dashboardY = useTransform(smoothHeroScrollY, [0, 300], [0, -15]);
 
   useEffect(() => {
     return scrollY.on("change", (latest) => {
