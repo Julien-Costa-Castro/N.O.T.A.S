@@ -482,65 +482,105 @@ export default function Home() {
         <div 
           className="relative w-full overflow-hidden flex flex-col gap-6"
           style={{
-            maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-            WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)"
+            maskImage: "linear-gradient(to right, transparent, black 25%, black 75%, transparent)",
+            WebkitMaskImage: "linear-gradient(to right, transparent, black 25%, black 75%, transparent)"
           }}
         >
           {/* Ligne 1 (Défilement vers la gauche) */}
           <div className="marquee-content animate-marquee flex items-center whitespace-nowrap">
             {/* Loop 1 */}
             <div className="flex items-center">
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <FileText className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileText className="w-6 h-6 shrink-0" />
                 <span>Compromis de vente</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <Activity className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Activity className="w-6 h-6 shrink-0" />
                 <span>Diagnostics techniques</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <Calendar className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Calendar className="w-6 h-6 shrink-0" />
                 <span>États datés</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <FileCheck className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileCheck className="w-6 h-6 shrink-0" />
                 <span>Acte authentique</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <CreditCard className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <CreditCard className="w-6 h-6 shrink-0" />
                 <span>Offres de prêt</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <FileCode className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileCode className="w-6 h-6 shrink-0" />
                 <span>Compromis</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Building className="w-6 h-6 shrink-0" />
+                <span>Statuts de SCI</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Shield className="w-6 h-6 shrink-0" />
+                <span>Titre de propriété</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Layers className="w-6 h-6 shrink-0" />
+                <span>Certificat d&apos;urbanisme</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <UserCheck className="w-6 h-6 shrink-0" />
+                <span>Attestation de propriété</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Sparkles className="w-6 h-6 shrink-0" />
+                <span>Bilan patrimonial</span>
               </div>
             </div>
 
             {/* Loop 2 */}
             <div className="flex items-center">
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <FileText className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileText className="w-6 h-6 shrink-0" />
                 <span>Compromis de vente</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <Activity className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Activity className="w-6 h-6 shrink-0" />
                 <span>Diagnostics techniques</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <Calendar className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Calendar className="w-6 h-6 shrink-0" />
                 <span>États datés</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <FileCheck className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileCheck className="w-6 h-6 shrink-0" />
                 <span>Acte authentique</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <CreditCard className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <CreditCard className="w-6 h-6 shrink-0" />
                 <span>Offres de prêt</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <FileCode className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileCode className="w-6 h-6 shrink-0" />
                 <span>Compromis</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Building className="w-6 h-6 shrink-0" />
+                <span>Statuts de SCI</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Shield className="w-6 h-6 shrink-0" />
+                <span>Titre de propriété</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Layers className="w-6 h-6 shrink-0" />
+                <span>Certificat d&apos;urbanisme</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <UserCheck className="w-6 h-6 shrink-0" />
+                <span>Attestation de propriété</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Sparkles className="w-6 h-6 shrink-0" />
+                <span>Bilan patrimonial</span>
               </div>
             </div>
           </div>
@@ -549,56 +589,96 @@ export default function Home() {
           <div className="marquee-content animate-marquee-reverse flex items-center whitespace-nowrap">
             {/* Loop 1 (shifted order) */}
             <div className="flex items-center">
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <FileCheck className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileCheck className="w-6 h-6 shrink-0" />
                 <span>Acte authentique</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <CreditCard className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Building className="w-6 h-6 shrink-0" />
+                <span>Statuts de SCI</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <CreditCard className="w-6 h-6 shrink-0" />
                 <span>Offres de prêt</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <FileCode className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Shield className="w-6 h-6 shrink-0" />
+                <span>Titre de propriété</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileCode className="w-6 h-6 shrink-0" />
                 <span>Compromis</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <FileText className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Layers className="w-6 h-6 shrink-0" />
+                <span>Certificat d&apos;urbanisme</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileText className="w-6 h-6 shrink-0" />
                 <span>Compromis de vente</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <Activity className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <UserCheck className="w-6 h-6 shrink-0" />
+                <span>Attestation de propriété</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Activity className="w-6 h-6 shrink-0" />
                 <span>Diagnostics techniques</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <Calendar className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Sparkles className="w-6 h-6 shrink-0" />
+                <span>Bilan patrimonial</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Calendar className="w-6 h-6 shrink-0" />
                 <span>États datés</span>
               </div>
             </div>
 
             {/* Loop 2 */}
             <div className="flex items-center">
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <FileCheck className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileCheck className="w-6 h-6 shrink-0" />
                 <span>Acte authentique</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <CreditCard className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Building className="w-6 h-6 shrink-0" />
+                <span>Statuts de SCI</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <CreditCard className="w-6 h-6 shrink-0" />
                 <span>Offres de prêt</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <FileCode className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Shield className="w-6 h-6 shrink-0" />
+                <span>Titre de propriété</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileCode className="w-6 h-6 shrink-0" />
                 <span>Compromis</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <FileText className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Layers className="w-6 h-6 shrink-0" />
+                <span>Certificat d&apos;urbanisme</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <FileText className="w-6 h-6 shrink-0" />
                 <span>Compromis de vente</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <Activity className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <UserCheck className="w-6 h-6 shrink-0" />
+                <span>Attestation de propriété</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Activity className="w-6 h-6 shrink-0" />
                 <span>Diagnostics techniques</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-400 opacity-45 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
-                <Calendar className="w-6 h-6 text-gray-400 shrink-0" />
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Sparkles className="w-6 h-6 shrink-0" />
+                <span>Bilan patrimonial</span>
+              </div>
+              <div className="flex items-center gap-3 text-neutral-900 opacity-50 hover:opacity-100 transition-opacity duration-300 px-12 text-2xl font-bold tracking-tight select-none cursor-default shrink-0">
+                <Calendar className="w-6 h-6 shrink-0" />
                 <span>États datés</span>
               </div>
             </div>
