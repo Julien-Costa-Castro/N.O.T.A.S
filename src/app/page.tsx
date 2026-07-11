@@ -315,7 +315,7 @@ export default function Home() {
           <img 
             src={logoSrc} 
             alt="N" 
-            className="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+            className="h-[26px] w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
           />
           <span className="text-2xl font-serif font-medium tracking-widest text-gray-950 antialiased translate-y-[1px]">
             OTAS
