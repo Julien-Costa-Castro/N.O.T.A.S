@@ -224,198 +224,246 @@ export default function Home() {
       </motion.header>
 
       {/* 2. Hero Section — texte centré + aperçu du dashboard NOTAS */}
-      <section className="relative pt-44 pb-16 px-8 max-w-7xl mx-auto flex flex-col items-center">
+      <section className="relative pt-44 pb-16 px-8 w-full overflow-hidden flex flex-col items-center">
+        
+        {/* Background container covering full width */}
+        <div className="absolute inset-0 z-0 overflow-hidden bg-[#FBFBFA] pointer-events-none">
+          {/* Ledger Grid */}
+          <div 
+            className="absolute inset-0 z-0 opacity-100"
+            style={{
+              backgroundImage: "linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px)",
+              backgroundSize: "40px 40px",
+              maskImage: "radial-gradient(circle at center, black 40%, transparent 80%)",
+              WebkitMaskImage: "radial-gradient(circle at center, black 40%, transparent 80%)"
+            }}
+          />
 
-        {/* Copywriting centré */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={TRANSITION_NOBLE}
-          className="text-center max-w-4xl mx-auto flex flex-col items-center relative z-10"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-gray-200 text-xs text-gray-500 mb-6 shadow-sm font-sans">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-            <span>Suivi autonome des dossiers de vente</span>
-          </div>
+          {/* Halos Lumineux */}
+          <motion.div 
+            className="absolute top-[-10%] left-[10%] w-[500px] h-[500px] rounded-full bg-emerald-500/10 blur-[120px]"
+            animate={{
+              x: [0, 30, -15, 0],
+              y: [0, -20, 15, 0],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
 
-          <h1 className="font-serif text-5xl md:text-7xl font-normal text-[#111111] tracking-tight leading-[1.08] max-w-4xl">
-            Le copilote qui relance, <br />
-            <span className="italic font-light text-emerald-700 font-light">alerte et informe à votre place.</span>
-          </h1>
+          <motion.div 
+            className="absolute top-[10%] right-[10%] w-[600px] h-[600px] rounded-full bg-amber-100/40 blur-[120px]"
+            animate={{
+              x: [0, -25, 25, 0],
+              y: [0, 30, -15, 0],
+            }}
+            transition={{
+              duration: 18,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
 
-          <p className="text-base md:text-lg text-ash-text max-w-2xl mx-auto leading-relaxed font-sans font-light mt-6">
-            Le tableau de suivi que vos clercs connaissent déjà — mais qui travaille tout seul. Relances automatiques, alertes avant expiration, clients informés. Zéro saisie en double, zéro apprentissage.
-          </p>
+          {/* Bottom linear gradient to transition smoothly into next section */}
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-[#FBFBFA]" />
+        </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-            <motion.a
-              href="#footer"
-              className="px-7 py-3 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 transition-colors duration-300 font-sans"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Prendre rendez-vous
-            </motion.a>
-            <a
-              href="#simulator"
-              className="px-7 py-3 rounded-lg bg-white border border-gray-200 text-[#111111] text-sm font-medium hover:bg-neutral-50/50 transition-colors duration-300 font-sans"
-            >
-              Voir la démonstration
-            </a>
-          </div>
-        </motion.div>
+        {/* Content Container (max-w-7xl to constrain contents) */}
+        <div className="max-w-7xl w-full mx-auto flex flex-col items-center relative z-10">
 
-        {/* Aperçu du dashboard */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ ...TRANSITION_NOBLE, delay: 0.25 }}
-          className="relative w-full max-w-5xl mt-16 rounded-2xl border border-gray-200 bg-white shadow-[0_30px_100px_-15px_rgba(0,0,0,0.08)] overflow-hidden text-left"
-          style={{
-            maskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to bottom, black 60%, transparent 100%)"
-          }}
-        >
-          <div className="flex">
+          {/* Copywriting centré */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={TRANSITION_NOBLE}
+            className="text-center max-w-4xl mx-auto flex flex-col items-center relative z-10"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-gray-200 text-xs text-gray-500 mb-6 shadow-sm font-sans">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+              <span>Suivi autonome des dossiers de vente</span>
+            </div>
 
-            {/* Sidebar de l'application */}
-            <aside className="hidden md:flex w-52 shrink-0 flex-col border-r border-gray-100 bg-[#FBFBFA] p-3.5">
-              <div className="flex items-baseline gap-2 px-2 pb-3 border-b border-gray-100 mb-3">
-                <span className="font-serif text-base tracking-[0.12em] text-[#111111]">NOTAS</span>
-                <span className="text-[8px] font-mono text-ash-light uppercase">Étude Dubreuil</span>
-              </div>
+            <h1 className="font-serif text-5xl md:text-7xl font-normal text-[#111111] tracking-tight leading-[1.08] max-w-4xl">
+              Le copilote qui relance, <br />
+              <span className="italic font-light text-emerald-700 font-light">alerte et informe à votre place.</span>
+            </h1>
 
-              <nav className="space-y-0.5 font-sans">
-                <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
-                  <Layers className="w-3.5 h-3.5" /> Tableau de bord
+            <p className="text-base md:text-lg text-ash-text max-w-2xl mx-auto leading-relaxed font-sans font-light mt-6">
+              Le tableau de suivi que vos clercs connaissent déjà — mais qui travaille tout seul. Relances automatiques, alertes avant expiration, clients informés. Zéro saisie en double, zéro apprentissage.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+              <motion.a
+                href="#footer"
+                className="px-7 py-3 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 transition-colors duration-300 font-sans"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Prendre rendez-vous
+              </motion.a>
+              <a
+                href="#simulator"
+                className="px-7 py-3 rounded-lg bg-white border border-gray-200 text-[#111111] text-sm font-medium hover:bg-neutral-50/50 transition-colors duration-300 font-sans"
+              >
+                Voir la démonstration
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Aperçu du dashboard */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...TRANSITION_NOBLE, delay: 0.25 }}
+            className="relative w-full max-w-5xl mt-16 rounded-2xl border border-gray-200 bg-white shadow-[0_30px_100px_-15px_rgba(0,0,0,0.08)] overflow-hidden text-left"
+            style={{
+              maskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to bottom, black 60%, transparent 100%)"
+            }}
+          >
+            <div className="flex">
+
+              {/* Sidebar de l'application */}
+              <aside className="hidden md:flex w-52 shrink-0 flex-col border-r border-gray-100 bg-[#FBFBFA] p-3.5">
+                <div className="flex items-baseline gap-2 px-2 pb-3 border-b border-gray-100 mb-3">
+                  <span className="font-serif text-base tracking-[0.12em] text-[#111111]">NOTAS</span>
+                  <span className="text-[8px] font-mono text-ash-light uppercase">Étude Dubreuil</span>
                 </div>
-                <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-[11px] font-medium text-[#111111] bg-black/[0.04]">
-                  <FileText className="w-3.5 h-3.5" /> Dossiers de vente
-                </div>
-                <div className="flex items-center justify-between px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
-                  <span className="flex items-center gap-2.5"><Send className="w-3.5 h-3.5" /> Relances</span>
-                  <span className="text-[8px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-100 rounded px-1">12</span>
-                </div>
-                <div className="flex items-center justify-between px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
-                  <span className="flex items-center gap-2.5"><Clock className="w-3.5 h-3.5" /> Alertes d&apos;expiration</span>
-                  <span className="text-[8px] font-mono text-amber-700 bg-amber-50 border border-amber-200 rounded px-1">3</span>
-                </div>
-                <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
-                  <UserCheck className="w-3.5 h-3.5" /> Clients
-                </div>
-                <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
-                  <Database className="w-3.5 h-3.5" /> Rapports
-                </div>
-              </nav>
 
-              <div className="mt-5 pt-3 border-t border-gray-100">
-                <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider px-2 block mb-1.5">Vues épinglées</span>
-                <div className="px-2 py-1 text-[11px] text-neutral-500 font-sans">Signatures du mois</div>
-                <div className="px-2 py-1 text-[11px] text-neutral-500 font-sans">Pièces en retard</div>
-              </div>
-            </aside>
+                <nav className="space-y-0.5 font-sans">
+                  <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
+                    <Layers className="w-3.5 h-3.5" /> Tableau de bord
+                  </div>
+                  <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-[11px] font-medium text-[#111111] bg-black/[0.04]">
+                    <FileText className="w-3.5 h-3.5" /> Dossiers de vente
+                  </div>
+                  <div className="flex items-center justify-between px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
+                    <span className="flex items-center gap-2.5"><Send className="w-3.5 h-3.5" /> Relances</span>
+                    <span className="text-[8px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-100 rounded px-1">12</span>
+                  </div>
+                  <div className="flex items-center justify-between px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
+                    <span className="flex items-center gap-2.5"><Clock className="w-3.5 h-3.5" /> Alertes d&apos;expiration</span>
+                    <span className="text-[8px] font-mono text-amber-700 bg-amber-50 border border-amber-200 rounded px-1">3</span>
+                  </div>
+                  <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
+                    <UserCheck className="w-3.5 h-3.5" /> Clients
+                  </div>
+                  <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-[11px] text-neutral-500">
+                    <Database className="w-3.5 h-3.5" /> Rapports
+                  </div>
+                </nav>
 
-            {/* Zone principale */}
-            <div className="flex-1 min-w-0">
-
-              {/* Barre de titre */}
-              <div className="flex items-center justify-between px-5 h-12 border-b border-gray-100">
-                <div className="flex items-center gap-2.5 font-sans">
-                  <span className="text-sm font-medium text-neutral-800">Suivi des ventes</span>
-                  <span className="text-[8px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-100 rounded px-1.5 py-0.5 uppercase font-semibold">14 dossiers actifs</span>
+                <div className="mt-5 pt-3 border-t border-gray-100">
+                  <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider px-2 block mb-1.5">Vues épinglées</span>
+                  <div className="px-2 py-1 text-[11px] text-neutral-500 font-sans">Signatures du mois</div>
+                  <div className="px-2 py-1 text-[11px] text-neutral-500 font-sans">Pièces en retard</div>
                 </div>
-                <div className="flex items-center gap-2 font-sans">
-                  <span className="text-[10px] text-neutral-500 border border-gray-200 rounded-md px-2.5 py-1">Exporter</span>
-                  <span className="text-[10px] text-white bg-[#111111] rounded-md px-2.5 py-1">+ Nouveau dossier</span>
+              </aside>
+
+              {/* Zone principale */}
+              <div className="flex-1 min-w-0">
+
+                {/* Barre de titre */}
+                <div className="flex items-center justify-between px-5 h-12 border-b border-gray-100">
+                  <div className="flex items-center gap-2.5 font-sans">
+                    <span className="text-sm font-medium text-neutral-800">Suivi des ventes</span>
+                    <span className="text-[8px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-100 rounded px-1.5 py-0.5 uppercase font-semibold">14 dossiers actifs</span>
+                  </div>
+                  <div className="flex items-center gap-2 font-sans">
+                    <span className="text-[10px] text-neutral-500 border border-gray-200 rounded-md px-2.5 py-1">Exporter</span>
+                    <span className="text-[10px] text-white bg-[#111111] rounded-md px-2.5 py-1">+ Nouveau dossier</span>
+                  </div>
                 </div>
-              </div>
 
-              {/* Barre de filtres */}
-              <div className="flex items-center gap-2 px-5 py-2.5 border-b border-gray-100 font-sans">
-                <span className="text-[9px] text-neutral-500 border border-gray-200 rounded px-2 py-0.5 bg-white">Trié par date de signature</span>
-                <span className="text-[9px] text-neutral-500 border border-gray-200 rounded px-2 py-0.5 bg-white">Filtre : pièces manquantes</span>
-                <span className="text-[9px] text-neutral-400 border border-dashed border-gray-200 rounded px-1.5 py-0.5">+</span>
-              </div>
+                {/* Barre de filtres */}
+                <div className="flex items-center gap-2 px-5 py-2.5 border-b border-gray-100 font-sans">
+                  <span className="text-[9px] text-neutral-500 border border-gray-200 rounded px-2 py-0.5 bg-white">Trié par date de signature</span>
+                  <span className="text-[9px] text-neutral-500 border border-gray-200 rounded px-2 py-0.5 bg-white">Filtre : pièces manquantes</span>
+                  <span className="text-[9px] text-neutral-400 border border-dashed border-gray-200 rounded px-1.5 py-0.5">+</span>
+                </div>
 
-              {/* Tableau des dossiers */}
-              <div className="overflow-x-auto">
-                <table className="w-full text-left font-sans min-w-[780px]">
-                  <thead>
-                    <tr className="border-b border-gray-100 font-mono text-[8px] text-ash-light uppercase tracking-wider">
-                      <th className="py-2.5 px-5 font-normal">Dossier</th>
-                      <th className="py-2.5 pr-4 font-normal">Étape</th>
-                      <th className="py-2.5 pr-4 font-normal">Pièces manquantes</th>
-                      <th className="py-2.5 pr-4 font-normal">Dernière relance</th>
-                      <th className="py-2.5 pr-4 font-normal">Expiration</th>
-                      <th className="py-2.5 pr-4 font-normal">Client</th>
-                      <th className="py-2.5 pr-5 font-normal text-right">Signature</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-[11px]">
-                    {dossiersDemo.map((d, idx) => (
-                      <tr key={idx} className="border-b border-gray-50 hover:bg-neutral-50/50 transition-colors">
-                        <td className="py-2.5 px-5">
-                          <span className="font-medium text-neutral-800 block leading-tight">{d.dossier}</span>
-                          <span className="text-[9px] text-ash-light">{d.lieu}</span>
-                        </td>
-                        <td className="py-2.5 pr-4">
-                          <span className={`text-[9px] px-1.5 py-0.5 rounded border ${toneStyles[d.etapeTone]}`}>{d.etape}</span>
-                        </td>
-                        <td className="py-2.5 pr-4">
-                          {d.pieces.length === 0 ? (
-                            <span className="text-[9px] px-1.5 py-0.5 rounded border text-emerald-700 bg-emerald-50 border-emerald-100 inline-flex items-center gap-1">
-                              <CheckCircle2 className="w-2.5 h-2.5" /> Complet
-                            </span>
-                          ) : (
-                            <span className="flex flex-wrap gap-1">
-                              {d.pieces.map((p, i) => (
-                                <span key={i} className="text-[9px] px-1.5 py-0.5 rounded border text-neutral-600 bg-neutral-50 border-gray-200 whitespace-nowrap">{p}</span>
-                              ))}
-                            </span>
-                          )}
-                        </td>
-                        <td className="py-2.5 pr-4 text-neutral-600 whitespace-nowrap">
-                          {d.relance === "—" ? <span className="text-neutral-300">—</span> : (
-                            <span className="inline-flex items-center gap-1.5">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
-                              {d.relance}
-                            </span>
-                          )}
-                        </td>
-                        <td className="py-2.5 pr-4 whitespace-nowrap">
-                          {d.expTone === "none" ? <span className="text-neutral-300">—</span> : (
-                            <span className={`text-[9px] px-1.5 py-0.5 rounded border ${toneStyles[d.expTone]}`}>{d.expiration}</span>
-                          )}
-                        </td>
-                        <td className="py-2.5 pr-4">
-                          <span className={`text-[9px] px-1.5 py-0.5 rounded border whitespace-nowrap ${toneStyles[d.clientTone]}`}>{d.client}</span>
-                        </td>
-                        <td className="py-2.5 pr-5 text-right text-neutral-600 whitespace-nowrap">{d.signature}</td>
+                {/* Tableau des dossiers */}
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left font-sans min-w-[780px]">
+                    <thead>
+                      <tr className="border-b border-gray-100 font-mono text-[8px] text-ash-light uppercase tracking-wider">
+                        <th className="py-2.5 px-5 font-normal">Dossier</th>
+                        <th className="py-2.5 pr-4 font-normal">Étape</th>
+                        <th className="py-2.5 pr-4 font-normal">Pièces manquantes</th>
+                        <th className="py-2.5 pr-4 font-normal">Dernière relance</th>
+                        <th className="py-2.5 pr-4 font-normal">Expiration</th>
+                        <th className="py-2.5 pr-4 font-normal">Client</th>
+                        <th className="py-2.5 pr-5 font-normal text-right">Signature</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="text-[11px]">
+                      {dossiersDemo.map((d, idx) => (
+                        <tr key={idx} className="border-b border-gray-50 hover:bg-neutral-50/50 transition-colors">
+                          <td className="py-2.5 px-5">
+                            <span className="font-medium text-neutral-800 block leading-tight">{d.dossier}</span>
+                            <span className="text-[9px] text-ash-light">{d.lieu}</span>
+                          </td>
+                          <td className="py-2.5 pr-4">
+                            <span className={`text-[9px] px-1.5 py-0.5 rounded border ${toneStyles[d.etapeTone]}`}>{d.etape}</span>
+                          </td>
+                          <td className="py-2.5 pr-4">
+                            {d.pieces.length === 0 ? (
+                              <span className="text-[9px] px-1.5 py-0.5 rounded border text-emerald-700 bg-emerald-50 border-emerald-100 inline-flex items-center gap-1">
+                                <CheckCircle2 className="w-2.5 h-2.5" /> Complet
+                              </span>
+                            ) : (
+                              <span className="flex flex-wrap gap-1">
+                                {d.pieces.map((p, i) => (
+                                  <span key={i} className="text-[9px] px-1.5 py-0.5 rounded border text-neutral-600 bg-neutral-50 border-gray-200 whitespace-nowrap">{p}</span>
+                                ))}
+                              </span>
+                            )}
+                          </td>
+                          <td className="py-2.5 pr-4 text-neutral-600 whitespace-nowrap">
+                            {d.relance === "—" ? <span className="text-neutral-300">—</span> : (
+                              <span className="inline-flex items-center gap-1.5">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                                {d.relance}
+                              </span>
+                            )}
+                          </td>
+                          <td className="py-2.5 pr-4 whitespace-nowrap">
+                            {d.expTone === "none" ? <span className="text-neutral-300">—</span> : (
+                              <span className={`text-[9px] px-1.5 py-0.5 rounded border ${toneStyles[d.expTone]}`}>{d.expiration}</span>
+                            )}
+                          </td>
+                          <td className="py-2.5 pr-4">
+                            <span className={`text-[9px] px-1.5 py-0.5 rounded border whitespace-nowrap ${toneStyles[d.clientTone]}`}>{d.client}</span>
+                          </td>
+                          <td className="py-2.5 pr-5 text-right text-neutral-600 whitespace-nowrap">{d.signature}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
+            </div>
+
+            {/* Fondu bas de fenêtre */}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent" />
+          </motion.div>
+
+          {/* Section Compatibilité */}
+          <div className="mt-16 text-center max-w-3xl mx-auto z-10 relative">
+            <span className="text-[10px] tracking-[0.2em] text-gray-400 uppercase font-sans font-semibold">
+              COMPATIBLE AVEC LES OUTILS DE VOTRE ÉTUDE
+            </span>
+            <div className="flex items-center justify-center gap-10 md:gap-16 mt-6 text-xl font-serif text-gray-400 font-normal tracking-wider">
+              <span className="hover:text-neutral-700 transition-colors duration-300">iNot</span>
+              <span className="hover:text-neutral-700 transition-colors duration-300">Genapi</span>
+              <span className="hover:text-neutral-700 transition-colors duration-300">Signature</span>
+              <span className="hover:text-neutral-700 transition-colors duration-300">Fichorga</span>
             </div>
           </div>
 
-          {/* Fondu bas de fenêtre */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent" />
-        </motion.div>
-
-        {/* Section Compatibilité */}
-        <div className="mt-16 text-center max-w-3xl mx-auto z-10 relative">
-          <span className="text-[10px] tracking-[0.2em] text-gray-400 uppercase font-sans font-semibold">
-            COMPATIBLE AVEC LES OUTILS DE VOTRE ÉTUDE
-          </span>
-          <div className="flex items-center justify-center gap-10 md:gap-16 mt-6 text-xl font-serif text-gray-400 font-normal tracking-wider">
-            <span className="hover:text-neutral-700 transition-colors duration-300">iNot</span>
-            <span className="hover:text-neutral-700 transition-colors duration-300">Genapi</span>
-            <span className="hover:text-neutral-700 transition-colors duration-300">Signature</span>
-            <span className="hover:text-neutral-700 transition-colors duration-300">Fichorga</span>
-          </div>
         </div>
-
       </section>
 
       {/* 3. Bandeau Défilant Infini (Infinite Marquee) */}
