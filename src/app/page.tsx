@@ -46,6 +46,15 @@ export default function Home() {
   const footerSectionRef = useRef<HTMLDivElement>(null);
 
   // Scroll calculations
+  const { scrollY } = useScroll();
+  const [isNavbarScrolled, setIsNavbarScrolled] = useState(false);
+
+  useEffect(() => {
+    return scrollY.on("change", (latest) => {
+      setIsNavbarScrolled(latest > 50);
+    });
+  }, [scrollY]);
+
   const { scrollYProgress: footerScroll } = useScroll({
     target: footerSectionRef,
     offset: ["start end", "end start"]
@@ -163,71 +172,72 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 1. Header / Navbar */}
       <motion.header 
-        className="fixed top-0 w-full z-50 bg-[#FBFBFA]/80 backdrop-blur-lg border-b border-gray-200/60"
+        className={`fixed left-0 right-0 z-50 transition-all duration-500 ${
+          isNavbarScrolled 
+            ? "top-4 w-[calc(100%-2rem)] max-w-[800px] mx-auto rounded-full bg-white/70 backdrop-blur-lg border border-gray-200/50 shadow-lg px-6 h-16" 
+            : "top-0 w-full bg-transparent border-b border-transparent px-8 h-24"
+        } flex items-center justify-between`}
         initial={{ y: -60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={TRANSITION_NOBLE}
       >
-        <div className="max-w-7xl mx-auto px-8 h-24 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <span className="text-3xl md:text-4xl font-normal tracking-[0.12em] text-[#111111] font-serif">
-              NOTAS
-            </span>
-            <span className="text-[10px] text-gray-400 font-sans tracking-widest ml-1 hidden sm:inline">
-              | SUIVI DES DOSSIERS DE VENTE
-            </span>
-          </div>
-
-          <nav className="hidden md:flex items-center gap-8 font-sans">
-            <a href="#probleme" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Le coût</a>
-            <a href="#simulator" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Démonstration</a>
-            <a href="#bento" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Résultats</a>
-            <a href="#footer" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Disponibilité</a>
-          </nav>
-
-          <motion.a 
-            href="#footer"
-            className="px-6 py-2.5 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 transition-colors duration-300 font-sans"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            Prendre rendez-vous
-          </motion.a>
+        <div className="flex items-center gap-4">
+          <span className={`font-serif text-[#111111] transition-all duration-500 tracking-[0.12em] ${
+            isNavbarScrolled ? "text-xl md:text-2xl" : "text-3xl md:text-4xl"
+          }`}>
+            NOTAS
+          </span>
+          <span className="text-[10px] text-gray-400 font-sans tracking-widest ml-1 hidden sm:inline">
+            | SUPERVISION DES VENTES
+          </span>
         </div>
+
+        <nav className="hidden md:flex items-center gap-8 font-sans">
+          <a href="#probleme" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Le coût</a>
+          <a href="#simulator" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Démonstration</a>
+          <a href="#bento" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Garanties</a>
+          <a href="#footer" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Éligibilité</a>
+        </nav>
+
+        <motion.a 
+          href="#footer"
+          className="px-6 py-2.5 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 transition-colors duration-300 font-sans"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          Demander une démo
+        </motion.a>
       </motion.header>
 
       {/* 2. Hero Section — texte centré + aperçu du dashboard NOTAS */}
-      <section className="relative pt-44 pb-10 px-8 max-w-7xl mx-auto flex flex-col items-center">
+      <section className="relative pt-44 pb-16 px-8 max-w-7xl mx-auto flex flex-col items-center">
 
         {/* Copywriting centré */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={TRANSITION_NOBLE}
-          className="text-center max-w-3xl mx-auto space-y-6 relative z-10"
+          className="text-center max-w-4xl mx-auto flex flex-col items-center relative z-10"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 border border-gray-200/80 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-gray-200 text-xs text-gray-500 mb-6 shadow-sm font-sans">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-            <span className="text-[10px] font-mono tracking-widest text-[#111111] uppercase font-semibold">
-              Suivi autonome des dossiers de vente
-            </span>
+            <span>Suivi autonome des dossiers de vente</span>
           </div>
 
-          <h1 className="font-serif text-5xl md:text-7xl font-normal text-[#111111] tracking-tight leading-[1.08]">
+          <h1 className="font-serif text-5xl md:text-7xl font-normal text-[#111111] tracking-tight leading-[1.08] max-w-4xl">
             Le copilote qui relance, <br />
-            <span className="italic font-light text-neutral-500">alerte et informe à votre place.</span>
+            <span className="italic font-light text-emerald-700 font-light">alerte et informe à votre place.</span>
           </h1>
 
-          <p className="text-base md:text-lg text-ash-text max-w-xl mx-auto leading-relaxed font-sans font-light">
+          <p className="text-base md:text-lg text-ash-text max-w-2xl mx-auto leading-relaxed font-sans font-light mt-6">
             Le tableau de suivi que vos clercs connaissent déjà — mais qui travaille tout seul. Relances automatiques, alertes avant expiration, clients informés. Zéro saisie en double, zéro apprentissage.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
             <motion.a
               href="#footer"
-              className="px-7 py-3.5 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 transition-colors duration-300 font-sans"
+              className="px-7 py-3 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 transition-colors duration-300 font-sans"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -235,7 +245,7 @@ export default function Home() {
             </motion.a>
             <a
               href="#simulator"
-              className="px-7 py-3.5 rounded-lg bg-white/70 border border-gray-200 text-[#111111] text-sm font-medium hover:border-gray-300 transition-colors duration-300 font-sans"
+              className="px-7 py-3 rounded-lg bg-white border border-gray-200 text-[#111111] text-sm font-medium hover:bg-neutral-50/50 transition-colors duration-300 font-sans"
             >
               Voir la démonstration
             </a>
@@ -247,7 +257,11 @@ export default function Home() {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...TRANSITION_NOBLE, delay: 0.25 }}
-          className="relative w-full max-w-6xl mt-16 rounded-2xl border border-gray-200/80 bg-white shadow-luxe overflow-hidden text-left"
+          className="relative w-full max-w-5xl mt-16 rounded-2xl border border-gray-200 bg-white shadow-[0_30px_100px_-15px_rgba(0,0,0,0.08)] overflow-hidden text-left"
+          style={{
+            maskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, black 60%, transparent 100%)"
+          }}
         >
           <div className="flex">
 
@@ -375,6 +389,20 @@ export default function Home() {
           {/* Fondu bas de fenêtre */}
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent" />
         </motion.div>
+
+        {/* Section Compatibilité */}
+        <div className="mt-16 text-center max-w-3xl mx-auto z-10 relative">
+          <span className="text-[10px] tracking-[0.2em] text-gray-400 uppercase font-sans font-semibold">
+            COMPATIBLE AVEC LES OUTILS DE VOTRE ÉTUDE
+          </span>
+          <div className="flex items-center justify-center gap-10 md:gap-16 mt-6 text-xl font-serif text-gray-400 font-normal tracking-wider">
+            <span className="hover:text-neutral-700 transition-colors duration-300">iNot</span>
+            <span className="hover:text-neutral-700 transition-colors duration-300">Genapi</span>
+            <span className="hover:text-neutral-700 transition-colors duration-300">Signature</span>
+            <span className="hover:text-neutral-700 transition-colors duration-300">Fichorga</span>
+          </div>
+        </div>
+
       </section>
 
       {/* 3. Bandeau Défilant Infini (Infinite Marquee) */}
