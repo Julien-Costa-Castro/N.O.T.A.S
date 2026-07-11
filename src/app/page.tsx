@@ -454,72 +454,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3a. Section 1 : La Compatibilité (Logo Cloud de logiciels) */}
-      <section className="relative overflow-hidden w-full pt-12 pb-6 bg-transparent flex flex-col items-center">
-        <span className="text-[10px] tracking-[0.25em] text-gray-400 uppercase font-sans font-semibold text-center mb-6">
+      {/* 3a. Section 1 : La Compatibilité (Logo Cloud de logiciels - Statique & Centré) */}
+      <section className="relative w-full pt-12 pb-6 bg-transparent flex flex-col items-center">
+        <span className="text-[10px] tracking-[0.25em] text-gray-400 uppercase font-sans font-semibold text-center mb-8">
           COMPATIBLE AVEC LES OUTILS DE VOTRE ÉTUDE
         </span>
         <div 
-          className="relative w-full py-4 overflow-hidden flex items-center"
-          style={{
-            maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-            WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)"
-          }}
+          className="w-full flex justify-center items-center gap-10 md:gap-16 flex-wrap"
         >
-          <div className="marquee-content animate-marquee-slow flex items-center whitespace-nowrap">
-            {/* Loop 1 */}
-            <div className="flex items-center">
-              <span className="text-2xl font-bold font-sans text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-tight select-none cursor-default">
-                iNot
-              </span>
-              <span className="text-2xl font-black font-sans text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-tighter uppercase select-none cursor-default">
-                Genapi
-              </span>
-              <span className="text-2xl font-serif font-light italic text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-wide select-none cursor-default">
-                Signature
-              </span>
-              <span className="text-2xl font-bold font-mono text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-widest uppercase select-none cursor-default">
-                Fichorga
-              </span>
-            </div>
-
-            {/* Loop 2 */}
-            <div className="flex items-center">
-              <span className="text-2xl font-bold font-sans text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-tight select-none cursor-default">
-                iNot
-              </span>
-              <span className="text-2xl font-black font-sans text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-tighter uppercase select-none cursor-default">
-                Genapi
-              </span>
-              <span className="text-2xl font-serif font-light italic text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-wide select-none cursor-default">
-                Signature
-              </span>
-              <span className="text-2xl font-bold font-mono text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-widest uppercase select-none cursor-default">
-                Fichorga
-              </span>
-            </div>
-
-            {/* Loop 3 */}
-            <div className="flex items-center">
-              <span className="text-2xl font-bold font-sans text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-tight select-none cursor-default">
-                iNot
-              </span>
-              <span className="text-2xl font-black font-sans text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-tighter uppercase select-none cursor-default">
-                Genapi
-              </span>
-              <span className="text-2xl font-serif font-light italic text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-wide select-none cursor-default">
-                Signature
-              </span>
-              <span className="text-2xl font-bold font-mono text-gray-400 opacity-40 hover:opacity-100 transition-opacity duration-300 px-12 tracking-widest uppercase select-none cursor-default">
-                Fichorga
-              </span>
-            </div>
-          </div>
+          <span className="text-2xl font-bold font-sans text-gray-400 opacity-50 hover:opacity-100 transition-opacity duration-300 tracking-tight select-none cursor-default">
+            iNot
+          </span>
+          <span className="text-2xl font-black font-sans text-gray-400 opacity-50 hover:opacity-100 transition-opacity duration-300 tracking-tighter uppercase select-none cursor-default">
+            Genapi
+          </span>
+          <span className="text-2xl font-serif font-light italic text-gray-400 opacity-50 hover:opacity-100 transition-opacity duration-300 tracking-wide select-none cursor-default">
+            Signature
+          </span>
+          <span className="text-2xl font-bold font-mono text-gray-400 opacity-50 hover:opacity-100 transition-opacity duration-300 tracking-widest uppercase select-none cursor-default">
+            Fichorga
+          </span>
         </div>
       </section>
 
-      {/* 3b. Section 2 : Le Double Bandeau Défilant (Types d'actes en "Pilules") */}
-      <section className="relative overflow-hidden w-full mt-16 pb-16 bg-transparent flex flex-col items-center">
+      {/* 3b. Section 2 : Le Double Bandeau Défilant (Types d'actes en "Pilules" - Animé) */}
+      <section className="relative overflow-hidden w-full mt-20 pb-16 bg-transparent flex flex-col items-center">
         <div 
           className="relative w-full overflow-hidden flex flex-col gap-6"
           style={{
