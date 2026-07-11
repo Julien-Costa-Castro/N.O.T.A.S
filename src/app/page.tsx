@@ -164,15 +164,17 @@ export default function Home() {
   ];
 
   const documentTypesRow2 = [
-    { text: "Acte", Icon: FileCheck, className: "font-mono font-semibold tracking-wider text-base uppercase" },
+    { text: "Mandat", Icon: UserCheck, className: "font-serif font-light tracking-wide text-xl" },
     { text: "SCI", Icon: Building, className: "font-mono font-black text-xl" },
     { text: "Prêts", Icon: CreditCard, className: "font-serif font-normal text-lg tracking-widest" },
-    { text: "Compromis", Icon: FileText, className: "font-sans font-bold tracking-tight text-lg uppercase" },
+    { text: "Bail", Icon: FileText, className: "font-sans font-bold tracking-tight text-lg uppercase" },
     { text: "Urbanisme", Icon: Layers, className: "font-sans font-medium tracking-widest text-base uppercase" },
     { text: "Diagnostics", Icon: Activity, className: "font-sans font-black tracking-tighter text-lg" },
-    { text: "Attestation", Icon: UserCheck, className: "font-serif font-light tracking-wide text-xl" },
+    { text: "Règlement", Icon: FileCheck, className: "font-mono font-semibold tracking-wider text-base uppercase" },
     { text: "Patrimoine", Icon: Sparkles, className: "font-sans font-bold italic tracking-tight text-lg" },
     { text: "États Datés", Icon: Calendar, className: "font-serif font-light italic text-xl" },
+    { text: "Statuts", Icon: Building, className: "font-mono font-black text-xl" },
+    { text: "Acte", Icon: FileCheck, className: "font-sans font-bold tracking-tight text-lg uppercase" },
   ];
 
   return (
