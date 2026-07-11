@@ -245,9 +245,14 @@ export default function Home() {
           mass: 1
         }}
       >
-        <div className="flex items-center shrink-0">
-          <span className="font-serif text-2xl md:text-3xl font-normal tracking-[0.12em] text-[#111111]">
-            NOTAS
+        <div className="flex items-center gap-0.5 cursor-pointer select-none group shrink-0">
+          <img 
+            src="/monogram-n.png" 
+            alt="N" 
+            className="h-7 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+          />
+          <span className="text-2xl font-serif font-medium tracking-[0.15em] text-gray-950 antialiased translate-y-[1px]">
+            OTAS
           </span>
         </div>
 
