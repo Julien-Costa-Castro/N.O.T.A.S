@@ -173,27 +173,40 @@ export default function Home() {
       </div>
 
       <motion.header 
-        className={`fixed left-0 right-0 z-50 transition-all duration-500 ${
-          isNavbarScrolled 
-            ? "top-4 w-[calc(100%-2rem)] max-w-[800px] mx-auto rounded-full bg-white/70 backdrop-blur-lg border border-gray-200/50 shadow-lg px-6 h-16" 
-            : "top-0 w-full bg-transparent border-b border-transparent px-8 h-24"
-        } flex items-center justify-between`}
-        initial={{ y: -60, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={TRANSITION_NOBLE}
+        className="fixed left-1/2 z-50 border flex items-center justify-between font-sans overflow-hidden"
+        style={{
+          x: "-50%",
+        }}
+        initial={{ y: -100, opacity: 0 }}
+        animate={{
+          y: isNavbarScrolled ? 16 : 0,
+          opacity: 1,
+          width: isNavbarScrolled ? "min(800px, calc(100% - 2rem))" : "min(1280px, 100%)",
+          height: isNavbarScrolled ? "64px" : "96px",
+          borderRadius: isNavbarScrolled ? "9999px" : "0px",
+          backgroundColor: isNavbarScrolled ? "rgba(255, 255, 255, 0.75)" : "rgba(251, 251, 250, 0)",
+          borderColor: isNavbarScrolled ? "rgba(229, 231, 235, 0.5)" : "rgba(229, 231, 235, 0)",
+          boxShadow: isNavbarScrolled ? "0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05)" : "0 0 0 0 rgba(0,0,0,0)",
+          paddingLeft: isNavbarScrolled ? "24px" : "32px",
+          paddingRight: isNavbarScrolled ? "24px" : "32px",
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 200,
+          damping: 24,
+          mass: 1
+        }}
       >
-        <div className="flex items-center gap-4">
-          <span className={`font-serif text-[#111111] transition-all duration-500 tracking-[0.12em] ${
-            isNavbarScrolled ? "text-xl md:text-2xl" : "text-3xl md:text-4xl"
-          }`}>
+        <div className="flex items-center gap-3 md:gap-4 shrink-0">
+          <span className="font-serif text-2xl md:text-3xl font-normal tracking-[0.12em] text-[#111111] transition-all duration-300">
             NOTAS
           </span>
-          <span className="text-[10px] text-gray-400 font-sans tracking-widest ml-1 hidden sm:inline">
+          <span className="text-[10px] text-gray-400 font-sans tracking-widest ml-1 hidden sm:inline shrink-0">
             | SUPERVISION DES VENTES
           </span>
         </div>
 
-        <nav className="hidden md:flex items-center gap-8 font-sans">
+        <nav className="hidden md:flex items-center gap-6 lg:gap-8 font-sans shrink-0">
           <a href="#probleme" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Le coût</a>
           <a href="#simulator" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Démonstration</a>
           <a href="#bento" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Garanties</a>
@@ -202,7 +215,7 @@ export default function Home() {
 
         <motion.a 
           href="#footer"
-          className="px-6 py-2.5 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 transition-colors duration-300 font-sans"
+          className="px-5 py-2 rounded-lg bg-[#111111] text-white text-xs md:text-sm font-medium hover:bg-neutral-800 transition-colors duration-300 font-sans shrink-0"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
