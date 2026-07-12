@@ -47,13 +47,16 @@ export default function MacbookReveal() {
   });
 
   // --- Phase A : ouverture du portail (ease-out cubic pour un "bloom" naturel) ---
+  // Fenêtre initiale SOUS le titre (top 42%) — jamais de chevauchement avec le
+  // titre de section, format cinémascope aux coins doux.
   const portalClip = useTransform(smoothProgress, (v: number) => {
     const t = Math.min(Math.max(v / 0.15, 0), 1);
     const e = 1 - Math.pow(1 - t, 3); // ease-out cubic
-    const insetY = 28 * (1 - e); // 28% → 0%
-    const insetX = 15 * (1 - e); // 15% → 0%
-    const radius = 16 * (1 - e); // 16px → 0px
-    return `inset(${insetY}% ${insetX}% ${insetY}% ${insetX}% round ${radius}px)`;
+    const top = 42 * (1 - e); // 42% → 0%
+    const bottom = 12 * (1 - e); // 12% → 0%
+    const x = 18 * (1 - e); // 18% → 0%
+    const radius = 24 * (1 - e); // 24px → 0px
+    return `inset(${top}% ${x}% ${bottom}% ${x}% round ${radius}px)`;
   });
 
   // --- Overlay fixe (couvre la navbar) : opaque dès que le portail remplit
@@ -65,19 +68,26 @@ export default function MacbookReveal() {
   );
 
   // --- Texte immersif (valeurs PARTAGÉES entre portail et overlay) ---
-  // Approche (0.72 → 1), dérive lente (1 → 1.1), traversée (1.1 → 2.2)
+  // Visible dès le départ dans la fenêtre (petit, vu de loin), remonte vers le
+  // centre pendant l'ouverture, dérive lente, puis traversée.
   const textScale = useTransform(
     smoothProgress,
     [0, 0.15, 0.28, 0.36],
-    [0.72, 1, 1.1, 2.2]
+    [0.78, 1, 1.1, 2.2]
   );
   const textOpacity = useTransform(
     smoothProgress,
-    [0.01, 0.07, 0.29, 0.35],
-    [0, 1, 1, 0]
+    [0, 0.15, 0.29, 0.35],
+    [0.9, 1, 1, 0]
   );
+  // La fenêtre initiale est centrée à ~65% de la hauteur (top 42% / bottom 12%) :
+  // le texte part décalé vers le bas puis rejoint le centre du viewport.
+  const textY = useTransform(smoothProgress, [0, 0.15], ["15vh", "0vh"]);
   const textBlurPx = useTransform(smoothProgress, [0.28, 0.36], [0, 14]);
   const textFilter = useMotionTemplate`blur(${textBlurPx}px)`;
+
+  // --- Indice de scroll dans la fenêtre initiale ---
+  const hintOpacity = useTransform(smoothProgress, [0, 0.03, 0.1], [0.7, 0.7, 0]);
 
   // --- Phase D : dé-zoom MacBook (on recule, on découvre l'écran) ---
   const scale = useTransform(smoothProgress, [0.36, 0.58, 1], [3, 1, 1]);
@@ -91,30 +101,32 @@ export default function MacbookReveal() {
   // --- Titre de section : visible au départ, disparaît, revient après le reveal ---
   const titleOpacity = useTransform(
     smoothProgress,
-    [0, 0.06, 0.12, 0.56, 0.63],
+    [0, 0.04, 0.11, 0.56, 0.63],
     [1, 1, 0, 0, 1]
   );
   const titleY = useTransform(smoothProgress, [0.56, 0.63], ["15px", "0px"]);
   // --- Instructions d'onboarding : seulement après le reveal du MacBook ---
   const instructionsOpacity = useTransform(smoothProgress, [0.62, 0.69], [0, 1]);
 
-  // Texte immersif — même JSX rendu dans le portail ET dans l'overlay,
-  // piloté par les mêmes MotionValues (handoff invisible au pixel près).
-  const immersiveText = (
-    <motion.h2
-      style={{ opacity: textOpacity, scale: textScale, filter: textFilter }}
-      className="font-serif text-white text-3xl md:text-5xl lg:text-6xl text-center leading-tight px-8 will-change-transform"
+  // Scène immersive (halo + texte) — même JSX rendu dans le portail ET dans
+  // l'overlay, piloté par les mêmes MotionValues (handoff invisible au pixel
+  // près). Le wrapper porte l'offset Y : la scène part centrée dans la fenêtre
+  // initiale puis rejoint le centre du viewport.
+  const immersiveScene = (
+    <motion.div
+      style={{ y: textY }}
+      className="absolute inset-0 flex items-center justify-center"
     >
-      Vivez l&apos;expérience<br />
-      <span className="italic text-emerald-400 font-light">NOTAS</span>
-    </motion.h2>
-  );
-
-  // Halo émeraude discret derrière le texte — profondeur dans le noir
-  const immersiveGlow = (
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-      <div className="w-[65vmin] h-[65vmin] rounded-full bg-emerald-500/[0.07] blur-[90px]" />
-    </div>
+      {/* Halo émeraude discret — profondeur dans le noir */}
+      <div className="absolute w-[50vmin] h-[50vmin] rounded-full bg-emerald-500/[0.05] blur-[100px] pointer-events-none" />
+      <motion.h2
+        style={{ opacity: textOpacity, scale: textScale, filter: textFilter }}
+        className="relative font-serif text-white text-3xl md:text-5xl lg:text-6xl text-center leading-tight px-8 will-change-transform"
+      >
+        Vivez l&apos;expérience<br />
+        <span className="italic text-emerald-400 font-light">NOTAS</span>
+      </motion.h2>
+    </motion.div>
   );
 
   return (
@@ -129,24 +141,28 @@ export default function MacbookReveal() {
         className="fixed inset-0 z-[100] pointer-events-none"
       >
         <div className="absolute inset-0 bg-neutral-950" />
-        {immersiveGlow}
-        <div className="absolute inset-0 flex items-center justify-center">
-          {immersiveText}
-        </div>
+        {immersiveScene}
       </motion.div>
 
       {/* Sticky viewport container */}
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-12 px-8 bg-[#FBFBFA]">
+      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-start overflow-hidden pt-28 pb-12 px-8 bg-[#FBFBFA]">
 
-        {/* Portail : rectangle sombre qui s'ouvre, texte émergeant à l'intérieur */}
+        {/* Portail : fenêtre cinématique qui s'ouvre, la scène est déjà visible dedans */}
         <motion.div
           style={{ clipPath: portalClip }}
           className="absolute inset-0 bg-neutral-950 z-[1] overflow-hidden"
         >
-          {immersiveGlow}
-          <div className="absolute inset-0 flex items-center justify-center">
-            {immersiveText}
-          </div>
+          {immersiveScene}
+          {/* Indice de scroll, en bas de la fenêtre initiale */}
+          <motion.div
+            style={{ opacity: hintOpacity }}
+            className="absolute bottom-[15%] left-0 right-0 flex flex-col items-center gap-1.5 pointer-events-none"
+          >
+            <span className="font-mono text-[10px] text-white/50 uppercase tracking-[0.25em]">
+              Scrollez pour entrer
+            </span>
+            <span className="text-white/40 text-xs animate-bounce">↓</span>
+          </motion.div>
         </motion.div>
 
         {/* Background reveal : recouvre le portail avec la couleur de page pendant le dé-zoom */}
@@ -189,7 +205,7 @@ export default function MacbookReveal() {
         </motion.div>
 
         {/* Outer alignment container */}
-        <motion.div style={{ opacity: macbookOpacity }} className="w-full max-w-5xl relative flex justify-center items-center overflow-visible z-[5]">
+        <motion.div style={{ opacity: macbookOpacity }} className="w-full max-w-5xl relative flex justify-center items-center overflow-visible z-[5] my-auto">
 
           {/* Responsive scaling helper layer */}
           <div className="scale-[0.45] sm:scale-[0.65] md:scale-[0.82] lg:scale-95 origin-center transition-transform duration-300 overflow-visible">
