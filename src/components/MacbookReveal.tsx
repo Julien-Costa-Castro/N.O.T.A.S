@@ -5,15 +5,14 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import DashboardContent from "./DashboardContent";
 
 /*
- * MACBOOK REVEAL — 3D PERSPECTIVE STICKY SCROLL CLAMSHELL REVEAL
+ * MACBOOK REVEAL — 3D PERSPECTIVE STICKY SCROLL REVEAL (REVEAL SLIDE & TILT)
  *
- * This component is self-contained:
+ * Architecture in a single unified 3D block:
  *   - The outer <section> is set to h-[300vh] to act as the scroll target.
  *   - The sticky container keeps the scene locked in the viewport.
  *   - The perspective container sets up the 3D space.
- *   - The <motion.div> rotates from 90deg (lying flat, invisible) to 0deg (facing user)
- *     with pivot origin at the bottom center.
- *   - A black overlay simulates the screen turning on as it opens.
+ *   - The <motion.div> rotates slightly, slides vertically, and scales up/down.
+ *   - An overlay black screen simulates the screen backlight ignition as it tilts up.
  */
 
 export default function MacbookReveal() {
@@ -32,17 +31,26 @@ export default function MacbookReveal() {
     restDelta: 0.001
   });
 
-  // Transforms:
-  // - 0% -> 40%: Opening (rotateX 90 -> 0, scale 0.7 -> 1, opacity 0 -> 1, y 100 -> 0)
-  // - 40% -> 60%: Holding (all values stable)
-  // - 60% -> 100%: Closing (rotateX 0 -> 90, scale 1 -> 0.7, opacity 1 -> 0, y 0 -> 0)
-  const rotateX = useTransform(smoothProgress, [0, 0.4, 0.6, 1.0], [90, 0, 0, 90]);
-  const scale = useTransform(smoothProgress, [0, 0.4, 0.6, 1.0], [0.7, 1, 1, 0.7]);
-  const opacity = useTransform(smoothProgress, [0, 0.25, 0.75, 1.0], [0, 1, 1, 0]);
-  const y = useTransform(smoothProgress, [0, 0.4, 0.6, 1.0], [100, 0, 0, 0]);
+  // Transforms mapping for the 3 stages of scroll:
+  // - Phase 1: APPARITION (Scroll 0% to 35%)
+  //     * rotateX: 25deg (slightly tilted backward) -> 0deg (facing user)
+  //     * y: 250px (slides up) -> 0px
+  //     * scale: 0.85 -> 1
+  //     * opacity: 0 -> 1
+  // - Phase 2: LECTURE (Scroll 35% to 65%)
+  //     * rotateX: 0deg, y: 0px, scale: 1, opacity: 1 (stable)
+  // - Phase 3: DISPARITION (Scroll 65% to 100%)
+  //     * rotateX: 0deg -> -15deg (tilts slightly forward)
+  //     * y: 0px -> -200px (slides up off screen)
+  //     * scale: 1 -> 0.85
+  //     * opacity: 1 -> 0
+  const rotateX = useTransform(smoothProgress, [0, 0.35, 0.65, 1.0], [25, 0, 0, -15]);
+  const scale = useTransform(smoothProgress, [0, 0.35, 0.65, 1.0], [0.85, 1, 1, 0.85]);
+  const opacity = useTransform(smoothProgress, [0, 0.35, 0.65, 1.0], [0, 1, 1, 0]);
+  const y = useTransform(smoothProgress, [0, 0.35, 0.65, 1.0], [250, 0, 0, -200]);
 
   // Screen Backlight Overlay Opacity (Black screen fades to transparent as lid opens)
-  const backlightOpacity = useTransform(smoothProgress, [0, 0.4, 0.6, 1.0], [1, 0, 0, 1]);
+  const backlightOpacity = useTransform(smoothProgress, [0, 0.35, 0.65, 1.0], [1, 0, 0, 1]);
 
   return (
     <section 
@@ -68,7 +76,7 @@ export default function MacbookReveal() {
 
         {/* 3D Perspective container */}
         <div 
-          style={{ perspective: "2000px" }} 
+          style={{ perspective: "2500px" }} 
           className="w-full max-w-5xl relative flex justify-center items-center overflow-visible"
         >
           <motion.div
