@@ -58,6 +58,8 @@ export default function MacbookReveal() {
   // --- Section title: visible at start above portal, fades out, reappears after reveal ---
   const titleOpacity = useTransform(smoothProgress, [0, 0.06, 0.12, 0.53, 0.60], [1, 1, 0, 0, 1]);
   const titleY = useTransform(smoothProgress, [0.53, 0.60], ["15px", "0px"]);
+  // --- Onboarding instructions: only visible after MacBook is revealed ---
+  const instructionsOpacity = useTransform(smoothProgress, [0.58, 0.65], [0, 1]);
 
 
 
@@ -95,7 +97,6 @@ export default function MacbookReveal() {
           style={{ opacity: bgRevealOpacity }}
           className="absolute inset-0 bg-[#FBFBFA] z-[2] pointer-events-none"
         />
-        {/* Fixed Title & Description Area — hidden during zoom, fades in during de-zoom */}
         <motion.div style={{ opacity: titleOpacity, y: titleY }} className="text-center max-w-xl mx-auto mb-4 z-20">
           <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-3">
             DÉMONSTRATION INTERACTIVE
@@ -103,7 +104,7 @@ export default function MacbookReveal() {
           <h2 className="font-serif text-3xl md:text-5xl font-normal">
             Votre fiche de suivi, <span className="italic text-emerald-700 font-light">en version vivante.</span>
           </h2>
-          <div className="h-12 mt-4 flex items-center justify-center text-sm font-light text-ash-text font-sans max-w-md mx-auto">
+          <motion.div style={{ opacity: instructionsOpacity }} className="h-12 mt-4 flex items-center justify-center text-sm font-light text-ash-text font-sans max-w-md mx-auto">
             {step === 0 && (
               <p className="animate-fade-in text-ash-text">
                 Découvrez notre copilote en action : cliquez sur le bouton dans l&apos;écran pour démarrer.
@@ -127,7 +128,7 @@ export default function MacbookReveal() {
                 Relance envoyée ! Cliquez sur <strong>&quot;Recommencer&quot;</strong> pour rejouer.
               </p>
             )}
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Outer alignment container */}
