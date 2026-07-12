@@ -5,14 +5,12 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import DashboardContent from "./DashboardContent";
 
 /*
- * MACBOOK REVEAL — DE-ZOOM REVEAL ("CAMERA PULLS BACK" EFFECT)
+ * MACBOOK REVEAL — CINEMATIC DE-ZOOM REVEAL (4-PHASE SEQUENCE)
  *
- *   - Starts fully zoomed into the screen (scale ~4.5, dashboard fills viewport).
- *   - On scroll (0% → 40%), the camera pulls back (de-zoom) to reveal the MacBook chassis.
- *   - The MacBook frame PNG and shadows fade in during the pull-back (frameOpacity).
- *   - From 40% → 100%, the MacBook sits static for interactive onboarding.
- *   - transformOrigin is set to '50% 40%' so the zoom centers on the screen,
- *     not the geometric center of the image (which includes the keyboard below).
+ *   Phase 1 (0% → 5%):   Full-screen blackout fades in, covering navbar.
+ *   Phase 2 (6% → 28%):  "Vivez l'expérience NOTAS" text fades in/out on black.
+ *   Phase 3 (28% → 55%): Camera pulls back (de-zoom), MacBook frame appears.
+ *   Phase 4 (55% → 100%): MacBook sits static for interactive onboarding.
  */
 
 export default function MacbookReveal() {
@@ -32,16 +30,20 @@ export default function MacbookReveal() {
     restDelta: 0.001
   });
 
-  // De-zoom reveal transforms (0% → 40% = camera pulls back, 40% → 100% = static)
-  const y = useTransform(smoothProgress, [0, 0.4, 1], ["3vh", "0px", "0px"]);
-  const scale = useTransform(smoothProgress, [0, 0.4, 1], [3, 1, 1]);
-  // Frame & shadows fade in smoothly during the pull-back
-  const frameOpacity = useTransform(smoothProgress, [0.05, 0.25, 0.4], [0, 0.4, 1]);
-  // Title block hidden while zoomed in, fades in as MacBook settles
-  const titleOpacity = useTransform(smoothProgress, [0, 0.3, 0.42], [0, 0, 1]);
-  const titleY = useTransform(smoothProgress, [0.3, 0.42], ["15px", "0px"]);
-  // Full-screen black overlay: solid black at start, fades out as MacBook is revealed
-  const overlayOpacity = useTransform(smoothProgress, [0.15, 0.4], [1, 0]);
+  // --- Phase 1: Full-screen cinematic blackout (covers navbar) ---
+  const overlayOpacity = useTransform(smoothProgress, [0, 0.05, 0.30, 0.55], [0, 1, 1, 0]);
+
+  // --- Phase 2: Immersive text on black ---
+  const textOpacity = useTransform(smoothProgress, [0.06, 0.12, 0.20, 0.27], [0, 1, 1, 0]);
+
+  // --- Phase 3: MacBook de-zoom ---
+  const scale = useTransform(smoothProgress, [0.30, 0.55, 1], [3, 1, 1]);
+  const y = useTransform(smoothProgress, [0.30, 0.55, 1], ["3vh", "0px", "0px"]);
+  const frameOpacity = useTransform(smoothProgress, [0.32, 0.45, 0.55], [0, 0.5, 1]);
+
+  // --- Phase 4: Section title fades in after MacBook is revealed ---
+  const titleOpacity = useTransform(smoothProgress, [0.52, 0.60], [0, 1]);
+  const titleY = useTransform(smoothProgress, [0.52, 0.60], ["15px", "0px"]);
 
 
 
@@ -49,16 +51,27 @@ export default function MacbookReveal() {
     <section 
       ref={containerRef} 
       id="simulator" 
-      className="relative h-[250vh] bg-transparent w-full overflow-visible"
+      className="relative h-[300vh] bg-transparent w-full overflow-visible"
     >
+      {/* ═══ Cinematic full-screen black overlay (fixed = covers navbar) ═══ */}
+      <motion.div
+        style={{ opacity: overlayOpacity }}
+        className="fixed inset-0 bg-black z-[100] pointer-events-none"
+      />
+
+      {/* ═══ Centered immersive text on black screen ═══ */}
+      <motion.div
+        style={{ opacity: textOpacity }}
+        className="fixed inset-0 z-[101] pointer-events-none flex items-center justify-center px-8"
+      >
+        <h2 className="font-serif text-white text-4xl md:text-6xl lg:text-7xl text-center leading-tight">
+          Vivez l&apos;expérience<br />
+          <span className="italic text-emerald-400 font-light">NOTAS</span>
+        </h2>
+      </motion.div>
+
       {/* Sticky viewport container */}
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-12 px-8">
-        
-        {/* Full-screen black backdrop — covers entire viewport for a seamless start */}
-        <motion.div
-          style={{ opacity: overlayOpacity }}
-          className="absolute inset-0 bg-black z-[1] pointer-events-none"
-        />
         {/* Fixed Title & Description Area — hidden during zoom, fades in during de-zoom */}
         <motion.div style={{ opacity: titleOpacity, y: titleY }} className="text-center max-w-xl mx-auto mb-4 z-20">
           <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-3">
