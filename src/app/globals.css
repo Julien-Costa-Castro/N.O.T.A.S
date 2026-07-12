@@ -18,6 +18,7 @@
   --animate-marquee: marquee 40s linear infinite;
   --animate-marquee-slow: marquee 60s linear infinite;
   --animate-marquee-reverse: marquee-reverse 40s linear infinite;
+  --animate-shimmer: shimmer 6s infinite;
   
   @keyframes marquee {
     from { transform: translateX(0); }
@@ -27,6 +28,12 @@
   @keyframes marquee-reverse {
     from { transform: translateX(-50%); }
     to { transform: translateX(0); }
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-150%) skewX(-20deg); }
+    15% { transform: translateX(150%) skewX(-20deg); }
+    100% { transform: translateX(150%) skewX(-20deg); }
   }
   
   --ease-ethereal: cubic-bezier(0.76, 0, 0.24, 1);

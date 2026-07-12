@@ -8,6 +8,7 @@ import {
   useSpring,
   useInView,
   useMotionValue,
+  useMotionTemplate,
   AnimatePresence
 } from "framer-motion";
 import { 
@@ -22,19 +23,19 @@ import MacbookReveal from "@/components/MacbookReveal";
 const EASE_ETHEREAL: [number, number, number, number] = [0.76, 0, 0.24, 1];
 const TRANSITION_NOBLE = { ease: EASE_ETHEREAL, duration: 1.2 };
 
-// Custom Spring Counter Component
-const SpringCounter = ({ targetValue }: { targetValue: number }) => {
+// Custom Animated Number Component
+const AnimatedNumber = ({ value }: { value: number }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const motionValue = useMotionValue(0);
-  const springValue = useSpring(motionValue, { stiffness: 35, damping: 12 });
+  const springValue = useSpring(motionValue, { stiffness: 45, damping: 18, mass: 1 });
   const [displayCount, setDisplayCount] = useState(0);
 
   useEffect(() => {
     if (isInView) {
-      motionValue.set(targetValue);
+      motionValue.set(value);
     }
-  }, [isInView, motionValue, targetValue]);
+  }, [isInView, motionValue, value]);
 
   useEffect(() => {
     return springValue.on("change", (latest) => {
@@ -43,6 +44,42 @@ const SpringCounter = ({ targetValue }: { targetValue: number }) => {
   }, [springValue]);
 
   return <span ref={ref}>{displayCount}</span>;
+};
+
+interface SpotlightCardProps extends React.ComponentPropsWithoutRef<typeof motion.div> {
+  children: React.ReactNode;
+}
+
+// Custom Spotlight Card with mouse follow halo effect
+const SpotlightCard = ({ children, className = "", ...props }: SpotlightCardProps) => {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
+
+  return (
+    <motion.div
+      onMouseMove={handleMouseMove}
+      className={`group relative overflow-hidden ${className}`}
+      {...props}
+    >
+      {/* Spotlight layer */}
+      <motion.div
+        className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
+        style={{
+          background: useMotionTemplate`radial-gradient(350px circle at ${mouseX}px ${mouseY}px, rgba(16, 185, 129, 0.04), transparent 80%)`,
+        }}
+      />
+      {/* Content wrapper */}
+      <div className="relative z-10 w-full h-full flex flex-col justify-between">
+        {children}
+      </div>
+    </motion.div>
+  );
 };
 
 export default function Home() {
@@ -280,11 +317,13 @@ export default function Home() {
 
         <motion.a 
           href="#footer"
-          className="px-5 py-2 rounded-lg bg-[#111111] text-white text-xs md:text-sm font-medium hover:bg-neutral-800 transition-colors duration-300 font-sans shrink-0"
-          whileHover={{ scale: 1.02 }}
+          className="relative overflow-hidden px-5 py-2 rounded-lg bg-[#111111] text-white text-xs md:text-sm font-medium hover:bg-neutral-800 transition-colors duration-300 font-sans shrink-0"
+          whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
         >
-          Demander une démo
+          {/* Shimmer effect */}
+          <span className="absolute inset-0 block -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+          <span className="relative z-10">Demander une démo</span>
         </motion.a>
       </motion.header>
 
@@ -368,11 +407,13 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
               <motion.a
                 href="#footer"
-                className="px-7 py-3 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 transition-colors duration-300 font-sans"
-                whileHover={{ scale: 1.02 }}
+                className="relative overflow-hidden px-7 py-3 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 transition-colors duration-300 font-sans"
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
               >
-                Prendre rendez-vous
+                {/* Shimmer effect */}
+                <span className="absolute inset-0 block -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+                <span className="relative z-10">Prendre rendez-vous</span>
               </motion.a>
               <a
                 href="#simulator"
@@ -460,19 +501,19 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
             {/* Stat 1 : 92 jours */}
-            <motion.div
+            <SpotlightCard
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ ease: EASE_ETHEREAL, duration: 0.9 }}
-              className="bg-white border border-neutral-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-2xl p-8 flex flex-col justify-between min-h-[300px]"
+              className="bg-white border border-neutral-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-2xl p-8 min-h-[300px]"
             >
               <span className="font-mono text-[10px] tracking-wider text-ash-light uppercase">
                 DÉLAI DE VENTE MOYEN
               </span>
               <div className="my-auto py-4">
                 <div className="text-7xl font-light font-serif tracking-tighter text-[#111111] flex items-baseline">
-                  <SpringCounter targetValue={92} />
+                  <AnimatedNumber value={92} />
                   <span className="text-2xl font-sans font-light tracking-tight ml-2 text-neutral-500">jours</span>
                 </div>
                 <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
@@ -482,22 +523,22 @@ export default function Home() {
               <div className="border-t border-gray-100 pt-4 font-sans">
                 <span className="text-[9px] font-mono text-ash-light uppercase tracking-wider">Source : Notariat Services</span>
               </div>
-            </motion.div>
+            </SpotlightCard>
 
             {/* Stat 2 : +30 % avec jauge 70 → 90+ jours */}
-            <motion.div
+            <SpotlightCard
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ ease: EASE_ETHEREAL, duration: 0.9, delay: 0.15 }}
-              className="bg-white border border-neutral-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-2xl p-8 flex flex-col justify-between min-h-[300px]"
+              className="bg-white border border-neutral-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-2xl p-8 min-h-[300px]"
             >
               <span className="font-mono text-[10px] tracking-wider text-ash-light uppercase">
                 DES DÉLAIS QUI S&apos;AGGRAVENT
               </span>
               <div className="my-auto py-4">
                 <div className="text-7xl font-light font-serif tracking-tighter text-[#111111] flex items-baseline">
-                  +<SpringCounter targetValue={30} />
+                  +<AnimatedNumber value={30} />
                   <span className="text-2xl font-sans font-light tracking-tight ml-2 text-neutral-500">%</span>
                 </div>
                 <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
@@ -535,22 +576,22 @@ export default function Home() {
               <div className="border-t border-gray-100 pt-4 font-sans">
                 <span className="text-[9px] font-mono text-ash-light uppercase tracking-wider">Source : Notariat Services</span>
               </div>
-            </motion.div>
+            </SpotlightCard>
 
             {/* Stat 3 : 1 jour par semaine perdu */}
-            <motion.div
+            <SpotlightCard
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ ease: EASE_ETHEREAL, duration: 0.9, delay: 0.3 }}
-              className="bg-white border border-neutral-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-2xl p-8 flex flex-col justify-between min-h-[300px]"
+              className="bg-white border border-neutral-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-2xl p-8 min-h-[300px]"
             >
               <span className="font-mono text-[10px] tracking-wider text-ash-light uppercase">
                 DU TEMPS QUI PART EN FUMÉE
               </span>
               <div className="my-auto py-4">
                 <div className="text-7xl font-light font-serif tracking-tighter text-[#111111] flex items-baseline">
-                  <SpringCounter targetValue={1} />
+                  <AnimatedNumber value={1} />
                   <span className="text-2xl font-sans font-light tracking-tight ml-2 text-neutral-500">j / semaine</span>
                 </div>
                 <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
@@ -560,7 +601,7 @@ export default function Home() {
               <div className="border-t border-gray-100 pt-4 font-sans">
                 <span className="text-[9px] font-mono text-ash-light uppercase tracking-wider">Source : McKinsey — métiers administratifs</span>
               </div>
-            </motion.div>
+            </SpotlightCard>
           </div>
 
           {/* Row 2 : Le grand livre — ce que ça coûte vs ce que ça rapporte */}
@@ -672,7 +713,7 @@ export default function Home() {
                 <span className="font-serif text-2xl text-neutral-300">=</span>
                 <div className="flex flex-col items-center">
                   <span className="font-serif text-5xl md:text-6xl font-light tracking-tighter text-emerald-700">
-                    ≈ <SpringCounter targetValue={8900} /> €
+                    ≈ <AnimatedNumber value={8900} /> €
                   </span>
                   <span className="text-[8px] font-mono text-emerald-700 uppercase tracking-wider mt-1 font-semibold">par an, partis en relances manuelles</span>
                 </div>
@@ -974,9 +1015,11 @@ export default function Home() {
               />
               <button
                 type="submit"
-                className="px-6 py-3 rounded bg-[#111111] text-[#FBFBFA] text-xs uppercase tracking-widest font-semibold hover:bg-neutral-800 transition-colors duration-300 shadow-sm"
+                className="relative overflow-hidden px-6 py-3 rounded bg-[#111111] text-[#FBFBFA] text-xs uppercase tracking-widest font-semibold hover:bg-neutral-800 hover:scale-105 transition-all duration-300 shadow-sm cursor-pointer"
               >
-                Vérifier l&apos;éligibilité
+                {/* Shimmer effect */}
+                <span className="absolute inset-0 block -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+                <span className="relative z-10">Vérifier l&apos;éligibilité</span>
               </button>
             </div>
 
