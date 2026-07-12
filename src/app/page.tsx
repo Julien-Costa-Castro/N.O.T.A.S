@@ -247,8 +247,22 @@ export default function Home() {
     { text: "Copropriété", Icon: Building, className: "font-sans font-black tracking-tighter text-lg" },
   ];
 
+  const handleDemoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const element = document.getElementById("simulator");
+    if (element) {
+      const scrollRange = element.offsetHeight - window.innerHeight;
+      // Scroll to 50% of the sticky range where the MacBook is fully sticky and centered
+      const targetScroll = element.offsetTop + scrollRange * 0.5;
+      window.scrollTo({
+        top: targetScroll,
+        behavior: "smooth"
+      });
+    }
+  };
+
   return (
-    <div className="relative min-h-screen bg-[#FBFBFA] text-[#111111] selection:bg-neutral-900/5 selection:text-[#111111] overflow-x-clip">
+    <div className="relative min-h-screen bg-[#FBFBFA] text-neutral-600 font-sans antialiased selection:bg-neutral-900/5 selection:text-[#111111] overflow-x-clip">
       
       {/* Structural Architectural Background & Noise */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
@@ -303,21 +317,21 @@ export default function Home() {
             alt="N" 
             className="h-[21px] w-auto object-contain transition-transform duration-300 group-hover:scale-105 translate-y-[2px]" 
           />
-          <span className="text-2xl font-serif font-medium tracking-widest text-gray-950 antialiased translate-y-[1px]">
+          <span className="text-2xl font-serif font-medium tracking-widest text-black antialiased translate-y-[1px]">
             OTAS
           </span>
         </a>
 
         <nav className="hidden md:flex items-center gap-6 lg:gap-8 font-sans shrink-0">
-          <a href="#probleme" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Le coût</a>
-          <a href="#simulator" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Démonstration</a>
-          <a href="#bento" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Garanties</a>
-          <a href="#footer" className="text-sm text-gray-500 hover:text-black transition-colors duration-300">Éligibilité</a>
+          <a href="#probleme" className="text-sm font-medium text-gray-500 transition-colors duration-200 hover:text-black">Le coût</a>
+          <a href="#simulator" onClick={handleDemoClick} className="text-sm font-medium text-gray-500 transition-colors duration-200 hover:text-black">Démonstration</a>
+          <a href="#bento" className="text-sm font-medium text-gray-500 transition-colors duration-200 hover:text-black">Garanties</a>
+          <a href="#footer" className="text-sm font-medium text-gray-500 transition-colors duration-200 hover:text-black">Éligibilité</a>
         </nav>
 
         <motion.a 
           href="#footer"
-          className="relative overflow-hidden px-5 py-2 rounded-lg bg-[#111111] text-white text-xs md:text-sm font-medium hover:bg-neutral-800 transition-colors duration-300 font-sans shrink-0"
+          className="relative overflow-hidden px-5 py-2 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 font-sans shrink-0"
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -395,7 +409,7 @@ export default function Home() {
               </div>
             </div>
 
-            <h1 className="font-serif text-5xl md:text-7xl font-normal text-[#111111] tracking-tight leading-[1.08] max-w-4xl">
+            <h1 className="font-serif text-5xl md:text-7xl font-normal text-black tracking-tight leading-[1.08] max-w-4xl">
               Le copilote qui relance, <br />
               <span className="italic font-light text-emerald-700 font-light">alerte et informe à votre place.</span>
             </h1>
@@ -407,7 +421,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
               <motion.a
                 href="#footer"
-                className="relative overflow-hidden px-7 py-3 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 transition-colors duration-300 font-sans"
+                className="relative overflow-hidden px-7 py-3 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 font-sans"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -417,7 +431,8 @@ export default function Home() {
               </motion.a>
               <a
                 href="#simulator"
-                className="px-7 py-3 rounded-lg bg-white border border-gray-200 text-[#111111] text-sm font-medium hover:bg-neutral-50/50 transition-colors duration-300 font-sans"
+                onClick={handleDemoClick}
+                className="px-7 py-3 rounded-lg bg-white border border-gray-200 text-[#111111] text-sm font-medium hover:bg-neutral-50/50 transition-colors duration-300 font-sans cursor-pointer"
               >
                 Voir la démonstration
               </a>
@@ -489,7 +504,7 @@ export default function Home() {
             <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-3">
               LE COÛT DE L&apos;INACTION
             </span>
-            <h2 className="font-serif text-3xl md:text-5xl font-normal">
+            <h2 className="font-serif text-3xl md:text-5xl font-normal text-black">
               Chaque dossier qui traîne, <span className="italic text-emerald-700 font-light">c&apos;est votre marge qui attend.</span>
             </h2>
             <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
@@ -808,7 +823,7 @@ export default function Home() {
             <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-3">
               LES RÉSULTATS POUR L&apos;ÉTUDE
             </span>
-            <h2 className="font-serif text-3xl md:text-5xl font-normal">
+            <h2 className="font-serif text-3xl md:text-5xl font-normal text-black">
               Des dossiers qui <span className="italic text-emerald-700 font-light">avancent tout seuls.</span>
             </h2>
             <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
@@ -1015,7 +1030,7 @@ export default function Home() {
               />
               <button
                 type="submit"
-                className="relative overflow-hidden px-6 py-3 rounded bg-[#111111] text-[#FBFBFA] text-xs uppercase tracking-widest font-semibold hover:bg-neutral-800 hover:scale-105 transition-all duration-300 shadow-sm cursor-pointer"
+                className="relative overflow-hidden px-6 py-3 rounded bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 hover:scale-105 transition-all duration-300 shadow-sm cursor-pointer font-sans"
               >
                 {/* Shimmer effect */}
                 <span className="absolute inset-0 block -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
