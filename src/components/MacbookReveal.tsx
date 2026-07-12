@@ -5,14 +5,15 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import DashboardContent from "./DashboardContent";
 
 /*
- * MACBOOK REVEAL — 3D PERSPECTIVE STICKY SCROLL REVEAL (REVEAL SLIDE & TILT)
+ * MACBOOK REVEAL — "CSS SURGERY" VIRTUAL CLAMSHELL REVEAL
  *
- * Architecture in a single unified 3D block:
- *   - The outer <section> is set to h-[300vh] to act as the scroll target.
- *   - The sticky container keeps the scene locked in the viewport.
- *   - The perspective container sets up the 3D space.
- *   - The <motion.div> rotates slightly, slides vertically, and scales up/down.
- *   - An overlay black screen simulates the screen backlight ignition as it tilts up.
+ * This component achieves a realistic mechanical clamshell open/close using a single image:
+ *   - The original 'macbook-frame.png' is split into two halves using CSS clip-path:
+ *       1. Keyboard Base: bottom 15% of the image (clip-path: inset(85% 0 0 0))
+ *       2. Screen Lid: top 85% of the image (clip-path: inset(0 0 15% 0))
+ *   - The Base is fixed and rotated at rotateX(60deg) to lie flat on the virtual desk.
+ *   - The Lid is animated to rotate from -95deg (completely folded closed onto the base) to 0deg (open).
+ *   - A global scale transforms the parent container from 0.7 to 1, then back to 0.7.
  */
 
 export default function MacbookReveal() {
@@ -31,26 +32,42 @@ export default function MacbookReveal() {
     restDelta: 0.001
   });
 
-  // Transforms mapping for the 3 stages of scroll:
-  // - Phase 1: APPARITION (Scroll 0% to 35%)
-  //     * rotateX: 25deg (slightly tilted backward) -> 0deg (facing user)
-  //     * y: 250px (slides up) -> 0px
-  //     * scale: 0.85 -> 1
-  //     * opacity: 0 -> 1
-  // - Phase 2: LECTURE (Scroll 35% to 65%)
-  //     * rotateX: 0deg, y: 0px, scale: 1, opacity: 1 (stable)
-  // - Phase 3: DISPARITION (Scroll 65% to 100%)
-  //     * rotateX: 0deg -> -15deg (tilts slightly forward)
-  //     * y: 0px -> -200px (slides up off screen)
-  //     * scale: 1 -> 0.85
-  //     * opacity: 1 -> 0
-  const rotateX = useTransform(smoothProgress, [0, 0.35, 0.65, 1.0], [25, 0, 0, -15]);
-  const scale = useTransform(smoothProgress, [0, 0.35, 0.65, 1.0], [0.85, 1, 1, 0.85]);
-  const opacity = useTransform(smoothProgress, [0, 0.35, 0.65, 1.0], [0, 1, 1, 0]);
-  const y = useTransform(smoothProgress, [0, 0.35, 0.65, 1.0], [250, 0, 0, -200]);
+  // 1. Lid rotation:
+  // - Closed (0% to 30%): -95deg (lying closed on base) -> 0deg (vertical facing user)
+  // - Open (30% to 70%): remains at 0deg (user reads dashboard)
+  // - Closing (70% to 100%): 0deg -> -95deg
+  const rotateX = useTransform(
+    smoothProgress,
+    [0, 0.3, 0.7, 1.0],
+    [-95, 0, 0, -95]
+  );
+
+  // 2. Global container scale:
+  // - 0% to 30%: 0.7 -> 1
+  // - 30% to 70%: 1 (stable)
+  // - 70% to 100%: 1 -> 0.7
+  const parentScale = useTransform(
+    smoothProgress,
+    [0, 0.3, 0.7, 1.0],
+    [0.7, 1, 1, 0.7]
+  );
+
+  // 3. Global opacity:
+  // - 0% to 30%: 0 -> 1
+  // - 30% to 70%: 1 (stable)
+  // - 70% to 100%: 1 -> 0
+  const opacity = useTransform(
+    smoothProgress,
+    [0, 0.25, 0.75, 1.0],
+    [0, 1, 1, 0]
+  );
 
   // Screen Backlight Overlay Opacity (Black screen fades to transparent as lid opens)
-  const backlightOpacity = useTransform(smoothProgress, [0, 0.35, 0.65, 1.0], [1, 0, 0, 1]);
+  const backlightOpacity = useTransform(
+    smoothProgress,
+    [0, 0.3, 0.7, 1.0],
+    [1, 0, 0, 1]
+  );
 
   return (
     <section 
@@ -79,37 +96,64 @@ export default function MacbookReveal() {
           style={{ perspective: "2500px" }} 
           className="w-full max-w-5xl relative flex justify-center items-center overflow-visible"
         >
+          {/* Global scaling wrapper */}
           <motion.div
             style={{
-              rotateX,
-              scale,
+              scale: parentScale,
               opacity,
-              y,
-              transformOrigin: "bottom center",
               transformStyle: "preserve-3d"
             }}
-            className="relative w-full aspect-[1972/1282] max-w-4xl"
+            className="relative w-full aspect-[1972/1282] max-w-4xl flex items-center justify-center overflow-visible"
           >
-            {/* Live Dashboard content at the back (z-0) */}
-            <div className="absolute top-[11.7%] left-[11.71%] w-[76.52%] h-[76.52%] z-0 bg-white overflow-hidden rounded-[6px]">
-              <DashboardContent className="w-full h-full text-[10px]" />
+            {/* A. LA BASE (Le Clavier - Fixe, tilted at 60deg to lie flat) */}
+            <div 
+              className="absolute inset-0 w-full h-full z-10"
+              style={{
+                clipPath: "inset(85% 0 0 0)",
+                WebkitClipPath: "inset(85% 0 0 0)",
+                transform: "rotateX(60deg)",
+                transformOrigin: "bottom center"
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
+                src="/macbook-frame.png" 
+                alt="" 
+                className="w-full h-full object-cover select-none pointer-events-none" 
+              />
             </div>
 
-            {/* Screen turning on overlay (z-5) */}
-            <motion.div 
-              style={{ opacity: backlightOpacity }}
-              className="absolute top-[11.7%] left-[11.71%] w-[76.52%] h-[76.52%] z-5 bg-black rounded-[6px] pointer-events-none"
-            />
+            {/* B. LE CAPOT (L'Écran - Animé, pivots on bottom center) */}
+            <motion.div
+              style={{
+                rotateX,
+                transformOrigin: "bottom center",
+                transformStyle: "preserve-3d",
+                clipPath: "inset(0 0 15% 0)",
+                WebkitClipPath: "inset(0 0 15% 0)"
+              }}
+              className="absolute inset-0 w-full h-full z-20"
+            >
+              {/* Live Dashboard content at the back of the screen (z-0) */}
+              <div className="absolute top-[11.7%] left-[11.71%] w-[76.52%] h-[76.52%] z-0 bg-white overflow-hidden rounded-[6px]">
+                <DashboardContent className="w-full h-full text-[10px]" />
+              </div>
 
-            {/* Photorealistic MacBook frame image at the front (z-10) */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/macbook-frame.png"
-              alt=""
-              aria-hidden="true"
-              className="absolute inset-0 w-full h-full z-10 pointer-events-none select-none"
-              draggable={false}
-            />
+              {/* Screen turning on overlay (z-5) */}
+              <motion.div 
+                style={{ opacity: backlightOpacity }}
+                className="absolute top-[11.7%] left-[11.71%] w-[76.52%] h-[76.52%] z-5 bg-black rounded-[6px] pointer-events-none"
+              />
+
+              {/* Photorealistic MacBook frame image at the front (z-10) */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/macbook-frame.png"
+                alt=""
+                className="absolute inset-0 w-full h-full z-10 object-cover select-none pointer-events-none"
+                draggable={false}
+              />
+            </motion.div>
           </motion.div>
         </div>
 
