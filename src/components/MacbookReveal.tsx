@@ -5,16 +5,14 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import DashboardContent from "./DashboardContent";
 
 /*
- * MACBOOK REVEAL — PREMIUM "SCALE & SLIDE REVEAL" WITH INTERACTIVE ZOOM ONBOARDING
+ * MACBOOK REVEAL — DE-ZOOM REVEAL ("CAMERA PULLS BACK" EFFECT)
  *
- *   - Monitors scroll to animate entry (scale 1.3 -> 1, y 30vh -> 0px, opacity 0 -> 1).
- *   - Implements a 3-step interactive clerc onboarding tour inside the laptop screen.
- *   - The laptop shifts and scales (zooms & pans) dynamically to focus on the active zone:
- *       * Step 0 (Intro): Centered, scale 1.
- *       * Step 1 (Row Highlight): Zooms in slightly, shifts up to focus on the table (scale 1.25, y -20px).
- *       * Step 2 (Drawer Open): Zooms in further and pans to the left to center the right-hand panel (scale 1.5, x -130px, y -20px).
- *       * Step 3 (Success): Zooms back to centered screen (scale 1.25, x 0px, y -20px).
- *   - Top instructions banner updates at each step.
+ *   - Starts fully zoomed into the screen (scale ~4.5, dashboard fills viewport).
+ *   - On scroll (0% → 40%), the camera pulls back (de-zoom) to reveal the MacBook chassis.
+ *   - The MacBook frame PNG and shadows fade in during the pull-back (frameOpacity).
+ *   - From 40% → 100%, the MacBook sits static for interactive onboarding.
+ *   - transformOrigin is set to '50% 40%' so the zoom centers on the screen,
+ *     not the geometric center of the image (which includes the keyboard below).
  */
 
 export default function MacbookReveal() {
@@ -34,10 +32,14 @@ export default function MacbookReveal() {
     restDelta: 0.001
   });
 
-  // Entry slide transforms (Scroll 0% to 40% maps entry, then holds to 100%)
-  const y = useTransform(smoothProgress, [0, 0.4, 1.0], ["30vh", "0px", "0px"]);
-  const scale = useTransform(smoothProgress, [0, 0.4, 1.0], [1.3, 1, 1]);
-  const opacity = useTransform(smoothProgress, [0, 0.2, 1.0], [0, 1, 1]);
+  // De-zoom reveal transforms (0% → 40% = camera pulls back, 40% → 100% = static)
+  const y = useTransform(smoothProgress, [0, 0.4, 1], ["3vh", "0px", "0px"]);
+  const scale = useTransform(smoothProgress, [0, 0.4, 1], [3, 1, 1]);
+  // Frame & shadows fade in smoothly during the pull-back
+  const frameOpacity = useTransform(smoothProgress, [0.05, 0.25, 0.4], [0, 0.4, 1]);
+  // Title block hidden while zoomed in, fades in as MacBook settles
+  const titleOpacity = useTransform(smoothProgress, [0, 0.3, 0.42], [0, 0, 1]);
+  const titleY = useTransform(smoothProgress, [0.3, 0.42], ["15px", "0px"]);
 
 
 
@@ -45,13 +47,13 @@ export default function MacbookReveal() {
     <section 
       ref={containerRef} 
       id="simulator" 
-      className="relative h-[140vh] bg-transparent w-full overflow-visible"
+      className="relative h-[250vh] bg-transparent w-full overflow-visible"
     >
       {/* Sticky viewport container */}
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-12 px-8">
         
-        {/* Fixed Title & Description Area */}
-        <div className="text-center max-w-xl mx-auto mb-4 z-20">
+        {/* Fixed Title & Description Area — hidden during zoom, fades in during de-zoom */}
+        <motion.div style={{ opacity: titleOpacity, y: titleY }} className="text-center max-w-xl mx-auto mb-4 z-20">
           <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-3">
             DÉMONSTRATION INTERACTIVE
           </span>
@@ -83,7 +85,7 @@ export default function MacbookReveal() {
               </p>
             )}
           </div>
-        </div>
+        </motion.div>
 
         {/* Outer alignment container */}
         <div className="w-full max-w-5xl relative flex justify-center items-center overflow-visible">
@@ -96,16 +98,13 @@ export default function MacbookReveal() {
               style={{
                 y,
                 scale,
-                opacity
+                transformOrigin: '50% 40%',
               }}
               className="relative w-[800px] aspect-[1972/1282] max-w-4xl flex items-center justify-center overflow-visible"
             >
-              {/* Flat Linear Premium MacBook Shadows (to match the flat metal chassis instead of a curved ellipse) */}
-              {/* 1. Flat contact line under the chassis */}
-              <div className="absolute bottom-[0px] left-[7%] w-[86%] h-[1.5px] bg-black/[0.16] blur-[0.8px] rounded-sm pointer-events-none z-0" />
-              
-              {/* 2. Flat ambient drop shadow under the raised bottom plate */}
-              <div className="absolute bottom-[-3px] left-[9%] w-[82%] h-[5px] bg-neutral-950/[0.08] blur-[3.5px] rounded-md pointer-events-none z-0" />
+              {/* Shadows fade in with the MacBook frame during de-zoom reveal */}
+              <motion.div style={{ opacity: frameOpacity }} className="absolute bottom-[0px] left-[7%] w-[86%] h-[1.5px] bg-black/[0.16] blur-[0.8px] rounded-sm pointer-events-none z-0" />
+              <motion.div style={{ opacity: frameOpacity }} className="absolute bottom-[-3px] left-[9%] w-[82%] h-[5px] bg-neutral-950/[0.08] blur-[3.5px] rounded-md pointer-events-none z-0" />
 
               {/* 2. Interactive dashboard content inside the screen (z-0) */}
               <div className="absolute top-[11.3%] left-[11.3%] w-[77.4%] h-[77.4%] z-0 bg-black overflow-hidden rounded-[4px]">
@@ -118,9 +117,10 @@ export default function MacbookReveal() {
 
               {/* 3. Photorealistic MacBook frame image on top (z-10) */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <motion.img
                 src="/macbook-frame.png"
                 alt=""
+                style={{ opacity: frameOpacity }}
                 className="absolute inset-0 w-full h-full z-10 object-contain select-none pointer-events-none"
                 draggable={false}
               />
