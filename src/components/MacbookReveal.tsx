@@ -1,17 +1,32 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useMotionTemplate
+} from "framer-motion";
 import DashboardContent from "./DashboardContent";
 
 /*
- * MACBOOK REVEAL — CINEMATIC PORTAL ENTRY + DE-ZOOM REVEAL (5-PHASE SEQUENCE)
+ * MACBOOK REVEAL — ON ENTRE DANS "VIVEZ L'EXPÉRIENCE NOTAS" (SÉQUENCE 5 PHASES)
  *
- *   Phase 0 (0% → 15%):  A dark rectangle (portal) expands via clip-path to fill the viewport.
- *   Phase 1 (15% → 17%):  Overlay covers navbar.
- *   Phase 2 (17% → 33%):  "Vivez l'expérience NOTAS" text on black.
- *   Phase 3 (35% → 55%):  Camera pulls back (de-zoom), MacBook frame appears.
- *   Phase 4 (55% → 100%): MacBook sits static for interactive onboarding.
+ *   Phase A (0% → 15%)  : Le portail (rectangle sombre) s'ouvre en clip-path.
+ *                         Le texte émerge à l'intérieur, petit — vu de loin.
+ *   Phase B (15% → 28%) : Immersion plein écran (l'overlay fixe couvre la navbar).
+ *                         Le texte dérive lentement vers le spectateur (scale 1 → 1.1).
+ *   Phase C (28% → 36%) : TRAVERSÉE — le texte accélère vers nous (scale → 2.2),
+ *                         se floute et disparaît : on passe à travers.
+ *   Phase D (35% → 58%) : Dé-zoom — la caméra recule, le cadre MacBook apparaît :
+ *                         on était à l'intérieur de l'écran.
+ *   Phase E (58% → 100%): MacBook statique pour l'onboarding interactif.
+ *
+ * Anti-flicker : le texte existe en 2 exemplaires (portail + overlay) pilotés par
+ * les MÊMES MotionValues et centrés dans des conteneurs inset-0 identiques —
+ * pendant que le sticky est engagé ils coïncident au pixel près, le handoff
+ * portail → overlay est invisible. L'overlay est fixe pour couvrir la navbar.
  */
 
 export default function MacbookReveal() {
@@ -31,68 +46,110 @@ export default function MacbookReveal() {
     restDelta: 0.001
   });
 
-  // --- Phase 0: Portal expansion (dark rectangle grows to fill viewport via clip-path) ---
+  // --- Phase A : ouverture du portail (ease-out cubic pour un "bloom" naturel) ---
   const portalClip = useTransform(smoothProgress, (v: number) => {
-    const t = Math.min(Math.max(v / 0.15, 0), 1); // map 0→0.15 to 0→1
-    const insetY = 28 * (1 - t);   // 28% → 0%
-    const insetX = 15 * (1 - t);   // 15% → 0%
-    const radius = 16 * (1 - t);   // 16px → 0px
+    const t = Math.min(Math.max(v / 0.15, 0), 1);
+    const e = 1 - Math.pow(1 - t, 3); // ease-out cubic
+    const insetY = 28 * (1 - e); // 28% → 0%
+    const insetX = 15 * (1 - e); // 15% → 0%
+    const radius = 16 * (1 - e); // 16px → 0px
     return `inset(${insetY}% ${insetX}% ${insetY}% ${insetX}% round ${radius}px)`;
   });
 
-  // --- Phase 1: Overlay covers navbar once portal has filled the viewport ---
-  const overlayOpacity = useTransform(smoothProgress, [0.14, 0.16, 0.35, 0.55], [0, 1, 1, 0]);
+  // --- Overlay fixe (couvre la navbar) : opaque dès que le portail remplit
+  //     l'écran, se lève pendant le dé-zoom ---
+  const overlayOpacity = useTransform(
+    smoothProgress,
+    [0.13, 0.155, 0.35, 0.55],
+    [0, 1, 1, 0]
+  );
 
-  // --- Text inside the portal: visible from start, fades out before de-zoom ---
-  const portalTextOpacity = useTransform(smoothProgress, [0, 0.25, 0.28, 0.33], [1, 1, 1, 0]);
+  // --- Texte immersif (valeurs PARTAGÉES entre portail et overlay) ---
+  // Approche (0.72 → 1), dérive lente (1 → 1.1), traversée (1.1 → 2.2)
+  const textScale = useTransform(
+    smoothProgress,
+    [0, 0.15, 0.28, 0.36],
+    [0.72, 1, 1.1, 2.2]
+  );
+  const textOpacity = useTransform(
+    smoothProgress,
+    [0.01, 0.07, 0.29, 0.35],
+    [0, 1, 1, 0]
+  );
+  const textBlurPx = useTransform(smoothProgress, [0.28, 0.36], [0, 14]);
+  const textFilter = useMotionTemplate`blur(${textBlurPx}px)`;
 
-  // --- Phase 3: MacBook de-zoom ---
-  const scale = useTransform(smoothProgress, [0.35, 0.55, 1], [3, 1, 1]);
-  const y = useTransform(smoothProgress, [0.35, 0.55, 1], ["3vh", "0px", "0px"]);
-  const frameOpacity = useTransform(smoothProgress, [0.37, 0.48, 0.55], [0, 0.5, 1]);
-  const macbookOpacity = useTransform(smoothProgress, [0.33, 0.38], [0, 1]);
+  // --- Phase D : dé-zoom MacBook (on recule, on découvre l'écran) ---
+  const scale = useTransform(smoothProgress, [0.36, 0.58, 1], [3, 1, 1]);
+  const y = useTransform(smoothProgress, [0.36, 0.58, 1], ["2.5vh", "0px", "0px"]);
+  const frameOpacity = useTransform(smoothProgress, [0.38, 0.5, 0.58], [0, 0.5, 1]);
+  const macbookOpacity = useTransform(smoothProgress, [0.35, 0.42], [0, 1]);
 
-  // --- Background reveal: portal bg transitions to page color ---
-  const bgRevealOpacity = useTransform(smoothProgress, [0.35, 0.55], [0, 1]);
+  // --- Background reveal : le fond repasse du noir à la couleur de page ---
+  const bgRevealOpacity = useTransform(smoothProgress, [0.36, 0.56], [0, 1]);
 
-  // --- Section title: visible at start above portal, fades out, reappears after reveal ---
-  const titleOpacity = useTransform(smoothProgress, [0, 0.06, 0.12, 0.53, 0.60], [1, 1, 0, 0, 1]);
-  const titleY = useTransform(smoothProgress, [0.53, 0.60], ["15px", "0px"]);
-  // --- Onboarding instructions: only visible after MacBook is revealed ---
-  const instructionsOpacity = useTransform(smoothProgress, [0.58, 0.65], [0, 1]);
+  // --- Titre de section : visible au départ, disparaît, revient après le reveal ---
+  const titleOpacity = useTransform(
+    smoothProgress,
+    [0, 0.06, 0.12, 0.56, 0.63],
+    [1, 1, 0, 0, 1]
+  );
+  const titleY = useTransform(smoothProgress, [0.56, 0.63], ["15px", "0px"]);
+  // --- Instructions d'onboarding : seulement après le reveal du MacBook ---
+  const instructionsOpacity = useTransform(smoothProgress, [0.62, 0.69], [0, 1]);
 
+  // Texte immersif — même JSX rendu dans le portail ET dans l'overlay,
+  // piloté par les mêmes MotionValues (handoff invisible au pixel près).
+  const immersiveText = (
+    <motion.h2
+      style={{ opacity: textOpacity, scale: textScale, filter: textFilter }}
+      className="font-serif text-white text-3xl md:text-5xl lg:text-6xl text-center leading-tight px-8 will-change-transform"
+    >
+      Vivez l&apos;expérience<br />
+      <span className="italic text-emerald-400 font-light">NOTAS</span>
+    </motion.h2>
+  );
 
+  // Halo émeraude discret derrière le texte — profondeur dans le noir
+  const immersiveGlow = (
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+      <div className="w-[65vmin] h-[65vmin] rounded-full bg-emerald-500/[0.07] blur-[90px]" />
+    </div>
+  );
 
   return (
-    <section 
-      ref={containerRef} 
-      id="simulator" 
+    <section
+      ref={containerRef}
+      id="simulator"
       className="relative h-[300vh] bg-[#FBFBFA] w-full overflow-visible"
     >
-      {/* ═══ Cinematic full-screen black overlay (fixed = covers navbar) ═══ */}
+      {/* ═══ Overlay d'immersion fixe : noir + halo + texte (couvre la navbar) ═══ */}
       <motion.div
         style={{ opacity: overlayOpacity }}
-        className="fixed inset-0 bg-black z-[100] pointer-events-none"
-      />
+        className="fixed inset-0 z-[100] pointer-events-none"
+      >
+        <div className="absolute inset-0 bg-neutral-950" />
+        {immersiveGlow}
+        <div className="absolute inset-0 flex items-center justify-center">
+          {immersiveText}
+        </div>
+      </motion.div>
 
       {/* Sticky viewport container */}
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-12 px-8 bg-[#FBFBFA]">
-        
-        {/* Portal: expanding dark rectangle with text inside */}
+
+        {/* Portail : rectangle sombre qui s'ouvre, texte émergeant à l'intérieur */}
         <motion.div
           style={{ clipPath: portalClip }}
-          className="absolute inset-0 bg-neutral-950 z-[1] flex items-center justify-center"
+          className="absolute inset-0 bg-neutral-950 z-[1] overflow-hidden"
         >
-          <motion.h2
-            style={{ opacity: portalTextOpacity }}
-            className="font-serif text-white text-3xl md:text-5xl lg:text-6xl text-center leading-tight px-8"
-          >
-            Vivez l&apos;expérience<br />
-            <span className="italic text-emerald-400 font-light">NOTAS</span>
-          </motion.h2>
+          {immersiveGlow}
+          <div className="absolute inset-0 flex items-center justify-center">
+            {immersiveText}
+          </div>
         </motion.div>
-        
-        {/* Background reveal: covers the portal with page color during de-zoom */}
+
+        {/* Background reveal : recouvre le portail avec la couleur de page pendant le dé-zoom */}
         <motion.div
           style={{ opacity: bgRevealOpacity }}
           className="absolute inset-0 bg-[#FBFBFA] z-[2] pointer-events-none"
@@ -133,10 +190,10 @@ export default function MacbookReveal() {
 
         {/* Outer alignment container */}
         <motion.div style={{ opacity: macbookOpacity }} className="w-full max-w-5xl relative flex justify-center items-center overflow-visible z-[5]">
-          
+
           {/* Responsive scaling helper layer */}
           <div className="scale-[0.45] sm:scale-[0.65] md:scale-[0.82] lg:scale-95 origin-center transition-transform duration-300 overflow-visible">
-            
+
             {/* Scroll entry transition div */}
             <motion.div
               style={{
@@ -152,10 +209,10 @@ export default function MacbookReveal() {
 
               {/* 2. Interactive dashboard content inside the screen (z-0) */}
               <div className="absolute top-[11.3%] left-[11.3%] w-[77.4%] h-[77.4%] z-0 bg-black overflow-hidden rounded-[4px]">
-                <DashboardContent 
-                  step={step} 
-                  setStep={setStep} 
-                  className="w-full h-full text-[10px]" 
+                <DashboardContent
+                  step={step}
+                  setStep={setStep}
+                  className="w-full h-full text-[10px]"
                 />
               </div>
 
