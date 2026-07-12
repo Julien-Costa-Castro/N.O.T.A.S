@@ -1179,59 +1179,71 @@ export default function Home() {
             30 minutes pour voir ce que NOTAS ferait dans votre étude. Un premier échange simple, sans engagement.
           </p>
 
-          <form onSubmit={checkEligibility} className="space-y-4">
-            <div className="flex flex-col sm:flex-row gap-3">
-              <input
-                type="text"
-                placeholder="Numéro de département (ex: 75, 92)"
-                value={eligibilityCode}
-                onChange={(e) => setEligibilityCode(e.target.value)}
-                className="flex-1 px-4 py-3 rounded border border-gray-200 text-sm font-sans focus:outline-none focus:ring-1 focus:ring-black focus:border-black bg-white/50"
-              />
-              <button
-                type="submit"
-                className="relative overflow-hidden px-6 py-3 rounded bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 hover:scale-105 transition-all duration-300 shadow-sm cursor-pointer !font-sans font-sans"
-              >
-                {/* Shimmer effect */}
-                <span className="absolute inset-0 block -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-                <span className="relative z-10 !font-sans font-sans font-medium text-sm tracking-tight text-white">Vérifier l&apos;éligibilité</span>
-              </button>
-            </div>
+          {/* CTA principal — réserver directement le rendez-vous de découverte */}
+          <a
+            data-cal-namespace="30min"
+            data-cal-link="notas-qrfxag/30min"
+            data-cal-config='{"layout":"month_view"}'
+            className="group relative overflow-hidden flex items-center justify-center gap-2 w-full px-6 py-4 rounded-lg bg-[#111111] text-white text-base font-semibold hover:bg-neutral-800 hover:scale-[1.02] transition-all duration-300 shadow-sm cursor-pointer !font-sans font-sans"
+          >
+            {/* Shimmer effect */}
+            <span className="absolute inset-0 block -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+            <span className="relative z-10 flex items-center gap-2 tracking-tight text-white">
+              Réserver mon rendez-vous de découverte
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-300" />
+            </span>
+          </a>
+          <p className="text-[11px] text-ash-light mt-3 font-sans">
+            30 min en visio · sans engagement · réponse sous 24 h
+          </p>
 
-            <AnimatePresence mode="wait">
-              {eligibilityStatus === "eligible" && (
-                <motion.div
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  className="space-y-3"
+          {/* Option secondaire — vérifier que le secteur est encore ouvert */}
+          <div className="mt-7 pt-6 border-t border-gray-200/60">
+            <p className="text-xs text-ash-text mb-3 font-sans">
+              Vous préférez d&apos;abord vérifier que votre secteur est encore disponible&nbsp;?
+            </p>
+            <form onSubmit={checkEligibility} className="space-y-3">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <input
+                  type="text"
+                  placeholder="Numéro de département (ex: 75, 92)"
+                  value={eligibilityCode}
+                  onChange={(e) => setEligibilityCode(e.target.value)}
+                  className="flex-1 px-4 py-2.5 rounded border border-gray-200 text-sm font-sans focus:outline-none focus:ring-1 focus:ring-black focus:border-black bg-white/50"
+                />
+                <button
+                  type="submit"
+                  className="px-5 py-2.5 rounded border border-gray-300 bg-white text-neutral-700 text-sm font-medium hover:bg-neutral-50 hover:border-gray-400 transition-all duration-300 cursor-pointer font-sans"
                 >
-                  <div className="p-3.5 bg-emerald-50 border border-emerald-100 text-emerald-800 text-xs rounded font-sans flex items-center gap-2 justify-center">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    Votre département est ouvert — planifions votre rendez-vous de découverte.
-                  </div>
-                  <a
-                    data-cal-namespace="30min"
-                    data-cal-link="notas-qrfxag/30min"
-                    data-cal-config='{"layout":"month_view"}'
-                    className="block w-full px-6 py-3 rounded bg-emerald-700 text-white text-xs uppercase tracking-widest font-semibold hover:bg-emerald-800 transition-colors duration-300 shadow-sm text-center cursor-pointer"
+                  Vérifier mon secteur
+                </button>
+              </div>
+
+              <AnimatePresence mode="wait">
+                {eligibilityStatus === "eligible" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="p-3.5 bg-emerald-50 border border-emerald-100 text-emerald-800 text-xs rounded font-sans flex items-center gap-2 justify-center"
                   >
-                    Prendre rendez-vous
-                  </a>
-                </motion.div>
-              )}
-              {eligibilityStatus === "invalid" && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  className="p-3.5 bg-red-50 border border-red-100 text-red-800 text-xs rounded font-sans justify-center"
-                >
-                  Veuillez saisir un code postal ou numéro de département valide.
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </form>
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                    Votre secteur est ouvert — réservez votre créneau ci-dessus.
+                  </motion.div>
+                )}
+                {eligibilityStatus === "invalid" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="p-3.5 bg-red-50 border border-red-100 text-red-800 text-xs rounded font-sans justify-center"
+                  >
+                    Veuillez saisir un code postal ou numéro de département valide.
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </form>
+          </div>
         </div>
         <div className="w-full flex justify-between items-center max-w-7xl mx-auto text-[10px] font-mono text-ash-light z-20">
           <span>HÉBERGÉ EN FRANCE</span>
