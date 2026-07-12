@@ -323,21 +323,21 @@ export default function Home() {
         </a>
 
         <nav className="hidden md:flex items-center gap-6 lg:gap-8 font-sans shrink-0">
-          <a href="#probleme" className="text-sm font-medium text-gray-500 transition-colors duration-200 hover:text-black">Le coût</a>
-          <a href="#simulator" onClick={handleDemoClick} className="text-sm font-medium text-gray-500 transition-colors duration-200 hover:text-black">Démonstration</a>
-          <a href="#bento" className="text-sm font-medium text-gray-500 transition-colors duration-200 hover:text-black">Garanties</a>
-          <a href="#footer" className="text-sm font-medium text-gray-500 transition-colors duration-200 hover:text-black">Éligibilité</a>
+          <a href="#probleme" className="!font-sans font-sans font-medium text-[15px] tracking-tight text-neutral-600 transition-colors duration-200 hover:text-black">Le coût</a>
+          <a href="#simulator" onClick={handleDemoClick} className="!font-sans font-sans font-medium text-[15px] tracking-tight text-neutral-600 transition-colors duration-200 hover:text-black">Démonstration</a>
+          <a href="#bento" className="!font-sans font-sans font-medium text-[15px] tracking-tight text-neutral-600 transition-colors duration-200 hover:text-black">Garanties</a>
+          <a href="#footer" className="!font-sans font-sans font-medium text-[15px] tracking-tight text-neutral-600 transition-colors duration-200 hover:text-black">Éligibilité</a>
         </nav>
 
         <motion.a 
           href="#footer"
-          className="relative overflow-hidden px-5 py-2 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 font-sans shrink-0"
+          className="relative overflow-hidden px-5 py-2 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 !font-sans font-sans shrink-0"
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
         >
           {/* Shimmer effect */}
           <span className="absolute inset-0 block -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-          <span className="relative z-10">Demander une démo</span>
+          <span className="relative z-10 !font-sans font-sans font-medium text-sm tracking-tight text-white">Demander une démo</span>
         </motion.a>
       </motion.header>
 
@@ -421,13 +421,13 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
               <motion.a
                 href="#footer"
-                className="relative overflow-hidden px-7 py-3 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 font-sans"
+                className="relative overflow-hidden px-7 py-3 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 !font-sans font-sans"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
               >
                 {/* Shimmer effect */}
                 <span className="absolute inset-0 block -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-                <span className="relative z-10">Prendre rendez-vous</span>
+                <span className="relative z-10 !font-sans font-sans font-medium text-sm tracking-tight text-white">Prendre rendez-vous</span>
               </motion.a>
               <a
                 href="#simulator"
@@ -1030,11 +1030,11 @@ export default function Home() {
               />
               <button
                 type="submit"
-                className="relative overflow-hidden px-6 py-3 rounded bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 hover:scale-105 transition-all duration-300 shadow-sm cursor-pointer font-sans"
+                className="relative overflow-hidden px-6 py-3 rounded bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 hover:scale-105 transition-all duration-300 shadow-sm cursor-pointer !font-sans font-sans"
               >
                 {/* Shimmer effect */}
                 <span className="absolute inset-0 block -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-                <span className="relative z-10">Vérifier l&apos;éligibilité</span>
+                <span className="relative z-10 !font-sans font-sans font-medium text-sm tracking-tight text-white">Vérifier l&apos;éligibilité</span>
               </button>
             </div>
 

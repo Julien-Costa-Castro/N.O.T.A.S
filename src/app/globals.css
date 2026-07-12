@@ -8,9 +8,9 @@
   --color-ash-text: #555555;
   --color-ash-light: #888888;
   
-  --font-sans: var(--font-geist-sans), "Inter", -apple-system, sans-serif;
-  --font-serif: var(--font-playfair), "Playfair Display", Georgia, serif;
-  --font-mono: var(--font-geist-mono), monospace;
+  --font-sans: "Geist", "Inter", -apple-system, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-mono: "Geist Mono", monospace;
 
   --shadow-luxe: 0 10px 40px rgba(0, 0, 0, 0.02);
   --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.03);
