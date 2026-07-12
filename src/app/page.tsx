@@ -245,10 +245,10 @@ export default function Home() {
           width: isNavbarScrolled ? 800 : 1280,
           height: isNavbarScrolled ? 64 : 96,
           borderRadius: isNavbarScrolled ? 16 : 0,
-          backgroundColor: isNavbarScrolled ? "rgba(255, 255, 255, 0.2)" : "rgba(251, 251, 250, 0)",
-          borderColor: isNavbarScrolled ? "rgba(229, 231, 235, 0.3)" : "rgba(229, 231, 235, 0)",
-          backdropFilter: isNavbarScrolled ? "blur(20px)" : "blur(0px)",
-          WebkitBackdropFilter: isNavbarScrolled ? "blur(20px)" : "blur(0px)",
+          backgroundColor: isNavbarScrolled ? "rgba(255, 255, 255, 0.7)" : "rgba(251, 251, 250, 0)",
+          borderColor: isNavbarScrolled ? "rgba(229, 231, 235, 0.5)" : "rgba(229, 231, 235, 0)",
+          backdropFilter: isNavbarScrolled ? "blur(12px)" : "blur(0px)",
+          WebkitBackdropFilter: isNavbarScrolled ? "blur(12px)" : "blur(0px)",
           boxShadow: isNavbarScrolled ? "0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05)" : "0 0 0 0 rgba(0,0,0,0)",
           paddingLeft: isNavbarScrolled ? 24 : 32,
           paddingRight: isNavbarScrolled ? 24 : 32,
@@ -459,7 +459,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ ease: EASE_ETHEREAL, duration: 0.9 }}
-              className="bg-white/50 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-8 flex flex-col justify-between min-h-[300px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)]"
+              className="bg-white border border-neutral-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-2xl p-8 flex flex-col justify-between min-h-[300px]"
             >
               <span className="font-mono text-[10px] tracking-wider text-ash-light uppercase">
                 DÉLAI DE VENTE MOYEN
@@ -484,7 +484,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ ease: EASE_ETHEREAL, duration: 0.9, delay: 0.15 }}
-              className="bg-white/50 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-8 flex flex-col justify-between min-h-[300px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)]"
+              className="bg-white border border-neutral-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-2xl p-8 flex flex-col justify-between min-h-[300px]"
             >
               <span className="font-mono text-[10px] tracking-wider text-ash-light uppercase">
                 DES DÉLAIS QUI S&apos;AGGRAVENT
@@ -537,7 +537,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ ease: EASE_ETHEREAL, duration: 0.9, delay: 0.3 }}
-              className="bg-white/50 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-8 flex flex-col justify-between min-h-[300px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)]"
+              className="bg-white border border-neutral-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-2xl p-8 flex flex-col justify-between min-h-[300px]"
             >
               <span className="font-mono text-[10px] tracking-wider text-ash-light uppercase">
                 DU TEMPS QUI PART EN FUMÉE
@@ -568,7 +568,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2">
 
               {/* Colonne gauche : ce que l'attente coûte */}
-              <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-gray-200/60 space-y-7">
+              <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-gray-200/60 space-y-10">
                 <span className="font-mono text-[10px] tracking-wider text-ash-light uppercase font-bold">
                   CE QUE L&apos;ATTENTE VOUS COÛTE
                 </span>
@@ -605,7 +605,7 @@ export default function Home() {
               </div>
 
               {/* Colonne droite : ce que le même temps rapporte */}
-              <div className="p-8 md:p-10 space-y-7">
+              <div className="p-8 md:p-10 space-y-10">
                 <span className="font-mono text-[10px] tracking-wider text-emerald-700 uppercase font-bold">
                   CE QUE LE MÊME TEMPS RAPPORTE
                 </span>
@@ -895,7 +895,7 @@ export default function Home() {
                     Notre garantie
                   </h3>
                   <p className="text-ash-text text-sm font-light leading-relaxed">
-                    [GARANTIE_À_DÉFINIR — insérer ici la garantie exacte : conditions, durée, remboursement]
+                    Essai sans engagement de 30 jours. Si le copilote ne vous fait pas gagner de temps dès le premier mois, vous êtes intégralement remboursé. Vos données sont chiffrées de bout en bout et hébergées sur des serveurs souverains en France.
                   </p>
                 </div>
                 
