@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import DashboardContent from "@/components/DashboardContent";
 import MacbookReveal from "@/components/MacbookReveal";
-import { ReactLenis } from "@studio-freight/react-lenis";
+import Lenis from "lenis";
 
 // Noble Bezier Transition Curve (Apple/Stripe Inspired)
 const EASE_ETHEREAL: [number, number, number, number] = [0.76, 0, 0.24, 1];
@@ -141,10 +141,33 @@ export default function Home() {
   const footerSectionRef = useRef<HTMLDivElement>(null);
   const heroSectionRef = useRef<HTMLDivElement>(null);
 
-  // Scroll calculations
   const { scrollY } = useScroll();
   const [isNavbarScrolled, setIsNavbarScrolled] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      infinite: false,
+    });
+
+    let rafId: number;
+    function raf(time: number) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
+  }, []);
 
   // Follow scroll progress of hero section:
   const { scrollY: heroScrollY } = useScroll({
@@ -318,8 +341,7 @@ export default function Home() {
   };
 
   return (
-    <ReactLenis root options={{ lerp: 0.05, duration: 1.2 }}>
-      <div className="relative min-h-screen bg-[#FBFBFA] text-neutral-600 font-sans antialiased selection:bg-neutral-900/5 selection:text-[#111111] overflow-x-clip">
+    <div className="relative min-h-screen bg-[#FBFBFA] text-neutral-600 font-sans antialiased selection:bg-neutral-900/5 selection:text-[#111111] overflow-x-clip">
       
       {/* Structural Architectural Background & Noise */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
@@ -1191,7 +1213,6 @@ export default function Home() {
         </div>
       </footer>
 
-      </div>
-    </ReactLenis>
+    </div>
   );
 }
