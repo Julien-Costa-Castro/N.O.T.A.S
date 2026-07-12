@@ -104,7 +104,7 @@ export default function MacbookReveal() {
               <div className="absolute bottom-[-15px] left-[8%] w-[84%] h-8 bg-black/20 blur-2xl rounded-full pointer-events-none z-0" />
 
               {/* 2. Interactive dashboard content inside the screen (z-0) */}
-              <div className="absolute top-[11.7%] left-[11.71%] w-[76.52%] h-[76.52%] z-0 bg-black overflow-hidden rounded-[6px]">
+              <div className="absolute top-[11.3%] left-[11.3%] w-[77.4%] h-[77.4%] z-0 bg-black overflow-hidden rounded-[4px]">
                 <DashboardContent 
                   step={step} 
                   setStep={setStep} 
