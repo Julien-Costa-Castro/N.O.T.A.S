@@ -16,7 +16,7 @@ import {
   Activity, Calendar, CreditCard, FileCode
 } from "lucide-react";
 import DashboardContent from "@/components/DashboardContent";
-import MacbookModel from "@/components/MacbookModel";
+import MacbookReveal from "@/components/MacbookReveal";
 
 // Noble Bezier Transition Curve (Apple/Stripe Inspired)
 const EASE_ETHEREAL: [number, number, number, number] = [0.76, 0, 0.24, 1];
@@ -79,17 +79,11 @@ export default function Home() {
     offset: ["start start", "end end"]
   });
 
-  // Smooth out scroll transition
+  // Smooth out scroll transition (spring du brief : 100 / 30)
   const smoothSimulatorProgress = useSpring(simulatorScrollProgress, {
     stiffness: 100,
-    damping: 20
+    damping: 30
   });
-
-  // Map screen rotation X based on scroll timeline
-  // 0% -> 40% scroll: lid opens (rotation X: 0 to 1.5 rad)
-  // 40% -> 60% scroll: lid stays open (rotation X: 1.5 rad)
-  // 60% -> 100% scroll: lid closes (rotation X: 1.5 rad to 0 rad)
-  const laptopRotateX = useTransform(smoothSimulatorProgress, [0, 0.4, 0.6, 1.0], [0, 1.5, 1.5, 0]);
 
   const [logoSrc, setLogoSrc] = useState("/ChatGPT_Image_12_juil._2026_00_46_38.png");
 
@@ -229,7 +223,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-[#FBFBFA] text-[#111111] selection:bg-neutral-900/5 selection:text-[#111111] overflow-hidden">
+    <div className="relative min-h-screen bg-[#FBFBFA] text-[#111111] selection:bg-neutral-900/5 selection:text-[#111111] overflow-x-clip">
       
       {/* Structural Architectural Background & Noise */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
@@ -374,7 +368,7 @@ export default function Home() {
             </h1>
 
             <p className="text-base md:text-lg text-ash-text max-w-2xl mx-auto leading-relaxed font-sans font-light mt-6">
-              Le tableau de suivi que vos clercs connaissent déjà — mais qui travaille tout seul. Relances automatiques, alertes avant expiration, clients informés. Zéro saisie en double, zéro apprentissage.
+              Le tableau de suivi que vos clercs connaissent déjà — mais qui relance, surveille les expirations et informe vos clients tout seul.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
@@ -464,7 +458,7 @@ export default function Home() {
               Chaque dossier qui traîne, <span className="italic text-emerald-700 font-light">c&apos;est votre marge qui attend.</span>
             </h2>
             <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
-              Les délais s&apos;allongent, les pièces manquantes bloquent les signatures et vos clercs relancent à la main. Pendant ce temps, les émoluments attendent — et les clients s&apos;impatientent.
+              Pièces manquantes, relances manuelles, documents qui expirent : pendant que les dossiers traînent, les émoluments attendent.
             </p>
           </div>
 
@@ -488,7 +482,7 @@ export default function Home() {
                   <span className="text-2xl font-sans font-light tracking-tight ml-2 text-neutral-500">jours</span>
                 </div>
                 <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
-                  entre le compromis et l&apos;acte authentique. Première cause de retard évitable : <strong>une pièce manquante</strong>.
+                  entre compromis et acte. Première cause évitable : <strong>une pièce manquante</strong>.
                 </p>
               </div>
               <div className="border-t border-gray-100 pt-4 font-sans">
@@ -513,7 +507,7 @@ export default function Home() {
                   <span className="text-2xl font-sans font-light tracking-tight ml-2 text-neutral-500">%</span>
                 </div>
                 <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
-                  de délai en deux ans. Attendre n&apos;arrange rien : chaque année, les dossiers traînent davantage.
+                  de délai en 2 ans sur les ventes immobilières.
                 </p>
                 <div className="mt-5 space-y-2.5">
                   <div className="flex items-center gap-3">
@@ -566,11 +560,11 @@ export default function Home() {
                   <span className="text-2xl font-sans font-light tracking-tight ml-2 text-neutral-500">j / semaine</span>
                 </div>
                 <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
-                  perdu par clerc à chercher l&apos;information et relancer — comme dans tous les métiers administratifs. Soit <strong>20 % du temps de travail</strong>.
+                  perdu par clerc à chercher l&apos;info et relancer — <strong>20 % du temps de travail</strong>.
                 </p>
               </div>
               <div className="border-t border-gray-100 pt-4 font-sans">
-                <span className="text-[9px] font-mono text-ash-light uppercase tracking-wider">Source : McKinsey Global Institute</span>
+                <span className="text-[9px] font-mono text-ash-light uppercase tracking-wider">Source : McKinsey — métiers administratifs</span>
               </div>
             </motion.div>
           </div>
@@ -595,7 +589,7 @@ export default function Home() {
                   <span className="font-serif text-2xl font-light text-[#111111] w-32 shrink-0 leading-tight">25–30 €</span>
                   <div className="font-sans">
                     <p className="text-ash-text text-sm font-light leading-relaxed">
-                      le coût réel d&apos;une heure de clerc — consommée par des relances manuelles sans valeur juridique.
+                      l&apos;heure de clerc brûlée en relances manuelles.
                     </p>
                     <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider block mt-1.5">Sources : IMEB · Indeed</span>
                   </div>
@@ -605,7 +599,7 @@ export default function Home() {
                   <span className="font-serif text-2xl font-light text-[#111111] w-32 shrink-0 leading-tight">45 000 €<span className="text-sm text-neutral-500 font-sans"> /an</span></span>
                   <div className="font-sans">
                     <p className="text-ash-text text-sm font-light leading-relaxed">
-                      le coût chargé d&apos;un clerc supplémentaire embauché pour absorber le volume.
+                      l&apos;embauche nécessaire pour absorber le volume.
                     </p>
                     <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider block mt-1.5">Source : IMEB</span>
                   </div>
@@ -615,7 +609,7 @@ export default function Home() {
                   <span className="font-serif text-2xl font-light text-[#111111] w-32 shrink-0 leading-tight">N°1</span>
                   <div className="font-sans">
                     <p className="text-ash-text text-sm font-light leading-relaxed">
-                      motif d&apos;insatisfaction des clients : le manque de suivi. Ils attendent une réponse sous 24 h — et le font savoir autour d&apos;eux.
+                      des insatisfactions clients : le manque de suivi. Réponse attendue sous 24 h.
                     </p>
                     <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider block mt-1.5">Source : Orphée</span>
                   </div>
@@ -632,7 +626,7 @@ export default function Home() {
                   <span className="font-serif text-2xl font-light text-emerald-700 w-32 shrink-0 leading-tight">2 500–3 500 €</span>
                   <div className="font-sans">
                     <p className="text-ash-text text-sm font-light leading-relaxed">
-                      d&apos;émoluments sur une seule vente à 250 000 €. Chaque dossier accéléré, c&apos;est cette somme qui rentre plus tôt.
+                      d&apos;émoluments sur une seule vente à 250 000 €.
                     </p>
                     <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider block mt-1.5">Source : Empruntis</span>
                   </div>
@@ -642,7 +636,7 @@ export default function Home() {
                   <span className="font-serif text-2xl font-light text-emerald-700 w-32 shrink-0 leading-tight">×2,5 à ×4</span>
                   <div className="font-sans">
                     <p className="text-ash-text text-sm font-light leading-relaxed">
-                      dossiers gérés par personne lorsque les relances sont automatisées — sans effectif supplémentaire.
+                      dossiers gérés par personne, sans effectif supplémentaire.
                     </p>
                     <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider block mt-1.5">Source : initiative-CRM</span>
                   </div>
@@ -652,7 +646,7 @@ export default function Home() {
                   <span className="font-serif text-2xl font-light text-emerald-700 w-32 shrink-0 leading-tight">+27 %</span>
                   <div className="font-sans">
                     <p className="text-ash-text text-sm font-light leading-relaxed">
-                      de productivité dans les structures qui automatisent leurs relances — et 15 à 30 % du temps administratif est récupérable.
+                      de productivité quand les relances sont automatisées.
                     </p>
                     <span className="text-[8px] font-mono text-ash-light uppercase tracking-wider block mt-1.5">Sources : Gartner · France Num</span>
                   </div>
@@ -770,7 +764,7 @@ export default function Home() {
       <section 
         ref={simulator3dRef} 
         id="simulator" 
-        className="relative w-full min-h-[250vh] bg-transparent"
+        className="relative w-full min-h-[150vh] bg-transparent"
       >
         {/* Sticky viewport container */}
         <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden py-16 px-8">
@@ -784,16 +778,13 @@ export default function Home() {
               Votre fiche de suivi, <span className="italic text-emerald-700 font-light">en version 3D vivante.</span>
             </h2>
             <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
-              Faites défiler la page pour ouvrir le MacBook et explorer l&apos;interface autonome en temps réel.
+              Faites défiler : l&apos;écran s&apos;allume sur votre tableau de suivi.
             </p>
           </div>
 
-          {/* 3D Canvas wrapper */}
+          {/* MacBook reveal (illusion CSS, image + dashboard superposés) */}
           <div className="w-full max-w-5xl z-10">
-            <MacbookModel 
-              rotateX={laptopRotateX} 
-              smoothProgress={smoothSimulatorProgress} 
-            />
+            <MacbookReveal smoothProgress={smoothSimulatorProgress} />
           </div>
 
         </div>
@@ -813,26 +804,18 @@ export default function Home() {
               Des dossiers qui <span className="italic text-emerald-700 font-light">avancent tout seuls.</span>
             </h2>
             <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
-              Plus aucune pièce oubliée ni document expiré, des heures de relances économisées chaque semaine — et des clients qui n&apos;appellent plus pour demander où en est leur dossier.
+              Zéro pièce oubliée. Des heures de relances économisées. Des clients qui n&apos;appellent plus.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-            {/* Box 0 (col-span-3) : "Le quotidien des études" (texte + tableau comparatif) */}
+            {/* Box 0 (col-span-3) : tableau comparatif Aujourd'hui / Avec NOTAS */}
             <div className="md:col-span-3 bg-white/50 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)]">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div>
-                  <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-3">
-                    LE QUOTIDIEN DES ÉTUDES
-                  </span>
-                  <h3 className="font-serif text-2xl md:text-3xl font-normal leading-tight">
-                    Des heures perdues à <span className="italic text-emerald-700 font-light">courir après les pièces.</span>
-                  </h3>
-                  <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
-                    Chaque dossier de vente, ce sont <strong>des dizaines de pièces</strong>{" "}à réclamer aux clients, aux banques et aux mairies. Vos clercs passent des heures à relancer, des documents expirent sans que personne ne s&apos;en aperçoive, et les dossiers prennent du retard pendant que les clients s&apos;impatientent.
-                  </p>
-                </div>
+              <div className="max-w-3xl mx-auto">
+                <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-4 text-center">
+                  LE QUOTIDIEN, AVANT / APRÈS
+                </span>
 
                 {/* Premium Table */}
                 <div className="border-t border-gray-200">
@@ -887,7 +870,7 @@ export default function Home() {
                   Les bons interlocuteurs, au bon moment
                 </h3>
                 <p className="text-ash-text text-sm font-light mb-8 max-w-md font-sans">
-                  NOTAS repère les pièces manquantes (diagnostics, états datés) et relance chaque interlocuteur par courriel, au moment où c&apos;est utile.
+                  Diagnostics, états datés… chaque interlocuteur est relancé par courriel, au bon moment.
                 </p>
               </div>
 
@@ -1010,7 +993,7 @@ export default function Home() {
             Et si vos dossiers <span className="italic text-emerald-700 font-light">avançaient tout seuls ?</span>
           </h3>
           <p className="text-ash-text text-sm font-light mb-8 max-w-sm mx-auto leading-relaxed font-sans">
-            En 30 minutes, découvrez ce que NOTAS ferait dans votre étude : quelles relances partiraient à votre place, quelles expirations seraient surveillées, et ce que vos clercs cesseraient de faire à la main. Un premier échange simple, sans engagement.
+            30 minutes pour voir ce que NOTAS ferait dans votre étude. Un premier échange simple, sans engagement.
           </p>
 
           <form onSubmit={checkEligibility} className="space-y-4">

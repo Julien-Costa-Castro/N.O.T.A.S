@@ -43,7 +43,9 @@ body {
   color: #111111;
   font-family: var(--font-sans);
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  /* clip (et non hidden) : coupe le débordement horizontal sans créer de
+     conteneur de défilement, ce qui préserve position: sticky */
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
