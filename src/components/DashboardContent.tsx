@@ -34,10 +34,10 @@ export default function DashboardContent({ className = "", step, setStep }: Dash
   const currentStep = step ?? 99; // 99 means fully static mode
 
   // Zooming coordinates inside the screen:
-  // - Step 2 (Drawer Open): Zoom scale 1.35 and translate X left to center the drawer
-  const dashboardScale = currentStep === 2 ? 1.35 : 1;
-  const dashboardX = currentStep === 2 ? "-16%" : "0%";
-  const dashboardY = currentStep === 2 ? "1%" : "0%";
+  // - Step 2 (Drawer Open): Zoom scale 1.28, translate X left and Y up to keep the bottom button visible
+  const dashboardScale = currentStep === 2 ? 1.28 : 1;
+  const dashboardX = currentStep === 2 ? "-14%" : "0%";
+  const dashboardY = currentStep === 2 ? "-10%" : "0%";
 
   return (
     <div className={`w-full h-full bg-white select-none text-left relative overflow-hidden ${className}`}>
