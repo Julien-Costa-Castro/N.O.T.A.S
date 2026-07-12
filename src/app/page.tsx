@@ -401,7 +401,7 @@ export default function Home() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="absolute inset-0 bg-neutral-950/[0.04] rounded-lg -z-10"
+                    className="absolute inset-0 bg-neutral-100/80 rounded-full -z-10"
                     transition={{
                       type: "spring",
                       stiffness: 250,
