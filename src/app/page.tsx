@@ -379,7 +379,7 @@ export default function Home() {
 
         <nav 
           onMouseLeave={() => setHoveredIndex(null)}
-          className="hidden md:flex items-center gap-1 font-sans shrink-0 relative"
+          className="hidden md:flex items-center gap-5 font-sans shrink-0 relative"
         >
           {[
             { name: "Le coût", href: "#probleme" },
@@ -392,20 +392,20 @@ export default function Home() {
               href={item.href}
               onClick={item.onClick}
               onMouseEnter={() => setHoveredIndex(idx)}
-              className="relative px-3.5 py-1.5 !font-sans font-sans font-medium text-[15px] tracking-tight text-neutral-600 transition-colors duration-200 hover:text-black z-10 select-none cursor-pointer"
+              className="relative px-1 py-1 !font-sans font-sans font-medium text-[15px] tracking-tight text-neutral-600 transition-colors duration-200 hover:text-black z-10 select-none cursor-pointer"
             >
               <AnimatePresence>
                 {hoveredIndex === idx && (
                   <motion.div
-                    layoutId="navPill"
+                    layoutId="navIndicator"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="absolute inset-0 bg-neutral-100/80 rounded-full -z-10"
+                    className="absolute -bottom-[4px] left-0 right-0 h-[1.5px] bg-neutral-900"
                     transition={{
                       type: "spring",
-                      stiffness: 250,
-                      damping: 25
+                      stiffness: 300,
+                      damping: 30
                     }}
                   />
                 )}
