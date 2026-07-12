@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import DashboardContent from "@/components/DashboardContent";
 import MacbookReveal from "@/components/MacbookReveal";
+import { ReactLenis } from "@studio-freight/react-lenis";
 
 // Noble Bezier Transition Curve (Apple/Stripe Inspired)
 const EASE_ETHEREAL: [number, number, number, number] = [0.76, 0, 0.24, 1];
@@ -317,7 +318,8 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#FBFBFA] text-neutral-600 font-sans antialiased selection:bg-neutral-900/5 selection:text-[#111111] overflow-x-clip">
+    <ReactLenis root options={{ lerp: 0.05, duration: 1.2 }}>
+      <div className="relative min-h-screen bg-[#FBFBFA] text-neutral-600 font-sans antialiased selection:bg-neutral-900/5 selection:text-[#111111] overflow-x-clip">
       
       {/* Structural Architectural Background & Noise */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
@@ -1189,6 +1191,7 @@ export default function Home() {
         </div>
       </footer>
 
-    </div>
+      </div>
+    </ReactLenis>
   );
 }
