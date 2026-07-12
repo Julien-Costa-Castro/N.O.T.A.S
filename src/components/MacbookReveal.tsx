@@ -100,12 +100,15 @@ export default function MacbookReveal() {
               }}
               className="relative w-[800px] aspect-[1972/1282] max-w-4xl flex items-center justify-center overflow-visible"
             >
-              {/* Ultra-subtle Premium MacBook Shadows */}
-              {/* 1. Faint contact shadow to ground the very center of the base */}
-              <div className="absolute bottom-[0px] left-[12%] w-[76%] h-[2px] bg-black/[0.08] blur-[1.5px] rounded-full pointer-events-none z-0" />
+              {/* Balanced Premium MacBook Shadows */}
+              {/* 1. Contact shadow (provides a clean grounding line under the metal chassis) */}
+              <div className="absolute bottom-[-1px] left-[10%] w-[80%] h-[3px] bg-black/20 blur-[1.5px] rounded-full pointer-events-none z-0" />
               
-              {/* 2. Soft, highly transparent ambient occlusion to blend the metal base into the background */}
-              <div className="absolute bottom-[-4px] left-[8%] w-[84%] h-[8px] bg-neutral-950/[0.03] blur-[8px] rounded-full pointer-events-none z-0" />
+              {/* 2. Intermediate soft drop shadow (creates volumetric depth) */}
+              <div className="absolute bottom-[-6px] left-[12%] w-[76%] h-[8px] bg-neutral-900/10 blur-[5px] rounded-full pointer-events-none z-0" />
+              
+              {/* 3. Deep ambient occlusion shadow (smoothly blends the chassis with the background) */}
+              <div className="absolute bottom-[-16px] left-[15%] w-[70%] h-[16px] bg-neutral-950/5 blur-[12px] rounded-full pointer-events-none z-0" />
 
               {/* 2. Interactive dashboard content inside the screen (z-0) */}
               <div className="absolute top-[11.3%] left-[11.3%] w-[77.4%] h-[77.4%] z-0 bg-black overflow-hidden rounded-[4px]">
