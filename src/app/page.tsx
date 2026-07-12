@@ -143,6 +143,7 @@ export default function Home() {
   // Scroll calculations
   const { scrollY } = useScroll();
   const [isNavbarScrolled, setIsNavbarScrolled] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   // Follow scroll progress of hero section:
   const { scrollY: heroScrollY } = useScroll({
@@ -376,11 +377,42 @@ export default function Home() {
           </span>
         </a>
 
-        <nav className="hidden md:flex items-center gap-6 lg:gap-8 font-sans shrink-0">
-          <a href="#probleme" className="!font-sans font-sans font-medium text-[15px] tracking-tight text-neutral-600 transition-colors duration-200 hover:text-black">Le coût</a>
-          <a href="#simulator" onClick={handleDemoClick} className="!font-sans font-sans font-medium text-[15px] tracking-tight text-neutral-600 transition-colors duration-200 hover:text-black">Démonstration</a>
-          <a href="#bento" className="!font-sans font-sans font-medium text-[15px] tracking-tight text-neutral-600 transition-colors duration-200 hover:text-black">Garanties</a>
-          <a href="#footer" className="!font-sans font-sans font-medium text-[15px] tracking-tight text-neutral-600 transition-colors duration-200 hover:text-black">Éligibilité</a>
+        <nav 
+          onMouseLeave={() => setHoveredIndex(null)}
+          className="hidden md:flex items-center gap-1 font-sans shrink-0 relative"
+        >
+          {[
+            { name: "Le coût", href: "#probleme" },
+            { name: "Démonstration", href: "#simulator", onClick: handleDemoClick },
+            { name: "Garanties", href: "#bento" },
+            { name: "Éligibilité", href: "#footer" }
+          ].map((item, idx) => (
+            <a
+              key={idx}
+              href={item.href}
+              onClick={item.onClick}
+              onMouseEnter={() => setHoveredIndex(idx)}
+              className="relative px-3.5 py-1.5 !font-sans font-sans font-medium text-[15px] tracking-tight text-neutral-600 transition-colors duration-200 hover:text-black z-10 select-none cursor-pointer"
+            >
+              <AnimatePresence>
+                {hoveredIndex === idx && (
+                  <motion.div
+                    layoutId="navPill"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 bg-neutral-950/[0.04] rounded-lg -z-10"
+                    transition={{
+                      type: "spring",
+                      stiffness: 250,
+                      damping: 25
+                    }}
+                  />
+                )}
+              </AnimatePresence>
+              {item.name}
+            </a>
+          ))}
         </nav>
 
         <motion.a 
