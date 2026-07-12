@@ -397,15 +397,14 @@ export default function Home() {
               <AnimatePresence>
                 {hoveredIndex === idx && (
                   <motion.div
-                    layoutId="navIndicator"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    initial={{ scaleX: 0, opacity: 0 }}
+                    animate={{ scaleX: 1, opacity: 1 }}
+                    exit={{ scaleX: 0, opacity: 0 }}
+                    style={{ originX: 0 }}
                     className="absolute -bottom-[4px] left-0 right-0 h-[1.5px] bg-neutral-900"
                     transition={{
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 30
+                      duration: 0.24,
+                      ease: [0.22, 1, 0.36, 1]
                     }}
                   />
                 )}
