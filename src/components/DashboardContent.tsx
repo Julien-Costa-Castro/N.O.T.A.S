@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { 
   FileText, CheckCircle2, Layers, Send, Clock, UserCheck, Database, ArrowRight
 } from "lucide-react";
@@ -24,15 +24,36 @@ export const dossiersDemo = [
 
 interface DashboardContentProps {
   className?: string;
+  step?: number;
+  setStep?: (step: number) => void;
 }
 
-export default function DashboardContent({ className = "" }: DashboardContentProps) {
-  const [step, setStep] = useState(0);
-  const [selectedDossier, setSelectedDossier] = useState(false);
+export default function DashboardContent({ className = "", step, setStep }: DashboardContentProps) {
+  const isInteractive = step !== undefined && setStep !== undefined;
+  const currentStep = step ?? 99; // 99 means fully static mode
 
   return (
     <div className={`flex w-full h-full bg-white select-none text-left relative overflow-hidden ${className}`}>
       
+      {/* Étape 0 : Écran d'accueil sombre d'onboarding */}
+      {currentStep === 0 && (
+        <div className="absolute inset-0 bg-[#111111] flex flex-col items-center justify-center text-center p-6 z-40 animate-fade-in font-sans">
+          <div className="max-w-xs space-y-4">
+            <span className="text-[9px] font-mono text-emerald-400 uppercase tracking-widest block">DÉMONSTRATION INTERACTIVE</span>
+            <h3 className="font-serif text-xl md:text-2xl text-white font-light">NOTAS en action.</h3>
+            <p className="text-[10px] text-neutral-400 leading-relaxed font-sans">
+              Découvrez comment notre copilote relance vos pièces manquantes et met à jour votre suivi en 3 étapes interactives.
+            </p>
+            <button 
+              onClick={() => setStep?.(1)}
+              className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded text-[10px] font-medium transition-all shadow-md cursor-pointer inline-flex items-center gap-1.5"
+            >
+              Démarrer la démo <ArrowRight className="w-3 h-3" />
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Sidebar de l'application */}
       <aside className="hidden md:flex w-44 shrink-0 flex-col border-r border-gray-100 bg-[#FBFBFA] p-3">
         <div className="flex items-baseline gap-2 px-2 pb-3 border-b border-gray-100 mb-3">
@@ -109,20 +130,19 @@ export default function DashboardContent({ className = "" }: DashboardContentPro
             <tbody className="text-[10px]">
               {dossiersDemo.map((d, idx) => {
                 const isTarget = d.dossier === "Vente Martin";
-                const highlightRow = isTarget && step === 0;
+                const highlightRow = isTarget && currentStep === 1;
 
                 return (
                   <tr 
                     key={idx} 
                     onClick={() => {
-                      if (isTarget && step === 0) {
-                        setSelectedDossier(true);
-                        setStep(1);
+                      if (isTarget && isInteractive && currentStep === 1) {
+                        setStep?.(2);
                       }
                     }}
                     className={`border-b border-gray-50 transition-all ${
                       highlightRow 
-                        ? "bg-emerald-50/45 hover:bg-emerald-50/60 cursor-pointer ring-2 ring-emerald-500/30 ring-inset animate-pulse font-medium" 
+                        ? "bg-emerald-50 hover:bg-emerald-100/80 cursor-pointer ring-2 ring-emerald-500/40 ring-inset font-medium shadow-sm animate-pulse" 
                         : "hover:bg-neutral-50/50"
                     }`}
                   >
@@ -172,16 +192,13 @@ export default function DashboardContent({ className = "" }: DashboardContentPro
       </div>
 
       {/* Panel Détails Dossier à droite (Étape 2 & 3) */}
-      {selectedDossier && (
+      {isInteractive && currentStep >= 2 && (
         <div className="w-64 shrink-0 border-l border-gray-100 bg-white p-3.5 flex flex-col justify-between z-30 font-sans shadow-lg animate-slide-left">
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-gray-100">
               <h3 className="text-xs font-semibold text-neutral-800">Détails du dossier</h3>
               <button 
-                onClick={() => {
-                  setSelectedDossier(false);
-                  setStep(0);
-                }} 
+                onClick={() => setStep?.(1)} 
                 className="text-neutral-400 hover:text-neutral-600 text-xs px-1"
               >
                 ✕
@@ -208,13 +225,13 @@ export default function DashboardContent({ className = "" }: DashboardContentPro
                 </span>
               </div>
 
-              {step === 1 && (
+              {currentStep === 2 && (
                 <div className="p-2 bg-neutral-50 rounded border border-gray-100 text-[9.5px] text-neutral-500 leading-normal">
-                  <strong>Proposition de l&apos;assistant :</strong> L&apos;IA a préparé un courrier d&apos;accompagnement à destination du Syndic. Vous pouvez relancer manuellement ou modifier le texte.
+                  <strong>Proposition de l&apos;assistant :</strong> L&apos;IA a rédigé le courriel officiel. Cliquez sur le bouton ci-dessous pour valider l&apos;envoi instantané de la relance.
                 </div>
               )}
 
-              {step === 2 && (
+              {currentStep === 3 && (
                 <div className="p-2.5 bg-emerald-50 rounded border border-emerald-100 text-[10px] text-emerald-800 leading-relaxed flex flex-col gap-1">
                   <span className="font-semibold flex items-center gap-1 text-emerald-900">
                     <CheckCircle2 className="w-3.5 h-3.5 shrink-0" /> Relance envoyée !
@@ -226,84 +243,24 @@ export default function DashboardContent({ className = "" }: DashboardContentPro
           </div>
 
           <div className="pt-3 border-t border-gray-100">
-            {step === 1 ? (
+            {currentStep === 2 ? (
               <button 
-                onClick={() => setStep(2)}
-                className="w-full py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded text-[9.5px] font-medium transition-colors shadow-sm flex items-center justify-center gap-1"
+                onClick={() => setStep?.(3)}
+                className="w-full py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded text-[9.5px] font-medium transition-colors shadow-sm flex items-center justify-center gap-1 cursor-pointer"
               >
                 ⚡ Envoyer la relance manuelle
               </button>
             ) : (
               <button 
-                onClick={() => {
-                  setSelectedDossier(false);
-                  setStep(0);
-                }}
-                className="w-full py-2 bg-neutral-800 hover:bg-neutral-900 text-white rounded text-[9.5px] font-medium transition-colors"
+                onClick={() => setStep?.(0)}
+                className="w-full py-2 bg-neutral-800 hover:bg-neutral-900 text-white rounded text-[9.5px] font-medium transition-colors cursor-pointer"
               >
-                Retour au tableau de bord
+                Recommencer la démo
               </button>
             )}
           </div>
         </div>
       )}
-
-      {/* Bulle d'Onboarding flottante en bas à droite */}
-      <div className="absolute bottom-3 right-3 w-56 bg-neutral-900 text-white p-3 rounded-lg shadow-xl border border-neutral-800 font-sans z-40 animate-fade-in flex flex-col gap-1.5">
-        {step === 0 && (
-          <>
-            <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-[7.5px] font-mono text-emerald-400 uppercase tracking-wider font-semibold">1. Relance Autonome</span>
-            </div>
-            <h4 className="text-[10px] font-semibold text-white">Visualisez le suivi</h4>
-            <p className="text-[9px] text-neutral-300 leading-normal">
-              NOTAS a repéré l&apos;<strong>État daté</strong> manquant sur le dossier Martin et a relancé le syndic de lui-même.
-            </p>
-            <div className="text-[8px] text-emerald-300 font-medium flex items-center gap-0.5 mt-0.5 animate-bounce">
-              👉 Cliquez sur la ligne verte &quot;Vente Martin&quot; <ArrowRight className="w-2 h-2" />
-            </div>
-          </>
-        )}
-
-        {step === 1 && (
-          <>
-            <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-[7.5px] font-mono text-emerald-400 uppercase tracking-wider font-semibold">2. Assistant Clerc</span>
-            </div>
-            <h4 className="text-[10px] font-semibold text-white">Prenez la main</h4>
-            <p className="text-[9px] text-neutral-300 leading-normal">
-              L&apos;IA a rédigé le message. Vous pouvez déclencher un rappel personnalisé en un clic.
-            </p>
-            <div className="text-[8px] text-emerald-300 font-medium flex items-center gap-0.5 mt-0.5 animate-bounce">
-              👉 Cliquez sur &quot;Envoyer la relance manuelle&quot; <ArrowRight className="w-2 h-2" />
-            </div>
-          </>
-        )}
-
-        {step === 2 && (
-          <>
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 flex items-center justify-center text-[7px] text-neutral-900 font-bold">✓</span>
-              <span className="text-[7.5px] font-mono text-emerald-400 uppercase tracking-wider font-semibold">3. Collecte active</span>
-            </div>
-            <h4 className="text-[10px] font-semibold text-white">Processus en cours</h4>
-            <p className="text-[9px] text-neutral-300 leading-normal">
-              Relance envoyée. Dès que le syndic dépose la pièce, la fiche se met à jour sans aucune saisie.
-            </p>
-            <button 
-              onClick={() => {
-                setStep(0);
-                setSelectedDossier(false);
-              }}
-              className="w-full mt-1.5 py-1 bg-neutral-800 hover:bg-neutral-700 text-white border border-neutral-700 rounded text-[8px] font-semibold transition-colors"
-            >
-              Recommencer la démo
-            </button>
-          </>
-        )}
-      </div>
 
     </div>
   );
