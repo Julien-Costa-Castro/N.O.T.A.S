@@ -100,8 +100,15 @@ export default function MacbookReveal() {
               }}
               className="relative w-[800px] aspect-[1972/1282] max-w-4xl flex items-center justify-center overflow-visible"
             >
-              {/* 1. Ambient drop shadow underneath the laptop base */}
-              <div className="absolute bottom-[-15px] left-[8%] w-[84%] h-8 bg-black/20 blur-2xl rounded-full pointer-events-none z-0" />
+              {/* Premium Multi-layered MacBook Shadows to blend the chassis and ground it */}
+              {/* 1. Contact shadow (grounding the aluminum base) */}
+              <div className="absolute bottom-[-2px] left-[6%] w-[88%] h-[4px] bg-black/30 blur-[2px] rounded-full pointer-events-none z-0" />
+              
+              {/* 2. Soft diffused drop shadow */}
+              <div className="absolute bottom-[-12px] left-[10%] w-[80%] h-[16px] bg-neutral-950/10 blur-[8px] rounded-full pointer-events-none z-0" />
+              
+              {/* 3. Deep ambient occlusion shadow */}
+              <div className="absolute bottom-[-28px] left-[15%] w-[70%] h-[32px] bg-neutral-900/5 blur-[20px] rounded-full pointer-events-none z-0" />
 
               {/* 2. Interactive dashboard content inside the screen (z-0) */}
               <div className="absolute top-[11.3%] left-[11.3%] w-[77.4%] h-[77.4%] z-0 bg-black overflow-hidden rounded-[4px]">
