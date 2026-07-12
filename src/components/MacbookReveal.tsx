@@ -39,10 +39,7 @@ export default function MacbookReveal() {
   const scale = useTransform(smoothProgress, [0, 0.4, 1.0], [1.3, 1, 1]);
   const opacity = useTransform(smoothProgress, [0, 0.2, 1.0], [0, 1, 1]);
 
-  // Step-based Zoom & Pan coordinates:
-  const stepScale = step === 0 ? 1 : step === 1 ? 1.22 : step === 2 ? 1.48 : 1.22;
-  const stepX = step === 0 ? "0px" : step === 1 ? "0px" : step === 2 ? "-130px" : "0px";
-  const stepY = step === 0 ? "0px" : step === 1 ? "-20px" : step === 2 ? "-20px" : "-20px";
+
 
   return (
     <section 
@@ -103,41 +100,26 @@ export default function MacbookReveal() {
               }}
               className="relative w-[800px] aspect-[1972/1282] max-w-4xl flex items-center justify-center overflow-visible"
             >
-              {/* Dynamic Camera Zoom & Pan layer */}
-              <motion.div
-                animate={{
-                  scale: stepScale,
-                  x: stepX,
-                  y: stepY
-                }}
-                transition={{
-                  type: "spring",
-                  stiffness: 90,
-                  damping: 22
-                }}
-                className="absolute inset-0 w-full h-full flex items-center justify-center overflow-visible"
-              >
-                {/* 1. Ambient drop shadow underneath the laptop base */}
-                <div className="absolute bottom-[-15px] left-[8%] w-[84%] h-8 bg-black/20 blur-2xl rounded-full pointer-events-none z-0" />
+              {/* 1. Ambient drop shadow underneath the laptop base */}
+              <div className="absolute bottom-[-15px] left-[8%] w-[84%] h-8 bg-black/20 blur-2xl rounded-full pointer-events-none z-0" />
 
-                {/* 2. Interactive dashboard content inside the screen (z-0) */}
-                <div className="absolute top-[11.7%] left-[11.71%] w-[76.52%] h-[76.52%] z-0 bg-black overflow-hidden rounded-[6px]">
-                  <DashboardContent 
-                    step={step} 
-                    setStep={setStep} 
-                    className="w-full h-full text-[10px]" 
-                  />
-                </div>
-
-                {/* 3. Photorealistic MacBook frame image on top (z-10) */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/macbook-frame.png"
-                  alt=""
-                  className="absolute inset-0 w-full h-full z-10 object-contain select-none pointer-events-none"
-                  draggable={false}
+              {/* 2. Interactive dashboard content inside the screen (z-0) */}
+              <div className="absolute top-[11.7%] left-[11.71%] w-[76.52%] h-[76.52%] z-0 bg-black overflow-hidden rounded-[6px]">
+                <DashboardContent 
+                  step={step} 
+                  setStep={setStep} 
+                  className="w-full h-full text-[10px]" 
                 />
-              </motion.div>
+              </div>
+
+              {/* 3. Photorealistic MacBook frame image on top (z-10) */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/macbook-frame.png"
+                alt=""
+                className="absolute inset-0 w-full h-full z-10 object-contain select-none pointer-events-none"
+                draggable={false}
+              />
             </motion.div>
           </div>
         </div>
