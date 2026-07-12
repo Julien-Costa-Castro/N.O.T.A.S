@@ -43,8 +43,8 @@ export default function MacbookReveal() {
   // --- Phase 1: Overlay covers navbar once portal has filled the viewport ---
   const overlayOpacity = useTransform(smoothProgress, [0.14, 0.16, 0.35, 0.55], [0, 1, 1, 0]);
 
-  // --- Phase 2: Immersive text on black ---
-  const textOpacity = useTransform(smoothProgress, [0.17, 0.23, 0.28, 0.33], [0, 1, 1, 0]);
+  // --- Text inside the portal: visible from start, fades out before de-zoom ---
+  const portalTextOpacity = useTransform(smoothProgress, [0, 0.25, 0.28, 0.33], [1, 1, 1, 0]);
 
   // --- Phase 3: MacBook de-zoom ---
   const scale = useTransform(smoothProgress, [0.35, 0.55, 1], [3, 1, 1]);
@@ -55,8 +55,8 @@ export default function MacbookReveal() {
   // --- Background reveal: portal bg transitions to page color ---
   const bgRevealOpacity = useTransform(smoothProgress, [0.35, 0.55], [0, 1]);
 
-  // --- Phase 4: Section title fades in after MacBook is revealed ---
-  const titleOpacity = useTransform(smoothProgress, [0.53, 0.60], [0, 1]);
+  // --- Section title: visible at start above portal, fades out, reappears after reveal ---
+  const titleOpacity = useTransform(smoothProgress, [0, 0.06, 0.12, 0.53, 0.60], [1, 1, 0, 0, 1]);
   const titleY = useTransform(smoothProgress, [0.53, 0.60], ["15px", "0px"]);
 
 
@@ -73,25 +73,22 @@ export default function MacbookReveal() {
         className="fixed inset-0 bg-black z-[100] pointer-events-none"
       />
 
-      {/* ═══ Centered immersive text on black screen ═══ */}
-      <motion.div
-        style={{ opacity: textOpacity }}
-        className="fixed inset-0 z-[101] pointer-events-none flex items-center justify-center px-8"
-      >
-        <h2 className="font-serif text-white text-4xl md:text-6xl lg:text-7xl text-center leading-tight">
-          Vivez l&apos;expérience<br />
-          <span className="italic text-emerald-400 font-light">NOTAS</span>
-        </h2>
-      </motion.div>
-
       {/* Sticky viewport container */}
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-12 px-8 bg-[#FBFBFA]">
         
-        {/* Portal: expanding dark rectangle that the user "scrolls into" */}
+        {/* Portal: expanding dark rectangle with text inside */}
         <motion.div
           style={{ clipPath: portalClip }}
-          className="absolute inset-0 bg-neutral-950 z-[1]"
-        />
+          className="absolute inset-0 bg-neutral-950 z-[1] flex items-center justify-center"
+        >
+          <motion.h2
+            style={{ opacity: portalTextOpacity }}
+            className="font-serif text-white text-3xl md:text-5xl lg:text-6xl text-center leading-tight px-8"
+          >
+            Vivez l&apos;expérience<br />
+            <span className="italic text-emerald-400 font-light">NOTAS</span>
+          </motion.h2>
+        </motion.div>
         
         {/* Background reveal: covers the portal with page color during de-zoom */}
         <motion.div
