@@ -36,17 +36,17 @@ export default function MacbookReveal() {
 
   // Animation values mapping:
   // - Phase 1: APPARITION (Scroll 0% to 40%)
-  // - Phase 2: LECTURE (Scroll 40% to 70%)
-  // - Phase 3: DISPARITION & FLY-OUT (Scroll 70% to 100%) - Laptop flies out through the top and fades out
-  const y = useTransform(smoothProgress, [0, 0.4, 0.7, 1.0], ["40vh", "0px", "0px", "-60vh"]);
-  const scale = useTransform(smoothProgress, [0, 0.4, 0.7, 1.0], [1.3, 1, 1, 0.85]);
-  const opacity = useTransform(smoothProgress, [0, 0.2, 0.7, 1.0], [0, 1, 1, 0]);
+  // - Phase 2: LECTURE (Scroll 40% to 80%)
+  // - Phase 3: DISPARITION (Scroll 80% to 100%) - Fades out in-place very quickly
+  const y = useTransform(smoothProgress, [0, 0.4, 0.8, 1.0], ["30vh", "0px", "0px", "0px"]);
+  const scale = useTransform(smoothProgress, [0, 0.4, 0.8, 1.0], [1.3, 1, 1, 0.95]);
+  const opacity = useTransform(smoothProgress, [0, 0.2, 0.8, 1.0], [0, 1, 1, 0]);
 
   return (
     <section 
       ref={containerRef} 
       id="simulator" 
-      className="relative h-[200vh] bg-transparent w-full overflow-visible"
+      className="relative h-[140vh] bg-transparent w-full overflow-visible"
     >
       {/* Sticky viewport container */}
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden py-16 px-8">
