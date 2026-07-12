@@ -36,11 +36,11 @@ export default function MacbookReveal() {
 
   // Animation values mapping:
   // - Phase 1: APPARITION (Scroll 0% to 50%)
-  // - Phase 2: LECTURE (Scroll 50% to 85%)
-  // - Phase 3: DISPARITION (Scroll 85% to 100%)
-  const y = useTransform(smoothProgress, [0, 0.5, 0.85, 1.0], ["30vh", "0px", "0px", "-50px"]);
-  const scale = useTransform(smoothProgress, [0, 0.5, 0.85, 1.0], [1.3, 1, 1, 0.95]);
-  const opacity = useTransform(smoothProgress, [0, 0.2, 0.85, 1.0], [0, 1, 1, 0]);
+  // - Phase 2: LECTURE & FLOW (Scroll 50% to 100%) - Laptop remains fully visible
+  //   and scrolls up naturally with the rest of the page, leading directly into the next section.
+  const y = useTransform(smoothProgress, [0, 0.5, 1.0], ["30vh", "0px", "0px"]);
+  const scale = useTransform(smoothProgress, [0, 0.5, 1.0], [1.3, 1, 1]);
+  const opacity = useTransform(smoothProgress, [0, 0.2, 1.0], [0, 1, 1]);
 
   return (
     <section 
