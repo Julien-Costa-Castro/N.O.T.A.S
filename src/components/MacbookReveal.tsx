@@ -31,7 +31,8 @@ export default function MacbookReveal() {
   });
 
   // --- Phase 1: Full-screen cinematic blackout (covers navbar) ---
-  const overlayOpacity = useTransform(smoothProgress, [0, 0.05, 0.30, 0.55], [0, 1, 1, 0]);
+  // Snaps to 1 almost instantly so navbar is covered the moment the section is in view
+  const overlayOpacity = useTransform(smoothProgress, [0, 0.02, 0.30, 0.55], [0, 1, 1, 0]);
 
   // --- Phase 2: Immersive text on black ---
   const textOpacity = useTransform(smoothProgress, [0.06, 0.12, 0.20, 0.27], [0, 1, 1, 0]);
@@ -40,6 +41,9 @@ export default function MacbookReveal() {
   const scale = useTransform(smoothProgress, [0.30, 0.55, 1], [3, 1, 1]);
   const y = useTransform(smoothProgress, [0.30, 0.55, 1], ["3vh", "0px", "0px"]);
   const frameOpacity = useTransform(smoothProgress, [0.32, 0.45, 0.55], [0, 0.5, 1]);
+
+  // --- Background reveal: sticky bg transitions from black to page color ---
+  const bgRevealOpacity = useTransform(smoothProgress, [0.30, 0.55], [0, 1]);
 
   // --- Phase 4: Section title fades in after MacBook is revealed ---
   const titleOpacity = useTransform(smoothProgress, [0.52, 0.60], [0, 1]);
@@ -51,7 +55,7 @@ export default function MacbookReveal() {
     <section 
       ref={containerRef} 
       id="simulator" 
-      className="relative h-[300vh] bg-transparent w-full overflow-visible"
+      className="relative h-[300vh] bg-black w-full overflow-visible"
     >
       {/* ═══ Cinematic full-screen black overlay (fixed = covers navbar) ═══ */}
       <motion.div
@@ -71,7 +75,13 @@ export default function MacbookReveal() {
       </motion.div>
 
       {/* Sticky viewport container */}
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-12 px-8">
+      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-12 px-8 bg-black">
+        
+        {/* Background reveal: transitions the sticky bg from black to page color */}
+        <motion.div
+          style={{ opacity: bgRevealOpacity }}
+          className="absolute inset-0 bg-[#FBFBFA] z-0 pointer-events-none"
+        />
         {/* Fixed Title & Description Area — hidden during zoom, fades in during de-zoom */}
         <motion.div style={{ opacity: titleOpacity, y: titleY }} className="text-center max-w-xl mx-auto mb-4 z-20">
           <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-3">
