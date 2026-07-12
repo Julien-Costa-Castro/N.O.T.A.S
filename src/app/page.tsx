@@ -71,19 +71,7 @@ export default function Home() {
   const dashboardScale = useTransform(smoothHeroScrollY, [0, 300], [0.95, 1]);
   const dashboardY = useTransform(smoothHeroScrollY, [0, 300], [0, -15]);
 
-  const simulator3dRef = useRef<HTMLDivElement>(null);
 
-  // Follow scroll progress of the 3D MacBook section:
-  const { scrollYProgress: simulatorScrollProgress } = useScroll({
-    target: simulator3dRef,
-    offset: ["start start", "end end"]
-  });
-
-  // Smooth out scroll transition (spring du brief : 100 / 30)
-  const smoothSimulatorProgress = useSpring(simulatorScrollProgress, {
-    stiffness: 100,
-    damping: 30
-  });
 
   const [logoSrc, setLogoSrc] = useState("/ChatGPT_Image_12_juil._2026_00_46_38.png");
 
@@ -761,34 +749,7 @@ export default function Home() {
       </section>
 
       {/* 5. Section Démonstration 3D Immersive (MacBook Scroll-Reveal) */}
-      <section 
-        ref={simulator3dRef} 
-        id="simulator" 
-        className="relative w-full min-h-[150vh] bg-transparent"
-      >
-        {/* Sticky viewport container */}
-        <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden py-16 px-8">
-          
-          {/* Fixed Title & Description Area */}
-          <div className="text-center max-w-xl mx-auto mb-10 z-20">
-            <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-3">
-              DÉMONSTRATION AUTONOME
-            </span>
-            <h2 className="font-serif text-3xl md:text-5xl font-normal">
-              Votre fiche de suivi, <span className="italic text-emerald-700 font-light">en version 3D vivante.</span>
-            </h2>
-            <p className="text-ash-text text-sm font-light leading-relaxed mt-4 font-sans">
-              Faites défiler : l&apos;écran s&apos;allume sur votre tableau de suivi.
-            </p>
-          </div>
-
-          {/* MacBook reveal (illusion CSS, image + dashboard superposés) */}
-          <div className="w-full max-w-5xl z-10">
-            <MacbookReveal smoothProgress={smoothSimulatorProgress} />
-          </div>
-
-        </div>
-      </section>
+      <MacbookReveal />
 
       {/* 6. Bento Grid des Garanties Notariales */}
       <section 
