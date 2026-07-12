@@ -188,12 +188,12 @@ export default function Home() {
 
 
 
-  const [logoSrc, setLogoSrc] = useState("/ChatGPT_Image_12_juil._2026_00_46_38.png");
+  const [logoSrc, setLogoSrc] = useState("/logo-notas.png");
 
   useEffect(() => {
     const img = new Image();
     img.crossOrigin = "anonymous";
-    img.src = "/ChatGPT_Image_12_juil._2026_00_46_38.png";
+    img.src = "/logo-notas.png";
     img.onload = () => {
       const canvas = document.createElement("canvas");
       canvas.width = img.width;
