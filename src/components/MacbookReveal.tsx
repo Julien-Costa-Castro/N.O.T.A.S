@@ -5,15 +5,16 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import DashboardContent from "./DashboardContent";
 
 /*
- * MACBOOK REVEAL — "CSS SURGERY" VIRTUAL CLAMSHELL REVEAL
+ * MACBOOK REVEAL — "CSS SURGERY" VIRTUAL CLAMSHELL REVEAL (CORRECTED HINGE ALIGNMENT)
  *
  * This component achieves a realistic mechanical clamshell open/close using a single image:
- *   - The original 'macbook-frame.png' is split into two halves using CSS clip-path:
- *       1. Keyboard Base: bottom 15% of the image (clip-path: inset(85% 0 0 0))
- *       2. Screen Lid: top 85% of the image (clip-path: inset(0 0 15% 0))
- *   - The Base is fixed and rotated at rotateX(60deg) to lie flat on the virtual desk.
- *   - The Lid is animated to rotate from -95deg (completely folded closed onto the base) to 0deg (open).
- *   - A global scale transforms the parent container from 0.7 to 1, then back to 0.7.
+ *   - The parent wrapper sets up the 3D perspective space (perspective: 2500px).
+ *   - Both the Base (Keyboard) and Capot (Screen) are styled with absolute inset-0 to overlay
+ *     perfectly at the pixel level before the clip-path is applied.
+ *   - Keyboard Base: bottom 15% of the image (clip-path: inset(85% 0 0 0)).
+ *   - Screen Lid: top 85% of the image (clip-path: inset(0 0 15% 0)).
+ *   - The hinge is at exactly 85% height. Thus, we set transformOrigin: "center 85%" on the Capot
+ *     so it pivots precisely along the cut line without detaching or floating.
  */
 
 export default function MacbookReveal() {
@@ -52,7 +53,17 @@ export default function MacbookReveal() {
     [0.7, 1, 1, 0.7]
   );
 
-  // 3. Global opacity:
+  // 3. Global translation Y:
+  // - 0% to 30%: 100px (comes from bottom) -> 0px
+  // - 30% to 70%: 0px
+  // - 70% to 100%: 0px -> -100px (slides up)
+  const y = useTransform(
+    smoothProgress,
+    [0, 0.3, 0.7, 1.0],
+    [100, 0, 0, -100]
+  );
+
+  // 4. Global opacity:
   // - 0% to 30%: 0 -> 1
   // - 30% to 70%: 1 (stable)
   // - 70% to 100%: 1 -> 0
@@ -96,38 +107,38 @@ export default function MacbookReveal() {
           style={{ perspective: "2500px" }} 
           className="w-full max-w-5xl relative flex justify-center items-center overflow-visible"
         >
-          {/* Global scaling wrapper */}
+          {/* Global scaling & sliding parent wrapper */}
           <motion.div
             style={{
               scale: parentScale,
               opacity,
+              y,
               transformStyle: "preserve-3d"
             }}
             className="relative w-full aspect-[1972/1282] max-w-4xl flex items-center justify-center overflow-visible"
           >
-            {/* A. LA BASE (Le Clavier - Fixe, tilted at 60deg to lie flat) */}
+            {/* A. LA BASE (Le Clavier - Fixe, z-index: 5) */}
             <div 
               className="absolute inset-0 w-full h-full z-10"
               style={{
                 clipPath: "inset(85% 0 0 0)",
                 WebkitClipPath: "inset(85% 0 0 0)",
-                transform: "rotateX(60deg)",
-                transformOrigin: "bottom center"
+                transformStyle: "preserve-3d"
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
                 src="/macbook-frame.png" 
                 alt="" 
-                className="w-full h-full object-cover select-none pointer-events-none" 
+                className="w-full h-full object-contain select-none pointer-events-none" 
               />
             </div>
 
-            {/* B. LE CAPOT (L'Écran - Animé, pivots on bottom center) */}
+            {/* B. LE CAPOT (L'Écran - Animé, z-index: 20) */}
             <motion.div
               style={{
                 rotateX,
-                transformOrigin: "bottom center",
+                transformOrigin: "center 85%",
                 transformStyle: "preserve-3d",
                 clipPath: "inset(0 0 15% 0)",
                 WebkitClipPath: "inset(0 0 15% 0)"
@@ -150,7 +161,7 @@ export default function MacbookReveal() {
               <img
                 src="/macbook-frame.png"
                 alt=""
-                className="absolute inset-0 w-full h-full z-10 object-cover select-none pointer-events-none"
+                className="absolute inset-0 w-full h-full z-10 object-contain select-none pointer-events-none"
                 draggable={false}
               />
             </motion.div>
