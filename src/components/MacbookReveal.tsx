@@ -5,11 +5,12 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import DashboardContent from "./DashboardContent";
 
 /*
- * MACBOOK REVEAL — CINEMATIC DE-ZOOM REVEAL (4-PHASE SEQUENCE)
+ * MACBOOK REVEAL — CINEMATIC PORTAL ENTRY + DE-ZOOM REVEAL (5-PHASE SEQUENCE)
  *
- *   Phase 1 (0% → 5%):   Full-screen blackout fades in, covering navbar.
- *   Phase 2 (6% → 28%):  "Vivez l'expérience NOTAS" text fades in/out on black.
- *   Phase 3 (28% → 55%): Camera pulls back (de-zoom), MacBook frame appears.
+ *   Phase 0 (0% → 15%):  A dark rectangle (portal) expands via clip-path to fill the viewport.
+ *   Phase 1 (15% → 17%):  Overlay covers navbar.
+ *   Phase 2 (17% → 33%):  "Vivez l'expérience NOTAS" text on black.
+ *   Phase 3 (35% → 55%):  Camera pulls back (de-zoom), MacBook frame appears.
  *   Phase 4 (55% → 100%): MacBook sits static for interactive onboarding.
  */
 
@@ -30,24 +31,33 @@ export default function MacbookReveal() {
     restDelta: 0.001
   });
 
-  // --- Phase 1: Full-screen cinematic blackout (covers navbar) ---
-  // Snaps to 1 almost instantly so navbar is covered the moment the section is in view
-  const overlayOpacity = useTransform(smoothProgress, [0, 0.02, 0.30, 0.55], [0, 1, 1, 0]);
+  // --- Phase 0: Portal expansion (dark rectangle grows to fill viewport via clip-path) ---
+  const portalClip = useTransform(smoothProgress, (v: number) => {
+    const t = Math.min(Math.max(v / 0.15, 0), 1); // map 0→0.15 to 0→1
+    const insetY = 28 * (1 - t);   // 28% → 0%
+    const insetX = 15 * (1 - t);   // 15% → 0%
+    const radius = 16 * (1 - t);   // 16px → 0px
+    return `inset(${insetY}% ${insetX}% ${insetY}% ${insetX}% round ${radius}px)`;
+  });
+
+  // --- Phase 1: Overlay covers navbar once portal has filled the viewport ---
+  const overlayOpacity = useTransform(smoothProgress, [0.14, 0.16, 0.35, 0.55], [0, 1, 1, 0]);
 
   // --- Phase 2: Immersive text on black ---
-  const textOpacity = useTransform(smoothProgress, [0.06, 0.12, 0.20, 0.27], [0, 1, 1, 0]);
+  const textOpacity = useTransform(smoothProgress, [0.17, 0.23, 0.28, 0.33], [0, 1, 1, 0]);
 
   // --- Phase 3: MacBook de-zoom ---
-  const scale = useTransform(smoothProgress, [0.30, 0.55, 1], [3, 1, 1]);
-  const y = useTransform(smoothProgress, [0.30, 0.55, 1], ["3vh", "0px", "0px"]);
-  const frameOpacity = useTransform(smoothProgress, [0.32, 0.45, 0.55], [0, 0.5, 1]);
+  const scale = useTransform(smoothProgress, [0.35, 0.55, 1], [3, 1, 1]);
+  const y = useTransform(smoothProgress, [0.35, 0.55, 1], ["3vh", "0px", "0px"]);
+  const frameOpacity = useTransform(smoothProgress, [0.37, 0.48, 0.55], [0, 0.5, 1]);
+  const macbookOpacity = useTransform(smoothProgress, [0.33, 0.38], [0, 1]);
 
-  // --- Background reveal: sticky bg transitions from black to page color ---
-  const bgRevealOpacity = useTransform(smoothProgress, [0.30, 0.55], [0, 1]);
+  // --- Background reveal: portal bg transitions to page color ---
+  const bgRevealOpacity = useTransform(smoothProgress, [0.35, 0.55], [0, 1]);
 
   // --- Phase 4: Section title fades in after MacBook is revealed ---
-  const titleOpacity = useTransform(smoothProgress, [0.52, 0.60], [0, 1]);
-  const titleY = useTransform(smoothProgress, [0.52, 0.60], ["15px", "0px"]);
+  const titleOpacity = useTransform(smoothProgress, [0.53, 0.60], [0, 1]);
+  const titleY = useTransform(smoothProgress, [0.53, 0.60], ["15px", "0px"]);
 
 
 
@@ -55,7 +65,7 @@ export default function MacbookReveal() {
     <section 
       ref={containerRef} 
       id="simulator" 
-      className="relative h-[300vh] bg-black w-full overflow-visible"
+      className="relative h-[300vh] bg-[#FBFBFA] w-full overflow-visible"
     >
       {/* ═══ Cinematic full-screen black overlay (fixed = covers navbar) ═══ */}
       <motion.div
@@ -75,12 +85,18 @@ export default function MacbookReveal() {
       </motion.div>
 
       {/* Sticky viewport container */}
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-12 px-8 bg-black">
+      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-12 px-8 bg-[#FBFBFA]">
         
-        {/* Background reveal: transitions the sticky bg from black to page color */}
+        {/* Portal: expanding dark rectangle that the user "scrolls into" */}
+        <motion.div
+          style={{ clipPath: portalClip }}
+          className="absolute inset-0 bg-neutral-950 z-[1]"
+        />
+        
+        {/* Background reveal: covers the portal with page color during de-zoom */}
         <motion.div
           style={{ opacity: bgRevealOpacity }}
-          className="absolute inset-0 bg-[#FBFBFA] z-0 pointer-events-none"
+          className="absolute inset-0 bg-[#FBFBFA] z-[2] pointer-events-none"
         />
         {/* Fixed Title & Description Area — hidden during zoom, fades in during de-zoom */}
         <motion.div style={{ opacity: titleOpacity, y: titleY }} className="text-center max-w-xl mx-auto mb-4 z-20">
@@ -118,7 +134,7 @@ export default function MacbookReveal() {
         </motion.div>
 
         {/* Outer alignment container */}
-        <div className="w-full max-w-5xl relative flex justify-center items-center overflow-visible">
+        <motion.div style={{ opacity: macbookOpacity }} className="w-full max-w-5xl relative flex justify-center items-center overflow-visible z-[5]">
           
           {/* Responsive scaling helper layer */}
           <div className="scale-[0.45] sm:scale-[0.65] md:scale-[0.82] lg:scale-95 origin-center transition-transform duration-300 overflow-visible">
@@ -156,7 +172,7 @@ export default function MacbookReveal() {
               />
             </motion.div>
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>
