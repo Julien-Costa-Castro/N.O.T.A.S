@@ -345,9 +345,15 @@ export default function Home() {
             transition={TRANSITION_NOBLE}
             className="text-center max-w-4xl mx-auto flex flex-col items-center relative z-10"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-gray-200 text-xs text-gray-500 mb-6 shadow-sm font-sans">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-              <span>Suivi autonome des dossiers de vente</span>
+            <div className="relative inline-flex items-center justify-center p-[1px] overflow-hidden rounded-full mb-6 shadow-sm font-sans">
+              {/* Rotating border sweep */}
+              <span className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_0deg,rgba(0,0,0,0.08)_80%,#059669_95%,rgba(0,0,0,0.08)_100%)]" />
+              
+              {/* Inner container to mask and display content */}
+              <div className="relative z-10 flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-xs text-gray-500">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
+                <span>Suivi autonome des dossiers de vente</span>
+              </div>
             </div>
 
             <h1 className="font-serif text-5xl md:text-7xl font-normal text-[#111111] tracking-tight leading-[1.08] max-w-4xl">
