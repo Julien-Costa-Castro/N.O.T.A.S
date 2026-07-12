@@ -82,6 +82,60 @@ const SpotlightCard = ({ children, className = "", ...props }: SpotlightCardProp
   );
 };
 
+// Hero entrance animation variants
+const heroContainerVariants = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: 0.15,
+    }
+  }
+};
+
+const heroChildVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { ease: [0.22, 1, 0.36, 1] as const, duration: 0.8 }
+  }
+};
+
+const h1ContainerVariants = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: 0.12,
+    }
+  }
+};
+
+const h1LineVariants = {
+  initial: { y: "100%" },
+  animate: {
+    y: "0%",
+    transition: { ease: [0.22, 1, 0.36, 1] as const, duration: 0.8 }
+  }
+};
+
+const paragraphContainerVariants = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: 0.015,
+    }
+  }
+};
+
+const wordVariants = {
+  initial: { y: "100%", opacity: 0 },
+  animate: {
+    y: "0%",
+    opacity: 1,
+    transition: { ease: [0.22, 1, 0.36, 1] as const, duration: 0.7 }
+  }
+};
+
 export default function Home() {
   const footerSectionRef = useRef<HTMLDivElement>(null);
   const heroSectionRef = useRef<HTMLDivElement>(null);
@@ -393,12 +447,15 @@ export default function Home() {
 
           {/* Copywriting centré */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={TRANSITION_NOBLE}
+            variants={heroContainerVariants}
+            initial="initial"
+            animate="animate"
             className="text-center max-w-4xl mx-auto flex flex-col items-center relative z-10"
           >
-            <div className="relative inline-flex items-center justify-center p-[1px] overflow-hidden rounded-full mb-6 shadow-sm font-sans">
+            <motion.div 
+              variants={heroChildVariants}
+              className="relative inline-flex items-center justify-center p-[1px] overflow-hidden rounded-full mb-6 shadow-sm font-sans"
+            >
               {/* Rotating border sweep */}
               <span className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_0deg,rgba(0,0,0,0.08)_80%,#059669_95%,rgba(0,0,0,0.08)_100%)]" />
               
@@ -407,18 +464,50 @@ export default function Home() {
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
                 <span>Suivi autonome des dossiers de vente</span>
               </div>
-            </div>
+            </motion.div>
 
-            <h1 className="font-serif text-5xl md:text-7xl font-normal text-black tracking-tight leading-[1.08] max-w-4xl">
-              Le copilote qui relance, <br />
-              <span className="italic font-light text-emerald-700 font-light">alerte et informe à votre place.</span>
-            </h1>
+            <motion.h1 
+              variants={h1ContainerVariants}
+              className="font-serif text-5xl md:text-7xl font-normal text-black tracking-tight leading-[1.08] max-w-4xl"
+            >
+              <span className="block overflow-hidden pb-1.5">
+                <motion.span 
+                  variants={h1LineVariants}
+                  className="block"
+                >
+                  Le copilote qui relance,
+                </motion.span>
+              </span>
+              <span className="block overflow-hidden pb-1.5">
+                <motion.span 
+                  variants={h1LineVariants}
+                  className="block"
+                >
+                  <span className="italic font-light text-emerald-700 font-light">alerte et informe à votre place.</span>
+                </motion.span>
+              </span>
+            </motion.h1>
 
-            <p className="text-base md:text-lg text-ash-text max-w-2xl mx-auto leading-relaxed font-sans font-light mt-6">
-              Le tableau de suivi que vos clercs connaissent déjà — mais qui relance, surveille les expirations et informe vos clients tout seul.
-            </p>
+            <motion.p 
+              variants={paragraphContainerVariants}
+              className="text-base md:text-lg text-ash-text max-w-2xl mx-auto leading-relaxed font-sans font-light mt-6 flex flex-wrap justify-center gap-x-1 gap-y-0.5"
+            >
+              {"Le tableau de suivi que vos clercs connaissent déjà — mais qui relance, surveille les expirations et informe vos clients tout seul.".split(" ").map((word, i) => (
+                <span key={i} className="inline-block overflow-hidden py-0.5">
+                  <motion.span
+                    variants={wordVariants}
+                    className="inline-block"
+                  >
+                    {word}
+                  </motion.span>
+                </span>
+              ))}
+            </motion.p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+            <motion.div 
+              variants={heroChildVariants}
+              className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8"
+            >
               <motion.a
                 href="#footer"
                 className="relative overflow-hidden px-7 py-3 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 !font-sans font-sans"
@@ -436,7 +525,7 @@ export default function Home() {
               >
                 Voir la démonstration
               </a>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Aperçu du dashboard avec effet de Parallax 3D / Scroll Reveal */}
