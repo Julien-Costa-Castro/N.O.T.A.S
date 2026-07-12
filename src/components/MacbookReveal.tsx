@@ -53,43 +53,39 @@ export default function MacbookReveal() {
       {/* Sticky viewport container */}
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden py-12 px-8">
         
-        {/* Instruction Banner at the top of the sticky viewport */}
-        <div className="h-16 flex items-center justify-center max-w-xl mx-auto mb-6 z-30 text-center px-4 font-sans">
-          {step === 0 && (
-            <span className="text-xs font-mono text-ash-light uppercase tracking-wider animate-fade-in">
-              DÉMONSTRATION INTERACTIVE · CLIQUEZ DANS L&apos;ÉCRAN CI-DESSOUS
-            </span>
-          )}
-          {step === 1 && (
-            <div className="flex flex-col items-center gap-1 animate-fade-in">
-              <span className="text-[9px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-full px-2.5 py-0.5 uppercase font-semibold">
-                Étape 1/3 : Relance Autonome
-              </span>
-              <span className="text-xs text-neutral-800 font-light">
+        {/* Fixed Title & Description Area */}
+        <div className="text-center max-w-xl mx-auto mb-10 z-20">
+          <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-3">
+            DÉMONSTRATION INTERACTIVE
+          </span>
+          <h2 className="font-serif text-3xl md:text-5xl font-normal">
+            Votre fiche de suivi, <span className="italic text-emerald-700 font-light">en version vivante.</span>
+          </h2>
+          <div className="h-12 mt-4 flex items-center justify-center text-sm font-light text-ash-text font-sans max-w-md mx-auto">
+            {step === 0 && (
+              <p className="animate-fade-in text-ash-text">
+                Découvrez notre copilote en action : cliquez sur le bouton dans l&apos;écran pour démarrer.
+              </p>
+            )}
+            {step === 1 && (
+              <p className="animate-fade-in text-neutral-800">
+                <span className="font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-full px-2.5 py-0.5 mr-2 text-[10px] font-mono inline-block">Étape 1/3</span>
                 NOTAS a détecté l&apos;État daté manquant. Cliquez sur la ligne verte <strong>&quot;Vente Martin&quot;</strong>.
-              </span>
-            </div>
-          )}
-          {step === 2 && (
-            <div className="flex flex-col items-center gap-1 animate-fade-in">
-              <span className="text-[9px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-full px-2.5 py-0.5 uppercase font-semibold">
-                Étape 2/3 : Prise de contrôle clerc
-              </span>
-              <span className="text-xs text-neutral-800 font-light">
-                L&apos;IA a rédigé le message. Cliquez sur <strong>&quot;Envoyer la relance manuelle&quot;</strong> à droite.
-              </span>
-            </div>
-          )}
-          {step === 3 && (
-            <div className="flex flex-col items-center gap-1 animate-fade-in">
-              <span className="text-[9px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-full px-2.5 py-0.5 uppercase font-semibold">
-                Étape 3/3 : Collecte Active
-              </span>
-              <span className="text-xs text-emerald-800 font-light">
-                Relance transmise ! Le syndic peut déposer sa pièce en 1 clic. Cliquez sur <strong>&quot;Recommencer&quot;</strong> dans le Mac.
-              </span>
-            </div>
-          )}
+              </p>
+            )}
+            {step === 2 && (
+              <p className="animate-fade-in text-neutral-800">
+                <span className="font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-full px-2.5 py-0.5 mr-2 text-[10px] font-mono inline-block">Étape 2/3</span>
+                L&apos;IA a préparé le courrier. Cliquez sur <strong>&quot;Envoyer la relance manuelle&quot;</strong> à droite.
+              </p>
+            )}
+            {step === 3 && (
+              <p className="animate-fade-in text-emerald-800">
+                <span className="font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-full px-2.5 py-0.5 mr-2 text-[10px] font-mono inline-block">Étape 3/3</span>
+                Relance envoyée ! Cliquez sur <strong>&quot;Recommencer&quot;</strong> pour rejouer.
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Outer alignment container */}
@@ -125,7 +121,7 @@ export default function MacbookReveal() {
                 <div className="absolute bottom-[-15px] left-[8%] w-[84%] h-8 bg-black/20 blur-2xl rounded-full pointer-events-none z-0" />
 
                 {/* 2. Interactive dashboard content inside the screen (z-0) */}
-                <div className="absolute top-[11.7%] left-[11.71%] w-[76.52%] h-[76.52%] z-0 bg-white overflow-hidden rounded-[6px]">
+                <div className="absolute top-[11.7%] left-[11.71%] w-[76.52%] h-[76.52%] z-0 bg-black overflow-hidden rounded-[6px]">
                   <DashboardContent 
                     step={step} 
                     setStep={setStep} 
