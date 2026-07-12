@@ -437,15 +437,17 @@ export default function Home() {
           ))}
         </nav>
 
-        <motion.a 
-          href="#footer"
+        <motion.a
+          href="https://cal.com/notas-qrfxag/30min"
+          target="_blank"
+          rel="noopener noreferrer"
           className="relative overflow-hidden px-5 py-2 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 !font-sans font-sans shrink-0"
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
         >
           {/* Shimmer effect */}
           <span className="absolute inset-0 block -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-          <span className="relative z-10 !font-sans font-sans font-medium text-sm tracking-tight text-white">Demander une démo</span>
+          <span className="relative z-10 !font-sans font-sans font-medium text-sm tracking-tight text-white">Prendre rendez-vous</span>
         </motion.a>
       </motion.header>
 
@@ -563,7 +565,9 @@ export default function Home() {
               className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8"
             >
               <motion.a
-                href="#footer"
+                href="https://cal.com/notas-qrfxag/30min"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="relative overflow-hidden px-7 py-3 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 !font-sans font-sans"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
@@ -1183,14 +1187,24 @@ export default function Home() {
 
             <AnimatePresence mode="wait">
               {eligibilityStatus === "eligible" && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  className="p-3.5 bg-emerald-50 border border-emerald-100 text-emerald-800 text-xs rounded font-sans flex items-center gap-2 justify-center"
+                  className="space-y-3"
                 >
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  Votre département est ouvert — planifions votre rendez-vous de découverte.
+                  <div className="p-3.5 bg-emerald-50 border border-emerald-100 text-emerald-800 text-xs rounded font-sans flex items-center gap-2 justify-center">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                    Votre département est ouvert — planifions votre rendez-vous de découverte.
+                  </div>
+                  <a
+                    href="https://cal.com/notas-qrfxag/30min"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full px-6 py-3 rounded bg-emerald-700 text-white text-xs uppercase tracking-widest font-semibold hover:bg-emerald-800 transition-colors duration-300 shadow-sm text-center"
+                  >
+                    Prendre rendez-vous
+                  </a>
                 </motion.div>
               )}
               {eligibilityStatus === "invalid" && (
