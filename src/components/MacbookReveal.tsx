@@ -40,6 +40,8 @@ export default function MacbookReveal() {
   // Title block hidden while zoomed in, fades in as MacBook settles
   const titleOpacity = useTransform(smoothProgress, [0, 0.3, 0.42], [0, 0, 1]);
   const titleY = useTransform(smoothProgress, [0.3, 0.42], ["15px", "0px"]);
+  // Full-screen black overlay: solid black at start, fades out as MacBook is revealed
+  const overlayOpacity = useTransform(smoothProgress, [0.15, 0.4], [1, 0]);
 
 
 
@@ -52,6 +54,11 @@ export default function MacbookReveal() {
       {/* Sticky viewport container */}
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-12 px-8">
         
+        {/* Full-screen black backdrop — covers entire viewport for a seamless start */}
+        <motion.div
+          style={{ opacity: overlayOpacity }}
+          className="absolute inset-0 bg-black z-[1] pointer-events-none"
+        />
         {/* Fixed Title & Description Area — hidden during zoom, fades in during de-zoom */}
         <motion.div style={{ opacity: titleOpacity, y: titleY }} className="text-center max-w-xl mx-auto mb-4 z-20">
           <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-3">
