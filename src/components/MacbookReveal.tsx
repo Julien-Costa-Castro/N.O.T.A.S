@@ -48,10 +48,10 @@ export default function MacbookReveal() {
       className="relative h-[140vh] bg-transparent w-full overflow-visible"
     >
       {/* Sticky viewport container */}
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden py-12 px-8">
+      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-28 pb-12 px-8">
         
         {/* Fixed Title & Description Area */}
-        <div className="text-center max-w-xl mx-auto mb-10 z-20">
+        <div className="text-center max-w-xl mx-auto mb-4 z-20">
           <span className="font-mono text-xs text-ash-light uppercase tracking-widest block mb-3">
             DÉMONSTRATION INTERACTIVE
           </span>
