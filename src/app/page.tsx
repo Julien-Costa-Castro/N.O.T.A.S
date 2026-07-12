@@ -19,6 +19,7 @@ import {
 import DashboardContent from "@/components/DashboardContent";
 import MacbookReveal from "@/components/MacbookReveal";
 import Lenis from "lenis";
+import { getCalApi } from "@calcom/embed-react";
 
 // Noble Bezier Transition Curve (Apple/Stripe Inspired)
 const EASE_ETHEREAL: [number, number, number, number] = [0.76, 0, 0.24, 1];
@@ -166,6 +167,18 @@ export default function Home() {
       cancelAnimationFrame(rafId);
       lenis.destroy();
     };
+  }, []);
+
+  // Init de l'embed Cal.com (popup modale) — namespace "30min"
+  useEffect(() => {
+    (async () => {
+      const cal = await getCalApi({ namespace: "30min" });
+      cal("ui", {
+        theme: "light",
+        hideEventTypeDetails: false,
+        layout: "month_view",
+      });
+    })();
   }, []);
 
   // Follow scroll progress of hero section:
@@ -438,10 +451,10 @@ export default function Home() {
         </nav>
 
         <motion.a
-          href="https://cal.com/notas-qrfxag/30min"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="relative overflow-hidden px-5 py-2 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 !font-sans font-sans shrink-0"
+          data-cal-namespace="30min"
+          data-cal-link="notas-qrfxag/30min"
+          data-cal-config='{"layout":"month_view"}'
+          className="relative overflow-hidden px-5 py-2 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 !font-sans font-sans shrink-0 cursor-pointer"
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -565,10 +578,10 @@ export default function Home() {
               className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8"
             >
               <motion.a
-                href="https://cal.com/notas-qrfxag/30min"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative overflow-hidden px-7 py-3 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 !font-sans font-sans"
+                data-cal-namespace="30min"
+                data-cal-link="notas-qrfxag/30min"
+                data-cal-config='{"layout":"month_view"}'
+                className="relative overflow-hidden px-7 py-3 rounded-lg bg-[#111111] text-white text-sm font-medium hover:bg-neutral-800 !font-sans font-sans cursor-pointer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -1198,10 +1211,10 @@ export default function Home() {
                     Votre département est ouvert — planifions votre rendez-vous de découverte.
                   </div>
                   <a
-                    href="https://cal.com/notas-qrfxag/30min"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full px-6 py-3 rounded bg-emerald-700 text-white text-xs uppercase tracking-widest font-semibold hover:bg-emerald-800 transition-colors duration-300 shadow-sm text-center"
+                    data-cal-namespace="30min"
+                    data-cal-link="notas-qrfxag/30min"
+                    data-cal-config='{"layout":"month_view"}'
+                    className="block w-full px-6 py-3 rounded bg-emerald-700 text-white text-xs uppercase tracking-widest font-semibold hover:bg-emerald-800 transition-colors duration-300 shadow-sm text-center cursor-pointer"
                   >
                     Prendre rendez-vous
                   </a>
