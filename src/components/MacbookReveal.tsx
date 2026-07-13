@@ -47,16 +47,16 @@ export default function MacbookReveal() {
   });
 
   // --- Phase A : ouverture du portail (ease-out cubic pour un "bloom" naturel) ---
-  // Fenêtre initiale SOUS le titre (top 42%) — jamais de chevauchement avec le
-  // titre de section, format cinémascope aux coins doux.
+  // Fenêtre initiale calée en PIXELS juste sous le titre (~390px, le bloc titre
+  // finit vers 340px) : gap ~50px constant quelle que soit la hauteur d'écran.
   const portalClip = useTransform(smoothProgress, (v: number) => {
     const t = Math.min(Math.max(v / 0.15, 0), 1);
     const e = 1 - Math.pow(1 - t, 3); // ease-out cubic
-    const top = 42 * (1 - e); // 42% → 0%
-    const bottom = 12 * (1 - e); // 12% → 0%
-    const x = 18 * (1 - e); // 18% → 0%
+    const top = 330 * (1 - e); // 330px → 0 (le titre visible finit vers 252px)
+    const bottom = 10 * (1 - e); // 10% → 0%
+    const x = 16 * (1 - e); // 16% → 0%
     const radius = 24 * (1 - e); // 24px → 0px
-    return `inset(${top}% ${x}% ${bottom}% ${x}% round ${radius}px)`;
+    return `inset(${top}px ${x}% ${bottom}% ${x}% round ${radius}px)`;
   });
 
   // --- Overlay fixe (couvre la navbar) : opaque dès que le portail remplit
@@ -80,9 +80,9 @@ export default function MacbookReveal() {
     [0, 0.15, 0.29, 0.35],
     [0.9, 1, 1, 0]
   );
-  // La fenêtre initiale est centrée à ~65% de la hauteur (top 42% / bottom 12%) :
-  // le texte part décalé vers le bas puis rejoint le centre du viewport.
-  const textY = useTransform(smoothProgress, [0, 0.15], ["15vh", "0vh"]);
+  // La fenêtre initiale (top ~350px / bottom 10%) est centrée un peu sous le
+  // milieu de l'écran : le texte part décalé vers le bas puis rejoint le centre.
+  const textY = useTransform(smoothProgress, [0, 0.15], ["12vh", "0vh"]);
   const textBlurPx = useTransform(smoothProgress, [0.28, 0.36], [0, 14]);
   const textFilter = useMotionTemplate`blur(${textBlurPx}px)`;
 
@@ -98,10 +98,11 @@ export default function MacbookReveal() {
   // --- Background reveal : le fond repasse du noir à la couleur de page ---
   const bgRevealOpacity = useTransform(smoothProgress, [0.36, 0.56], [0, 1]);
 
-  // --- Titre de section : visible au départ, disparaît, revient après le reveal ---
+  // --- Titre de section : disparaît AVANT que le noir ne l'atteigne (la fenêtre
+  // touche le haut de l'écran vers p≈0.06), revient après le reveal ---
   const titleOpacity = useTransform(
     smoothProgress,
-    [0, 0.04, 0.11, 0.56, 0.63],
+    [0, 0.01, 0.05, 0.56, 0.63],
     [1, 1, 0, 0, 1]
   );
   const titleY = useTransform(smoothProgress, [0.56, 0.63], ["15px", "0px"]);
@@ -156,12 +157,12 @@ export default function MacbookReveal() {
           {/* Indice de scroll, en bas de la fenêtre initiale */}
           <motion.div
             style={{ opacity: hintOpacity }}
-            className="absolute bottom-[15%] left-0 right-0 flex flex-col items-center gap-1.5 pointer-events-none"
+            className="absolute bottom-[13%] left-0 right-0 flex flex-col items-center gap-2 pointer-events-none"
           >
-            <span className="font-mono text-[10px] text-white/50 uppercase tracking-[0.25em]">
+            <span className="font-mono text-[13px] text-white/60 uppercase tracking-[0.3em]">
               Scrollez pour entrer
             </span>
-            <span className="text-white/40 text-xs animate-bounce">↓</span>
+            <span className="text-white/50 text-lg animate-bounce">↓</span>
           </motion.div>
         </motion.div>
 
